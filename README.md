@@ -1,11 +1,13 @@
 # Deploy an IBM Cloud Native Architecture via Terraform
 
-This IBM Cloud Native Architecture is visible in this [diagram](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-mytodo-tf.png)
+The IBM Cloud Native Architecture is as follow
+
+![diagram](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-mytodo-tf.png)
 
 The Terraform scripts will provision all those Cloud Services:
 
 * a VPC with 3 subnets, 3 public gateways
-* a cluster Kuberneter
+* a cluster Kubernetes
 * a cluster OpenShift
 * a database Mongo Standard with VPE (Virtual Private Endpoint)
 * a Log Analysis based on Mezmo
