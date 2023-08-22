@@ -1,8 +1,8 @@
 # Deploy an IBM Cloud Native Architecture via Terraform
 
-The IBM Cloud Native Architecture is as follow:
+![IBM Cloud Native Architecture](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-mytodo-tf.png)
 
-![diagram](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-mytodo-tf.png)
+## Cloud Services
 
 The Terraform scripts will provision all those Cloud Services:
 
