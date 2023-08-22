@@ -6,16 +6,16 @@ The IBM Cloud Native Architecture is as follow:
 
 The Terraform scripts will provision all those Cloud Services:
 
-* a VPC with 3 subnets, 3 public gateways
-* a cluster Kubernetes
-* a cluster OpenShift
-* a database Mongo Standard with VPE (Virtual Private Endpoint)
-* a Log Analysis based on Mezmo
-* a Cloud Monitoring based on Sysdig
-* a Object Storage with a bucket
-* a Key Protect to encrypt the COS bucket and the Mongo database
-* Some CBR (Context-Based Restrictions) Zones and Rules
-* A Secrets Manager (Hashicorp Vault aaS) to store the cluster certificate
+* VPC with 3 subnets, 3 public gateways
+* Kubernetes cluster
+* OpenShift cluster
+* Mongo Standard Database with VPE (Virtual Private Endpoint)
+* Log Analysis based on Mezmo
+* Cloud Monitoring based on Sysdig
+* COS (Cloud Object Storage) with a bucket
+* Key Protect to encrypt the COS bucket and the Mongo database
+* CBR (Context-Based Restrictions) Zones and Rules
+* Secrets Manager (Hashicorp Vault aaS) to store the cluster certificate
 
 Both Log Analysis and Monitoring instances will be attached to the clusters.
 
