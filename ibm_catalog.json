@@ -80,7 +80,7 @@
                 {
                   "diagram": {
                     "caption": "Cloud Native Architecture diagram",
-                    "url": "https://raw.githubusercontent.com/lionelmace/ibmcloud-native-architecture/main/ibmcloud-mytodo-tf.svg",
+                    "url": "https://raw.githubusercontent.com/lionelmace/ibmcloud-native-architecture/main/ibmcloud-native-architecture.svg",
                     "metadata": []
                   },
                   "description": "Cloud Native Architecture diagram"

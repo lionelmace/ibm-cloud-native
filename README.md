@@ -1,6 +1,6 @@
 # Deploy an IBM Cloud Native Architecture via Terraform
 
-![IBM Cloud Native Architecture](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-mytodo-tf.png)
+![IBM Cloud Native Architecture](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-native-architecture.png)
 
 ## Cloud Services
 
@@ -18,6 +18,9 @@ The Terraform scripts will provision all those Cloud Services:
 * Secrets Manager (Hashicorp Vault aaS) to store the cluster certificate
 
 Both Log Analysis and Monitoring instances will be attached to the clusters.
+
+The Terraform Scripts will no provision those Cloud Services:
+Direct Link, VPN Gateway, Transit Gateway, Activity Tracker, Secrets Manager and App ID.
 
 ## Resources
 
