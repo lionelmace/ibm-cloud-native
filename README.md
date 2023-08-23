@@ -1,6 +1,6 @@
 # Deploy an IBM Cloud Native Architecture via Terraform
 
-![IBM Cloud Native Architecture](https://raw.githubusercontent.com/lionelmace/mytodo/master/images/ibmcloud-native-architecture.png)
+![IBM Cloud Native Architecture](https://raw.githubusercontent.com/lionelmace/mytodo/master/ibmcloud-native-architecture.png)
 
 ## Cloud Services
 
