@@ -19,8 +19,8 @@ The Terraform scripts will provision all those Cloud Services:
 
 Both Log Analysis and Monitoring instances will be attached to the clusters.
 
-The Terraform Scripts will no provision those Cloud Services:
-Direct Link, VPN Gateway, Transit Gateway, Activity Tracker, Secrets Manager and App ID.
+The Terraform Scripts will **not** provision those Cloud Services:
+Direct Link, VPN Gateway, Internet Services, Transit Gateway, Activity Tracker, Secrets Manager and App ID.
 
 ## Resources
 
