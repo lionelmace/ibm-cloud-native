@@ -113,44 +113,44 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
 #   create_duration = "5m"
 # }
 
-# # VPE (Virtual Private Endpoint) for Mongo
-# ##############################################################################
-# # Make sure your Cloud Databases deployment's private endpoint is enabled
-# # otherwise you'll face this error: "Service does not support VPE extensions."
-# ##############################################################################
-# resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
-#   name           = "${local.basename}-mongo-vpe"
-#   resource_group = ibm_resource_group.group.id
-#   vpc            = ibm_is_vpc.vpc.id
+# VPE (Virtual Private Endpoint) for Mongo
+##############################################################################
+# Make sure your Cloud Databases deployment's private endpoint is enabled
+# otherwise you'll face this error: "Service does not support VPE extensions."
+##############################################################################
+resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
+  name           = "${local.basename}-mongo-vpe"
+  resource_group = ibm_resource_group.group.id
+  vpc            = ibm_is_vpc.vpc.id
 
-#   target {
-#     crn           = ibm_database.icd_mongo.id
-#     resource_type = "provider_cloud_service"
-#   }
+  target {
+    crn           = ibm_database.icd_mongo.id
+    resource_type = "provider_cloud_service"
+  }
 
-#   # one Reserved IP for per zone in the VPC
-#   dynamic "ips" {
-#     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
-#     content {
-#       subnet = ips.key
-#       name   = "${ips.value.name}-ip"
-#     }
-#   }
+  # one Reserved IP for per zone in the VPC
+  dynamic "ips" {
+    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    content {
+      subnet = ips.key
+      name   = "${ips.value.name}-ip"
+    }
+  }
 
-#   depends_on = [
-#     time_sleep.wait_for_mongo_initialization
-#   ]
+  depends_on = [
+    time_sleep.wait_for_mongo_initialization
+  ]
 
-#   tags = var.tags
-# }
+  tags = var.tags
+}
 
-# data "ibm_is_virtual_endpoint_gateway_ips" "mongo_vpe_ips" {
-#   gateway = ibm_is_virtual_endpoint_gateway.vpe_mongo.id
-# }
+data "ibm_is_virtual_endpoint_gateway_ips" "mongo_vpe_ips" {
+  gateway = ibm_is_virtual_endpoint_gateway.vpe_mongo.id
+}
 
-# # output "mongo_vpe_ips" {
-# #   value = data.ibm_is_virtual_endpoint_gateway_ips.mongo_vpe_ips
-# # }
+output "mongo_vpe_ips" {
+  value = data.ibm_is_virtual_endpoint_gateway_ips.mongo_vpe_ips
+}
 
 
 # Variables
