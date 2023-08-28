@@ -137,9 +137,9 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
     }
   }
 
-  depends_on = [
-    time_sleep.wait_for_mongo_initialization
-  ]
+  # depends_on = [
+  #   time_sleep.wait_for_mongo_initialization
+  # ]
 
   tags = var.tags
 }
