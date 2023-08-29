@@ -100,18 +100,18 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
   }
 }
 
-# ## VPE (Optional)
-# ##############################################################################
-# # VPE can only be created once Mongo DB is fully registered in the backend
-# resource "time_sleep" "wait_for_mongo_initialization" {
-#   # count = tobool(var.use_vpe) ? 1 : 0
+## VPE (Optional)
+##############################################################################
+# VPE can only be created once Mongo DB is fully registered in the backend
+resource "time_sleep" "wait_for_mongo_initialization" {
+  # count = tobool(var.use_vpe) ? 1 : 0
 
-#   depends_on = [
-#     ibm_database.icd_mongo
-#   ]
+  depends_on = [
+    ibm_database.icd_mongo
+  ]
 
-#   create_duration = "5m"
-# }
+  create_duration = "5m"
+}
 
 # VPE (Virtual Private Endpoint) for Mongo
 ##############################################################################
@@ -137,9 +137,9 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
     }
   }
 
-  # depends_on = [
-  #   time_sleep.wait_for_mongo_initialization
-  # ]
+  depends_on = [
+    time_sleep.wait_for_mongo_initialization
+  ]
 
   tags = var.tags
 }
