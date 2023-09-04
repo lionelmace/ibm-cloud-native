@@ -64,7 +64,7 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
   vpc_id            = ibm_is_vpc.vpc.id
   resource_group_id = ibm_resource_group.group.id
   # Optional: Specify Kubes version. If not included, default version is used
-  kube_version = var.iks_version == "" ? null : var.iks_version
+  kube_version                    = var.iks_version == "" ? null : var.iks_version
   tags                            = var.tags
   disable_public_service_endpoint = var.disable_public_service_endpoint
   update_all_workers              = var.iks_update_all_workers
