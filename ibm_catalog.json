@@ -80,7 +80,7 @@
                 {
                   "diagram": {
                     "caption": "Cloud Native Architecture diagram",
-                    "url": "https://raw.githubusercontent.com/lionelmace/ibm-cloud-native/main/ibm-cloud-native.svg",
+                    "url": "https://raw.githubusercontent.com/lionelmace/ibm-cloud-native/main/ibm-cloud-native.drawio.svg",
                     "metadata": []
                   },
                   "description": "Cloud Native Architecture diagram"
