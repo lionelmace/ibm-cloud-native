@@ -5,6 +5,7 @@ resource "ibm_iam_user_invite" "invite_user" {
   # users         = var.emails
   users         = ["lionel.mace@fr.ibm.com"]
   access_groups = [ibm_iam_access_group.accgrp.id]
+  depends_on    = [ibm_iam_access_group.accgrp.id]
 }
 
 # Create Access Group

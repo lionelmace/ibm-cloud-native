@@ -63,7 +63,6 @@ variable "iks_disable_public_service_endpoint" {
 }
 
 
-
 ## Resources
 ##############################################################################
 resource "ibm_container_vpc_cluster" "iks_cluster" {
