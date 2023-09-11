@@ -1,6 +1,7 @@
 # Invite users to the Access Group
 resource "ibm_iam_user_invite" "invite_user" {
-  users         = [var.emails]
+  count         = length(var.emails)
+  name          = var.emails[count.index]
   access_groups = [ibm_iam_access_group.accgrp.id]
 }
 
