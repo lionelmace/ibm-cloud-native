@@ -36,3 +36,9 @@ variable "tags" {
   type        = list(string)
   default     = ["tf", "cn"]
 }
+
+variable "emails" {
+  description = "List of Emails to invite"
+  type        = list(string)
+  default     = []
+}

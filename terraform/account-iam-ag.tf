@@ -1,3 +1,10 @@
+# Invite users to the Access Group
+resource "ibm_iam_user_invite" "invite_user" {
+  users         = [var.emails]
+  access_groups = [ibm_iam_access_group.accgrp.id]
+}
+
+# Create Access Group
 resource "ibm_iam_access_group" "accgrp" {
   name = format("%s-%s", local.basename, "ag")
   tags = var.tags
@@ -13,13 +20,24 @@ resource "ibm_iam_access_group_policy" "iam-rg-viewer" {
   }
 }
 
-# Create a policy to all Kubernetes instances within the Resource Group
+# Create a policy to all Kubernetes/OpenShift clusters within the Resource Group
 resource "ibm_iam_access_group_policy" "policy-k8s" {
   access_group_id = ibm_iam_access_group.accgrp.id
   roles           = ["Manager", "Writer", "Editor", "Operator", "Viewer"]
 
   resources {
     service           = "containers-kubernetes"
+    resource_group_id = ibm_resource_group.group.id
+  }
+}
+
+# Assign Operator platform access role to create IKS/ROKS clusters
+resource "ibm_iam_access_group_policy" "policy-k8s-identity-operator" {
+  access_group_id = ibm_iam_access_group.accgrp.id
+  roles           = ["Operator"]
+
+  resources {
+    service           = "iam-identity"
     resource_group_id = ibm_resource_group.group.id
   }
 }
