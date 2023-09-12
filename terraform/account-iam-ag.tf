@@ -23,7 +23,7 @@ resource "ibm_iam_access_group_policy" "iam-rg-viewer" {
 # Create a policy to all Kubernetes/OpenShift clusters within the Resource Group
 resource "ibm_iam_access_group_policy" "policy-k8s" {
   access_group_id = ibm_iam_access_group.accgrp.id
-  roles           = ["Manager", "Writer", "Editor", "Operator", "Viewer"]
+  roles           = ["Manager", "Writer", "Editor", "Operator", "Viewer", "Administrator"]
 
   resources {
     service           = "containers-kubernetes"
