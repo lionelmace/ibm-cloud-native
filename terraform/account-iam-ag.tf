@@ -39,7 +39,7 @@ resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
 
   resources {
     service           = "iam-identity"
-    resource_group_id = ibm_resource_group.group.id
+    # resource_group_id = ibm_resource_group.group.id
   }
 }
 
