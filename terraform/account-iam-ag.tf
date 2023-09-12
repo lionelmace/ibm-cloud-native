@@ -23,7 +23,7 @@ resource "ibm_iam_access_group_policy" "iam-rg-viewer" {
 # Create a policy to all Kubernetes/OpenShift clusters within the Resource Group
 resource "ibm_iam_access_group_policy" "policy-k8s" {
   access_group_id = ibm_iam_access_group.accgrp.id
-  roles           = ["Manager", "Writer", "Editor", "Operator", "Viewer", "Administrator"]
+  roles           = ["Manager", "Writer", "Editor", "Operator", "Viewer"]
 
   resources {
     service           = "containers-kubernetes"
@@ -31,10 +31,11 @@ resource "ibm_iam_access_group_policy" "policy-k8s" {
   }
 }
 
-# Assign Operator platform access role to create IKS/ROKS clusters
-resource "ibm_iam_access_group_policy" "policy-k8s-identity-operator" {
+# Assign Administrator platform access role to enable the creation of API Key
+# Pre-Req to provision IKS/ROKS clusters within a Resource Group
+resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
   access_group_id = ibm_iam_access_group.accgrp.id
-  roles           = ["Operator"]
+  roles           = ["Administrator"]
 
   resources {
     service           = "iam-identity"
