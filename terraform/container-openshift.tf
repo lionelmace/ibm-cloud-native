@@ -131,7 +131,7 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   cos_instance_crn                = var.is_openshift_cluster ? ibm_resource_instance.cos_openshift_registry[0].id : null
   entitlement                     = var.entitlement
   tags                            = var.tags
-  disable_public_service_endpoint = var.disable_public_service_endpoint
+  disable_public_service_endpoint = var.openshift_disable_public_service_endpoint
   update_all_workers              = var.openshift_update_all_workers
 
   flavor       = var.openshift_machine_flavor
