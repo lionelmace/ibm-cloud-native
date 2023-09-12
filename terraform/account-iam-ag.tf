@@ -35,7 +35,8 @@ resource "ibm_iam_access_group_policy" "policy-k8s" {
 # Pre-Req to provision IKS/ROKS clusters within a Resource Group
 resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
   access_group_id = ibm_iam_access_group.accgrp.id
-  roles           = ["Administrator"]
+  roles           = ["Administrator", "User API key creator"]
+  # roles           = ["Administrator", "User API key creator", "Service ID creator"]
 
   resources {
     service           = "iam-identity"
