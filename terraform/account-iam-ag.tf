@@ -34,7 +34,6 @@ resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
   resources {
     service           = "iam-identity"
   }
-  pattern = "time-based-conditions:weekly:all-day"
 }
 
 
