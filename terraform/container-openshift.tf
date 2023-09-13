@@ -240,11 +240,3 @@ resource "ibm_ob_monitoring" "openshift_connect_monitoring" {
   instance_id      = module.monitoring_instance.guid
   private_endpoint = var.sysdig_private_endpoint
 }
-
-
-##############################################################################
-# Connect Secrets Manager to cluster
-##############################################################################
-# resource "null_resource" "openshift_connect_secrets" {
-#   To be added when available
-# }
