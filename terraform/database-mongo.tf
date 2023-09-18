@@ -149,7 +149,7 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
   roles           = ["Editor"]
 
   resources {
-    service           = "databases-for-postgresql"
+    service           = "databases-for-mongodb"
     resource_group_id = ibm_resource_group.group.id
   }
 }
