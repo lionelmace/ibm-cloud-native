@@ -7,8 +7,8 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "v1.57.0"
-      # version = "v1.58.0-beta0"
+      # version = "1.57.0"
+      version = "1.58.0-beta0"
     }
   }
 }
