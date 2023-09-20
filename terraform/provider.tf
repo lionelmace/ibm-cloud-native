@@ -10,6 +10,10 @@ terraform {
       # version = "1.57.0"
       version = "1.58.0-beta0"
     }
+    logdna = {
+      source  = "logdna/logdna"
+      version = ">= 1.14.0"
+    }
   }
 }
 

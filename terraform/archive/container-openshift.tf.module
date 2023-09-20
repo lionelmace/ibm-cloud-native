@@ -138,7 +138,7 @@ module "openshift_logdna_attach" {
   source = "terraform-ibm-modules/cluster/ibm//modules/configure-logdna"
 
   cluster            = module.vpc_openshift_cluster.vpc_openshift_cluster_id
-  logdna_instance_id = module.logging_instance.guid
+  logdna_instance_id = module.log_analysis.guid
   private_endpoint   = var.logdna_private_endpoint
 
   # depends_on = [

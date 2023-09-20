@@ -43,13 +43,15 @@ variable "icd_mongo_users" {
   description = "Database Users. It is set of username and passwords"
 }
 
+# MongoDB cannot support both public and private endpoints simultaneously.
+# This cannot be changed after provisioning.
 variable "icd_mongo_service_endpoints" {
-  default     = "private"
+  default     = "public"
   type        = string
   description = "Types of the service endpoints. Possible values are 'public', 'private', 'public-and-private'."
 }
 
-variable "use_vpe" { default = false }
+variable "icd_mongo_use_vpe" { default = false }
 
 
 ##############################################################################
@@ -121,7 +123,7 @@ resource "ibm_database" "icd_mongo" {
 
 ## Service Credentials
 ##############################################################################
-resource "ibm_resource_key" "key" {
+resource "ibm_resource_key" "icd_mongo_key" {
   name                 = format("%s-%s", local.basename, "mongo-key")
   resource_instance_id = ibm_database.icd_mongo.id
   role                 = "Viewer"
@@ -154,11 +156,27 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
   }
 }
 
+locals {
+  endpoints = [
+    {
+      name     = "mongo",
+      crn      = ibm_database.icd_mongo.id
+      hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
+    }
+  ]
+}
+
+output "endpoints" {
+  sensitive = true
+  value     = local.endpoints
+}
+
+
 ## VPE (Optional)
 ##############################################################################
 # VPE can only be created once Mongo DB is fully registered in the backend
 resource "time_sleep" "wait_for_mongo_initialization" {
-  # count = tobool(var.use_vpe) ? 1 : 0
+  count = tobool(var.icd_mongo_use_vpe) ? 1 : 0
 
   depends_on = [
     ibm_database.icd_mongo
@@ -173,6 +191,8 @@ resource "time_sleep" "wait_for_mongo_initialization" {
 # otherwise you'll face this error: "Service does not support VPE extensions."
 ##############################################################################
 resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
+  for_each = { for target in local.endpoints : target.name => target if tobool(var.icd_mongo_use_vpe) }
+
   name           = "${local.basename}-mongo-vpe"
   resource_group = ibm_resource_group.group.id
   vpc            = ibm_is_vpc.vpc.id
@@ -198,13 +218,13 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
   tags = var.tags
 }
 
-data "ibm_is_virtual_endpoint_gateway_ips" "mongo_vpe_ips" {
-  gateway = ibm_is_virtual_endpoint_gateway.vpe_mongo.id
-}
+# data "ibm_is_virtual_endpoint_gateway_ips" "mongo_vpe_ips" {
+#   gateway = ibm_is_virtual_endpoint_gateway.vpe_mongo.id
+# }
 
-output "mongo_vpe_ips" {
-  value = data.ibm_is_virtual_endpoint_gateway_ips.mongo_vpe_ips
-}
+# output "mongo_vpe_ips" {
+#   value = data.ibm_is_virtual_endpoint_gateway_ips.mongo_vpe_ips
+# }
 
 
 # AUTHORIZATIONS

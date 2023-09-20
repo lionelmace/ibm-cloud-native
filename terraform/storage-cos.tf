@@ -50,7 +50,7 @@ resource "ibm_cos_bucket" "cos-bucket" {
   metrics_monitoring {
     usage_metrics_enabled   = true
     request_metrics_enabled = true
-    metrics_monitoring_crn  = module.monitoring_instance.id
+    metrics_monitoring_crn  = module.cloud_monitoring.crn
   }
   endpoint_type = "public"
 }
