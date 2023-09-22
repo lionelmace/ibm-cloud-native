@@ -8,7 +8,7 @@ resource "ibm_iam_access_group" "ag-admin" {
 # Role: Administrator, Manager
 resource "ibm_iam_access_group_policy" "policy-all-iam-services" {
   access_group_id = ibm_iam_access_group.ag-admin.id
-  roles = [ "Administrator", "Manager" ]
+  roles = [ "Administrator", "Manager", "Reader", "Viewer", "Editor" ]
 }
 
 
