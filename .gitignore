@@ -1,4 +1,5 @@
 debug/*
+terraform-iam/testing.auto.tfvars
 
 # Local .terraform directories
 **/.terraform/*

@@ -3,4 +3,4 @@
 ##############################################################################
 
 # region                = "eu-de" # eu-de for Frankfurt MZR
-emails = ["lionel.mace@gmail.com"]
+emails = [""]
