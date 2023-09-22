@@ -11,7 +11,7 @@ variable "ibmcloud_api_key" {
 
 variable "prefix" {
   type        = string
-  default     = ""
+  default     = "icn"
   description = "A prefix for all resources to be created. If none provided a random prefix will be created"
 }
 

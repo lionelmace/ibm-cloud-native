@@ -50,7 +50,7 @@ locals {
 # to select a VPC while creating a VSI.
 # Replace role Editor by Operator to prevent users from creating
 # VPC/Subnet networks
-resource "ibm_iam_access_group_policy" "policy_vpv" {
+resource "ibm_iam_access_group_policy" "policy_vpc" {
   access_group_id = ibm_iam_access_group.ag-vpc.id
   roles           = ["Editor"]
 
