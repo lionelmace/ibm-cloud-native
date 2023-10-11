@@ -1,16 +1,10 @@
-# Variables
-##############################################################################
-
-# Account ID is required for CBR Rule and Zone
-data "ibm_iam_account_settings" "account_settings" {
-}
 
 # Resources
 ##############################################################################
 
 resource "ibm_cbr_zone" "zone_vpc" {
   name       = format("%s-%s", local.basename, "zone-vpc")
-  account_id = data.ibm_iam_account_settings.account_settings.account_id
+  account_id = local.account_id
   addresses {
     type  = "vpc"
     value = ibm_is_vpc.vpc.crn
