@@ -19,7 +19,8 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
     environment = "ibm-cloud"
     properties {
       name = "scope_id"
-      value = local.account_id
+      # value = local.account_id
+      value = ibm_resource_group.group.id
     }
     properties {
       name  = "scope_type"
