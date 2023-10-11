@@ -13,8 +13,13 @@ terraform {
       source  = "logdna/logdna"
       version = ">= 1.14.0"
     }
+    http-full = {
+      source = "salrashid123/http-full"
+    }
   }
 }
+
+provider "http-full" {}
 
 provider "ibm" {
   ibmcloud_api_key = var.ibmcloud_api_key
