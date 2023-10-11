@@ -83,6 +83,7 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
 
 
 ## Workaround to connect a COS bucket to the SCC instance
+## To be removed when SCC will support this setting
 ##############################################################################
 data "ibm_iam_auth_token" "tokendata" {}
 
