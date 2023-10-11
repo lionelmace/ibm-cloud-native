@@ -35,8 +35,8 @@ resource "ibm_resource_instance" "cos" {
 
 ## COS Bucket
 ##############################################################################
-resource "ibm_cos_bucket" "cos-bucket" {
-  bucket_name           = format("%s-%s", local.basename, "cos-bucket-scc")
+resource "ibm_cos_bucket" "scc-bucket" {
+  bucket_name           = format("%s-%s", local.basename, "scc-bucket")
   resource_instance_id  = ibm_resource_instance.cos.id
   storage_class         = "smart"
   # SCC requires Cross-Region bucket for resiliency
