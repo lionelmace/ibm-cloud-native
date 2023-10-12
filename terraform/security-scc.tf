@@ -24,7 +24,8 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
     }
     properties {
       name  = "scope_type"
-      value = "account"
+      # value = "account"
+      value = "account.resource_group"
     }
     # properties {
     #   name = "exclusions"
