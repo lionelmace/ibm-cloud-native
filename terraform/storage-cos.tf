@@ -39,9 +39,16 @@ resource "ibm_cos_bucket" "scc-bucket" {
   bucket_name           = format("%s-%s", local.basename, "scc-bucket")
   resource_instance_id  = ibm_resource_instance.cos.id
   storage_class         = "smart"
+
+  # SCC Control 2.1.1.2
+  # Ensure Cloud Object Storage encryption is enabled with BYOK
+  # Key management services can only be added during bucket creation.
+  kms_key_crn           = ibm_kms_key.key.key_id
+  
   # SCC requires Cross-Region bucket for resiliency
   cross_region_location = "eu"
   # region_location      = "eu-de"
+  
   activity_tracking {
     read_data_events     = true
     write_data_events    = true
