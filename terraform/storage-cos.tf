@@ -43,7 +43,8 @@ resource "ibm_cos_bucket" "scc-bucket" {
   # SCC Control 2.1.1.2
   # Ensure Cloud Object Storage encryption is enabled with BYOK
   # Key management services can only be added during bucket creation.
-  kms_key_crn           = ibm_kms_key.key.key_id
+  depends_on           = [ibm_iam_authorization_policy.iam-auth-kms-cos]
+  kms_key_crn          = ibm_kms_key.key.id
   
   # SCC requires Cross-Region bucket for resiliency
   cross_region_location = "eu"
