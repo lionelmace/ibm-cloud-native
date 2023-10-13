@@ -114,13 +114,13 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
 #   }
 # }
 
-# data "ibm_container_vpc_alb" "iks_cluster_alb" {
-#   alb_id = ibm_container_vpc_cluster.iks_cluster.albs[0].id
-# }
+data "ibm_container_vpc_alb" "iks_cluster_alb" {
+  alb_id = ibm_container_vpc_cluster.iks_cluster.albs[0].id
+}
 
-# output "iks_cluster_alb" {
-#   value = data.ibm_container_vpc_alb.iks_cluster_alb
-# }
+output "iks_cluster_alb" {
+  value = data.ibm_container_vpc_alb.iks_cluster_alb
+}
 
 ##############################################################################
 # Connect Log Analysis Service to cluster
