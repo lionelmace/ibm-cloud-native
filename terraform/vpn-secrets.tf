@@ -3,9 +3,6 @@ variable "existing_secrets_manager_id" {
   description = "ID of an existing Secrets Manager instance located in the same region"
 }
 
-data "ibm_iam_auth_token" "tokendata" {}
-data "ibm_iam_account_settings" "iam_account_settings" {}
-
 resource "ibm_sm_secret_group" "secret_group" {
   instance_id = var.existing_secrets_manager_id
   name        = "${var.basename}-vpn-group"
@@ -34,7 +31,7 @@ resource "ibm_sm_imported_certificate" "client_cert" {
 resource "ibm_iam_authorization_policy" "secret_group_to_vpn" {
   subject_attributes {
     name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+    value = local.account_id
   }
 
   subject_attributes {
@@ -51,7 +48,7 @@ resource "ibm_iam_authorization_policy" "secret_group_to_vpn" {
 
   resource_attributes {
     name  = "accountId"
-    value = data.ibm_iam_account_settings.iam_account_settings.account_id
+    value = local.account_id
   }
 
   resource_attributes {
