@@ -23,7 +23,8 @@ resource "ibm_is_vpn_server" "vpn" {
   port                   = 443
   protocol               = "udp"
   subnets = [
-    ibm_is_subnet.subnet.id
+    ibm_is_subnet.subnet[*].id
+    # ibm_is_subnet.subnet.id
   ]
   security_groups = [
     ibm_is_security_group.vpn.id
