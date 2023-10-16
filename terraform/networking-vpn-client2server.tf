@@ -90,7 +90,7 @@ resource "ibm_is_vpn_server_route" "route_private_to_vpc" {
 
 data "ibm_is_vpn_server_client_configuration" "config" {
   vpn_server = ibm_is_vpn_server.vpn.id
-  file_path  = "../config/client.ovpn"
+  # file_path  = "../config/client.ovpn"
 }
 
 output "full-ovpn-config" {
