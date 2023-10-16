@@ -93,20 +93,20 @@ data "ibm_is_vpn_server_client_configuration" "config" {
   file_path  = "../config/client.ovpn"
 }
 
-resource "local_file" "fullconfig" {
-  content  = <<EOT
-${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
+# resource "local_file" "fullconfig" {
+#   content  = <<EOT
+# ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
-<cert>
-${output.client_cert}
-</cert>
+# <cert>
+# ${output.client_cert}
+# </cert>
 
-<key>
-${output.client_key}
-</key>
-EOT
-  filename = "../config/client-full.ovpn"
-}
+# <key>
+# ${output.client_key}
+# </key>
+# EOT
+#   filename = "../config/client-full.ovpn"
+# }
 
 output "vpn" {
   value = ibm_is_vpn_server.vpn
