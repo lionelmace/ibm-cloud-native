@@ -7,7 +7,7 @@ module "pki" {
     algorithm   = "RSA"
     ecdsa_curve = "secp384r1"
     subject = {
-      common_name         = "${var.basename} CA"
+      common_name         = "${local.basename} CA"
       organization        = "Org"
       organizational_unit = "OU"
       street_address = [
@@ -37,7 +37,7 @@ module "pki" {
       algorithm   = "RSA"
       ecdsa_curve = "secp384r1"
       subject = {
-        common_name         = "${var.basename} Server"
+        common_name         = "${local.basename} Server"
         organization        = "Org"
         organizational_unit = "OU"
         street_address = [
@@ -66,7 +66,7 @@ module "pki" {
       algorithm   = "RSA"
       ecdsa_curve = "secp384r1"
       subject = {
-        common_name         = "${var.basename} Client"
+        common_name         = "${local.basename} Client"
         organization        = "Org"
         organizational_unit = "OU"
         street_address = [
