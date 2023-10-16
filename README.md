@@ -9,18 +9,20 @@ The Terraform scripts will provision all those Cloud Services:
 * VPC with 3 subnets, 3 public gateways
 * Kubernetes cluster
 * OpenShift cluster
-* Mongo Standard Database with VPE (Virtual Private Endpoint)
+* Mongo Standard DB with VPE (Virtual Private Endpoint)
 * Log Analysis based on Mezmo
 * Cloud Monitoring based on Sysdig
 * COS (Cloud Object Storage) with a bucket
 * Key Protect to encrypt the COS bucket and the Mongo database
 * CBR (Context-Based Restrictions) Zones and Rules
 * Secrets Manager (Hashicorp Vault aaS) to store the cluster certificate
+* SCC (Security Compliance Center) with a CIS profile and attached scan
+* VPN Gateway with the full .ovpn configuration file as an output variable
 
 Both Log Analysis and Monitoring instances will be attached to the clusters.
 
 The Terraform Scripts will **not** provision those Cloud Services:
-Direct Link, VPN Gateway, Internet Services, Transit Gateway, Activity Tracker, Secrets Manager and App ID.
+Direct Link, Internet Services, Transit Gateway, Activity Tracker, Secrets Manager and App ID.
 
 ## Resources
 
