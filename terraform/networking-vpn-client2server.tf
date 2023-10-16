@@ -94,7 +94,7 @@ data "ibm_is_vpn_server_client_configuration" "config" {
 }
 
 output "full-ovpn-config" {
-  sensitive = true
+  # sensitive = true
   value = <<EOT
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
@@ -103,7 +103,7 @@ ${module.pki.certificates["client"].cert.cert_pem}
 </cert>
 
 <key>
-${module.pki.certificates["client"].private_key.private_key_pem}
+${nonsensitive(module.pki.certificates["client"].private_key.private_key_pem)}
 </key>
 EOT
 }
