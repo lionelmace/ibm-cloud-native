@@ -98,11 +98,11 @@ resource "local_file" "fullconfig" {
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
 <cert>
-${data.terraform_remote_state.certificates.outputs.client_cert}
+${outputs.client_cert}
 </cert>
 
 <key>
-${data.terraform_remote_state.certificates.outputs.client_key}
+${outputs.client_key}
 </key>
 EOT
   filename = "../config/client-full.ovpn"
