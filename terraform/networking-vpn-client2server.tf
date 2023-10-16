@@ -1,20 +1,22 @@
-data "terraform_remote_state" "certificates" {
-  backend = "local"
+# data "terraform_remote_state" "certificates" {
+#   backend = "local"
 
-  config = {
-    path = "../010-certificates/terraform.tfstate"
-  }
-}
+#   config = {
+#     path = "../010-certificates/terraform.tfstate"
+#   }
+# }
 
 variable "vpn_client_ip_pool" {
   default = "192.168.0.0/16"
 }
 
 resource "ibm_is_vpn_server" "vpn" {
-  certificate_crn = data.terraform_remote_state.certificates.outputs.server_cert_crn
+  # LMA certificate_crn = data.terraform_remote_state.certificates.outputs.server_cert_crn
+  certificate_crn = output.server_cert_crn
   client_authentication {
     method        = "certificate"
-    client_ca_crn = data.terraform_remote_state.certificates.outputs.client_cert_crn
+    # LMA client_ca_crn = data.terraform_remote_state.certificates.outputs.client_cert_crn
+    client_ca_crn = output.client_cert_crn
   }
   client_ip_pool         = var.vpn_client_ip_pool
   client_idle_timeout    = 2800
