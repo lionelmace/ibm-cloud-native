@@ -28,11 +28,11 @@ resource "ibm_is_vpn_server" "vpn" {
   security_groups = [
     ibm_is_security_group.vpn.id
   ]
-  resource_group = local.resource_group_id
+  resource_group = ibm_resource_group.group.id
 }
 
 resource "ibm_is_security_group" "vpn" {
-  resource_group = local.resource_group_id
+  resource_group = ibm_resource_group.group.id
   name           = "${local.basename}-vpn-group"
   vpc            = ibm_is_vpc.vpc.id
 }
