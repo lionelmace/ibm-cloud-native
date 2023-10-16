@@ -94,6 +94,7 @@ data "ibm_is_vpn_server_client_configuration" "config" {
 }
 
 output "full-ovpn-config" {
+  sensitive = true
   value = <<EOT
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
