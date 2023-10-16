@@ -99,7 +99,7 @@ output "full-ovpn-config" {
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
 <cert>
-${module.pki.certificates["client"].cert.cert_pem}
+${nonsensitive(module.pki.certificates["client"].cert.cert_pem)}
 </cert>
 
 <key>
