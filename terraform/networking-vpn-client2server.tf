@@ -75,7 +75,7 @@ resource "ibm_is_vpn_server_route" "route_cse_to_vpc" {
   action      = "deliver"
   # destination = "166.9.0.0/16"
   destination = "166.8.0.0/14"
-  name        = "Route to CSE - Cloud Service Endpoints"
+  name        = "route-2-ibm-cloud-service-endpoints"
 }
 
 # allow clients to reach private backend
@@ -89,7 +89,7 @@ resource "ibm_is_vpn_server_route" "route_private_to_vpc" {
   vpn_server  = ibm_is_vpn_server.vpn.id
   action      = "deliver"
   destination = "161.26.0.0/16"
-  name        = "Route to IaaS endpoints"
+  name        = "route-private-2-ibm-iaas-endpoints"
 }
 
 data "ibm_is_vpn_server_client_configuration" "config" {
