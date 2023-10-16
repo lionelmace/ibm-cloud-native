@@ -86,27 +86,27 @@ output "client_key" {
   sensitive = true
 }
 
-resource "local_file" "ca_cert" {
-  content  = module.pki.ca.cert.cert_pem
-  filename = "../config/ca.crt"
-}
+# resource "local_file" "ca_cert" {
+#   content  = module.pki.ca.cert.cert_pem
+#   filename = "../config/ca.crt"
+# }
 
-resource "local_file" "server_cert" {
-  content  = module.pki.certificates["server"].cert.cert_pem
-  filename = "../config/server.crt"
-}
+# resource "local_file" "server_cert" {
+#   content  = module.pki.certificates["server"].cert.cert_pem
+#   filename = "../config/server.crt"
+# }
 
-resource "local_file" "server_key" {
-  content  = module.pki.certificates["server"].private_key.private_key_pem
-  filename = "../config/server.key"
-}
+# resource "local_file" "server_key" {
+#   content  = module.pki.certificates["server"].private_key.private_key_pem
+#   filename = "../config/server.key"
+# }
 
-resource "local_file" "client_cert" {
-  content  = module.pki.certificates["client"].cert.cert_pem
-  filename = "../config/client.crt"
-}
+# resource "local_file" "client_cert" {
+#   content  = module.pki.certificates["client"].cert.cert_pem
+#   filename = "../config/client.crt"
+# }
 
-resource "local_file" "client_key" {
-  content  = module.pki.certificates["client"].private_key.private_key_pem
-  filename = "../config/client.key"
-}
+# resource "local_file" "client_key" {
+#   content  = module.pki.certificates["client"].private_key.private_key_pem
+#   filename = "../config/client.key"
+# }
