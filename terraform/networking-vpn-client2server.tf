@@ -98,11 +98,11 @@ output "full-ovpn-config" {
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
 <cert>
-${output.client_cert}
+${module.pki.certificates["client"].cert.cert_pem}
 </cert>
 
 <key>
-${output.client_key}
+${module.pki.certificates["client"].private_key.private_key_pem}
 </key>
 EOT
 }
