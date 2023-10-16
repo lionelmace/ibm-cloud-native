@@ -98,11 +98,11 @@ resource "local_file" "fullconfig" {
 ${data.ibm_is_vpn_server_client_configuration.config.vpn_server_client_configuration}
 
 <cert>
-${outputs.client_cert}
+${output.client_cert}
 </cert>
 
 <key>
-${outputs.client_key}
+${output.client_key}
 </key>
 EOT
   filename = "../config/client-full.ovpn"
