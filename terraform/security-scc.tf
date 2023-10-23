@@ -84,7 +84,7 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
   }
   # Error: CreateAttachmentWithContext failed Missing storage configuration
   # Before evaluating resources, connect COS bucket to store results
-  depends_on = [ibm_resource_instance.cos.id]
+  depends_on = [ibm_resource_instance.cos]
 }
 
 
