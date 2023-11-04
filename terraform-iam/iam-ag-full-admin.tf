@@ -54,12 +54,12 @@ resource "ibm_iam_access_group_policy" "policy-admin-scc" {
 # Service: IAM Identity Service
 # Assign the role "User API key creator" to create API Key
 # Pre-Req: IKS/ROKS must create an API key at cluster provisioning time
-resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
-  access_group_id = ibm_iam_access_group.ag-admin.id
-  roles           = ["User API key creator"]
+#resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
+#  access_group_id = ibm_iam_access_group.ag-admin.id
+#  roles           = ["User API key creator"]
   # roles           = ["Administrator", "User API key creator", "Service ID creator"]
 
-  resources {
-    service = "iam-identity"
-  }
-}
+#  resources {
+#    service = "iam-identity"
+#  }
+#}
