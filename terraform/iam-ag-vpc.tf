@@ -51,32 +51,58 @@ locals {
 # Replace role Editor by Operator to prevent users from creating
 # VPC/Subnet networks
 resource "ibm_iam_access_group_policy" "policy_vpc" {
-  access_group_id = ibm_iam_access_group.ag-vpc.id
+  access_group_id = ibm_iam_access_group.accgrp.id
   roles           = ["Editor"]
 
   for_each = local.is_network_service_types
-  resources {
-    service = "is"
-    attributes = {
-      (each.key) = each.value
-    }
-    resource_group_id = ibm_resource_group.group.id
+  resource_attributes {
+    name = each.key
+    operator = "stringEquals"
+    value = each.value
+  }
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = "is"
+  }
+  resource_attributes {
+    name     = "resourceGroupId"
+    operator = "stringEquals"
+    value    = data.ibm_resource_group.resource_group.id
+  }
+  resource_attributes {
+    name     = "region"
+    operator = "stringEquals"
+    value    = "eu-de"
   }
 }
 
 # Editor role is required to create a VSI or Block Storage.
 # Viewer/Operator can only list VSI.
-#
 resource "ibm_iam_access_group_policy" "policy_vsi" {
-  access_group_id = ibm_iam_access_group.ag-vpc.id
+  access_group_id = ibm_iam_access_group.accgrp.id
   roles           = ["Editor"]
 
   for_each = local.is_instance_service_types
-  resources {
-    service = "is"
-    attributes = {
-      (each.key) = each.value
-    }
-    resource_group_id = ibm_resource_group.group.id
+  resource_attributes {
+    name = each.key
+    operator = "stringEquals"
+    value = each.value
   }
+  resource_attributes {
+    name     = "serviceName"
+    operator = "stringEquals"
+    value    = "is"
+  }
+  resource_attributes {
+    name     = "resourceGroupId"
+    operator = "stringEquals"
+    value    = data.ibm_resource_group.resource_group.id
+  }
+  resource_attributes {
+    name     = "region"
+    operator = "stringEquals"
+    value    = "eu-de"
+  }
+
 }
