@@ -109,6 +109,7 @@ resource "ibm_is_public_gateway" "pgw" {
   vpc            = ibm_is_vpc.vpc.id
   zone           = "${var.region}-${count.index + 1}"
   resource_group = ibm_resource_group.group.id
+  tags           = var.tags
 }
 
 
