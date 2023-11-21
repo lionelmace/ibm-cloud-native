@@ -45,12 +45,20 @@ resource "ibm_cbr_zone" "cbr_zone_cis_ips" {
   account_id = data.ibm_iam_account_settings.account_settings.account_id
 
   dynamic "addresses" {
-    for_each = var.cis_ips
+    for_each = var.cis_ipv4_cidrs
     content {
       type  = "subnet"
       value = addresses.value
     }
   }
+  dynamic "addresses" {
+    for_each = var.cis_ipv6_cidrs
+    content {
+      type  = "subnet"
+      value = addresses.value
+    }
+  }
+
 }
 
 # Rules
