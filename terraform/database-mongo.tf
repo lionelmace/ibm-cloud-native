@@ -10,7 +10,7 @@ variable "icd_mongo_plan" {
 variable "icd_mongo_adminpassword" {
   type        = string
   description = "The admin user password for the instance"
-  default     = "Passw0rd01"
+  default     = "AdminPassw0rd01"
 }
 
 variable "icd_mongo_ram_allocation" {
@@ -136,10 +136,6 @@ resource "ibm_resource_key" "icd_mongo_key" {
 #     endpoint_type = var.icd_mongo_service_endpoints
 #     user_id = "user_id"
 #     user_type = "database"
-# }
-
-# output "iks_cluster_alb" {
-#   value = data.ibm_database_connection.mongo_db_connection.database
 # }
 
 
