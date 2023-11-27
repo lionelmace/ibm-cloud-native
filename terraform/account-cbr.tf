@@ -51,14 +51,6 @@ resource "ibm_cbr_zone" "cbr_zone_cis_ips" {
       value = addresses.value
     }
   }
-  dynamic "addresses" {
-    for_each = var.cis_ipv6_cidrs
-    content {
-      type  = "subnet"
-      value = addresses.value
-    }
-  }
-
 }
 
 # Rules
