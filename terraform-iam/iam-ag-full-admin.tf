@@ -8,7 +8,12 @@ resource "ibm_iam_access_group" "ag-admin" {
 # Role: Administrator, Manager
 resource "ibm_iam_access_group_policy" "policy-all-iam-services" {
   access_group_id = ibm_iam_access_group.ag-admin.id
-  roles = [ "Administrator", "Manager", "Reader", "Viewer", "Editor" ]
+  resource_attributes {
+    name      = "serviceType"
+    operator = "stringEquals"
+    value    = "service"
+  }
+  roles = ["Administrator", "Manager"]
 }
 
 
@@ -17,7 +22,11 @@ resource "ibm_iam_access_group_policy" "policy-all-iam-services" {
 resource "ibm_iam_access_group_policy" "policy-account-management" {
   access_group_id = ibm_iam_access_group.ag-admin.id
   roles           = ["Administrator"]
-  account_management = true
+  resource_attributes {
+    name      = "serviceType"
+    operator = "stringEquals"
+    value    = "platform_service"
+  }
 }
 
 # Service: Resource Group only
@@ -34,7 +43,7 @@ resource "ibm_iam_access_group_policy" "policy-resource-group" {
 # Role: Editor
 resource "ibm_iam_access_group_policy" "policy-admin-support" {
   access_group_id = ibm_iam_access_group.ag-admin.id
-  roles = [ "Editor" ]
+  roles           = ["Editor"]
   resources {
     service = "support"
   }
@@ -44,7 +53,7 @@ resource "ibm_iam_access_group_policy" "policy-admin-support" {
 # Role: Administrator, Editor
 resource "ibm_iam_access_group_policy" "policy-admin-scc" {
   access_group_id = ibm_iam_access_group.ag-admin.id
-  roles = [ "Administrator", "Editor" ]
+  roles           = ["Administrator", "Editor"]
   resources {
     service = "compliance"
   }
@@ -57,7 +66,7 @@ resource "ibm_iam_access_group_policy" "policy-admin-scc" {
 #resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
 #  access_group_id = ibm_iam_access_group.ag-admin.id
 #  roles           = ["User API key creator"]
-  # roles           = ["Administrator", "User API key creator", "Service ID creator"]
+# roles           = ["Administrator", "User API key creator", "Service ID creator"]
 #  resources {
 #    service = "iam-identity"
 #  }
