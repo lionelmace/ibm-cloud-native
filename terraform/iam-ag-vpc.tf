@@ -56,9 +56,9 @@ resource "ibm_iam_access_group_policy" "policy_vpc" {
 
   for_each = local.is_network_service_types
   resource_attributes {
-    name = each.key
+    name     = each.key
     operator = "stringEquals"
-    value = each.value
+    value    = each.value
   }
   resource_attributes {
     name     = "serviceName"
@@ -85,9 +85,9 @@ resource "ibm_iam_access_group_policy" "policy_vsi" {
 
   for_each = local.is_instance_service_types
   resource_attributes {
-    name = each.key
+    name     = each.key
     operator = "stringEquals"
-    value = each.value
+    value    = each.value
   }
   resource_attributes {
     name     = "serviceName"

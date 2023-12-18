@@ -9,7 +9,7 @@ resource "ibm_iam_access_group" "ag-admin" {
 resource "ibm_iam_access_group_policy" "policy-all-iam-services" {
   access_group_id = ibm_iam_access_group.ag-admin.id
   resource_attributes {
-    name      = "serviceType"
+    name     = "serviceType"
     operator = "stringEquals"
     value    = "service"
   }
@@ -23,7 +23,7 @@ resource "ibm_iam_access_group_policy" "policy-account-management" {
   access_group_id = ibm_iam_access_group.ag-admin.id
   roles           = ["Administrator"]
   resource_attributes {
-    name      = "serviceType"
+    name     = "serviceType"
     operator = "stringEquals"
     value    = "platform_service"
   }
