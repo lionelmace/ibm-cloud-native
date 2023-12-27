@@ -4,6 +4,38 @@ resource "ibm_cr_namespace" "container-registry-namespace" {
   tags              = var.tags
 }
 
+output "icr-namespace" {
+  value = ibm_cr_namespace.container-registry-namespace.crn
+}
+
+variable "icr_use_vpe" { default = true }
+
+# VPE (Virtual Private Endpoint) for Container Registry
+##############################################################################
+
+resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
+
+  name           = "${local.basename}-icr-vpe"
+  resource_group = ibm_resource_group.group.id
+  vpc            = ibm_is_vpc.vpc.id
+
+  target {
+    crn           = "crn:v1:bluemix:public:container-registry:${region}:::endpoint:${icr_region}"
+    resource_type = "provider_cloud_service"
+  }
+
+  # one Reserved IP for per zone in the VPC
+  dynamic "ips" {
+    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    content {
+      subnet = ips.key
+      name   = "${ips.value.name}-ip"
+    }
+  }
+
+  tags = var.tags
+}
+
 ## IAM
 ##############################################################################
 # Role Writer supports both Pull and Push
