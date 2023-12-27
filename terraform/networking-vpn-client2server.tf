@@ -3,6 +3,8 @@ variable "vpn_client_ip_pool" {
   default = "192.168.0.0/16"
 }
 
+## VPN
+##############################################################################
 resource "ibm_is_vpn_server" "vpn" {
   certificate_crn = ibm_sm_imported_certificate.server_cert.crn
   client_authentication {
@@ -10,6 +12,10 @@ resource "ibm_is_vpn_server" "vpn" {
     client_ca_crn = ibm_sm_imported_certificate.client_cert.crn
   }
   client_ip_pool         = var.vpn_client_ip_pool
+  # Use those IPs to access service endpoints and IaaS endpoints from your client
+  # client_dns_server_ips  = ["161.26.0.10", "161.26.0.11"]
+  # Use those IPs if you need to resolve private DNS names from your client.
+  client_dns_server_ips  = ["161.26.0.7", "161.26.0.8"]
   client_idle_timeout    = 2800
   enable_split_tunneling = true
   name                   = "${local.basename}-vpn-server"
@@ -20,10 +26,14 @@ resource "ibm_is_vpn_server" "vpn" {
     # ibm_is_subnet.subnet.id
   ]
   security_groups = [
+    ibm_is_vpc.vpc.default_security_group,
     ibm_is_security_group.vpn.id
   ]
   resource_group = ibm_resource_group.group.id
 }
+
+## VPN Security Group
+##############################################################################
 
 resource "ibm_is_security_group" "vpn" {
   resource_group = ibm_resource_group.group.id
@@ -68,14 +78,6 @@ resource "ibm_is_security_group_rule" "vpn_cse_outbound" {
   remote = "166.8.0.0/14"
 }
 
-resource "ibm_is_vpn_server_route" "route_cse_to_vpc" {
-  vpn_server = ibm_is_vpn_server.vpn.id
-  action     = "deliver"
-  # destination = "166.9.0.0/16"
-  destination = "166.8.0.0/14"
-  name        = "route-2-ibm-cloud-service-endpoints"
-}
-
 # allow clients to reach private backend
 resource "ibm_is_security_group_rule" "vpn_private_outbound" {
   group     = ibm_is_security_group.vpn.id
@@ -83,12 +85,56 @@ resource "ibm_is_security_group_rule" "vpn_private_outbound" {
   remote    = "161.26.0.0/16"
 }
 
+# Add outbound rules for each subnet
+resource "ibm_is_security_group_rule" "vpn_outbound_subnet" {
+  count     = length(var.subnet_cidr_blocks)
+  group     = ibm_is_security_group.vpn.id
+  direction = "outbound"
+  remote    = element(var.subnet_cidr_blocks, count.index)
+}
+
+## VPN Server Routes
+##############################################################################
+
+resource "ibm_is_vpn_server_route" "route_cse_to_vpc" {
+  vpn_server = ibm_is_vpn_server.vpn.id
+  action     = "deliver"
+  # destination = "166.9.0.0/16"
+  destination = "166.8.0.0/14"
+  name        = "route-2-ibm-cloud-service-endpoints"
+  timeouts {
+    delete = "20m"
+  }
+}
+
+# When you specify the DNS server "client_dns_server_ips" in the VPN, 
+# you must also create a VPN route after the VPN server is provisioned, 
+# with destination 161.26.0.0/16 and the translate action.
 resource "ibm_is_vpn_server_route" "route_private_to_vpc" {
   vpn_server  = ibm_is_vpn_server.vpn.id
-  action      = "deliver"
+  action      = "translate"
   destination = "161.26.0.0/16"
   name        = "route-private-2-ibm-iaas-endpoints"
+  timeouts {
+    delete = "20m"
+  }
 }
+
+# Route to Subnets - NATing
+# Ok in both translate and deliver
+resource "ibm_is_vpn_server_route" "route_to_subnet" {
+  count       = length(var.subnet_cidr_blocks)
+  vpn_server  = ibm_is_vpn_server.vpn.id
+  action      = "translate"
+  destination = element(var.subnet_cidr_blocks, count.index)
+  name        = "route-2-subnet-${count.index + 1}"
+  timeouts {
+    delete = "20m"
+  }
+}
+
+## VPN Output Configuration
+##############################################################################
 
 data "ibm_is_vpn_server_client_configuration" "config" {
   vpn_server = ibm_is_vpn_server.vpn.id
