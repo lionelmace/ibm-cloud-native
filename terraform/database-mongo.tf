@@ -203,7 +203,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
     content {
       subnet = ips.key
-      name   = "${ips.value.name}-ip"
+      name   = "${ips.value.name}-ip-mongo"
     }
   }
 
