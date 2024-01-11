@@ -20,8 +20,8 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
   vpc            = ibm_is_vpc.vpc.id
 
   target {
-    crn           = "crn:v1:bluemix:public:container-registry:${var.region}:::endpoint:${var.icr_region}"
-    resource_type = "provider_cloud_service"
+    crn           = local.icr_target.crn
+    resource_type = local.icr_target.resource_type
   }
 
   # one Reserved IP for per zone in the VPC
@@ -36,40 +36,16 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
   tags = var.tags
 }
 
-# variable "objects" {
-#   type = "list"
-#   description = "list of objects
-#   default = [
-#       {
-#         id = "name1"
-#         attribute = "a"
-#       },
-#       {
-#         id = "name2"
-#         attribute = "a,b"
-#       },
-#       {
-#         id = "name3"
-#         attribute = "d"
-#       }
-#   ]
-# }
-# var.objects[index(var.objects.*.id, "name2")]
-
 data "ibm_is_endpoint_gateway_targets" "example" {
 }
 
 locals {
-  # resources = data.ibm_is_endpoint_gateway_targets.example.resources
-  icr_map = data.ibm_is_endpoint_gateway_targets.example.resources[index(data.ibm_is_endpoint_gateway_targets.example.resources.*.name, "registry-eu-de-v2")]
-#  my_value = lookup(data.ibm_is_endpoint_gateway_targets.example, "key1", "")
+  icr_target = data.ibm_is_endpoint_gateway_targets.example.resources[
+    index(data.ibm_is_endpoint_gateway_targets.example.resources.*.name, "registry-eu-de-v2")]
 }
 
 output "icr_target_crn" {
-  value = local.icr_map.crn
-  # value = local.my_value
-  # value = data.ibm_is_endpoint_gateway_targets.example
-  # ${lookup(var.objects[1], "id")}
+  value = local.icr_target.crn
 }
 
 ## IAM
