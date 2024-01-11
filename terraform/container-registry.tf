@@ -60,12 +60,12 @@ data "ibm_is_endpoint_gateway_targets" "example" {
 }
 
 locals {
-  resources = data.ibm_is_endpoint_gateway_targets.example.resources
-  icr_map = var.resources[index(var.resources.*.name, "registry-eu-de-v2")]
+  # resources = data.ibm_is_endpoint_gateway_targets.example.resources
+  icr_map = data.ibm_is_endpoint_gateway_targets.example.resources[index(data.ibm_is_endpoint_gateway_targets.example.resources.*.name, "registry-eu-de-v2")]
 #  my_value = lookup(data.ibm_is_endpoint_gateway_targets.example, "key1", "")
 }
 
-output "endpoint_gateway_target" {
+output "icr_target_crn" {
   value = icr_map.crn
   # value = local.my_value
   # value = data.ibm_is_endpoint_gateway_targets.example
