@@ -70,8 +70,8 @@ resource "ibm_database" "icd_mongo" {
   # Encrypt DB (comment to use IBM-provided Automatic Key)
   key_protect_instance = ibm_resource_instance.key-protect.id
   key_protect_key      = ibm_kms_key.key.id
-  # BYOK for backups available only in us-south, us-east, and eu-de (June 2023)
-  # backup_encryption_key_crn = ibm_kms_key.key.id
+  # TODO: BYOK for backups available only in us-south, us-east, and eu-de (June 2023)
+  backup_encryption_key_crn = ibm_kms_key.key.id
   depends_on = [ # require when using encryption key otherwise provisioning failed
     ibm_iam_authorization_policy.mongo-kms,
   ]
@@ -223,7 +223,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
 # }
 
 
-# AUTHORIZATIONS
+# IAM AUTHORIZATIONS
 ##############################################################################
 
 # Authorization policy between Mongo and Key Protect
