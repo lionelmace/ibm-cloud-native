@@ -36,10 +36,40 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
   tags = var.tags
 }
 
+# variable "objects" {
+#   type = "list"
+#   description = "list of objects
+#   default = [
+#       {
+#         id = "name1"
+#         attribute = "a"
+#       },
+#       {
+#         id = "name2"
+#         attribute = "a,b"
+#       },
+#       {
+#         id = "name3"
+#         attribute = "d"
+#       }
+#   ]
+# }
+# var.objects[index(var.objects.*.id, "name2")]
+
 data "ibm_is_endpoint_gateway_targets" "example" {
 }
+
+locals {
+  resources = data.ibm_is_endpoint_gateway_targets.example.resources
+  icr_map = var.resources[index(var.resources.*.name, "registry-eu-de-v2")]
+#  my_value = lookup(data.ibm_is_endpoint_gateway_targets.example, "key1", "")
+}
+
 output "endpoint_gateway_target" {
-  value = data.ibm_is_endpoint_gateway_targets.example
+  value = icr_map.crn
+  # value = local.my_value
+  # value = data.ibm_is_endpoint_gateway_targets.example
+  # ${lookup(var.objects[1], "id")}
 }
 
 ## IAM
