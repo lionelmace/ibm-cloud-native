@@ -66,7 +66,7 @@ locals {
 }
 
 output "icr_target_crn" {
-  value = icr_map.crn
+  value = local.icr_map.crn
   # value = local.my_value
   # value = data.ibm_is_endpoint_gateway_targets.example
   # ${lookup(var.objects[1], "id")}
