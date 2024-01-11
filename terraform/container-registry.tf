@@ -36,6 +36,12 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
   tags = var.tags
 }
 
+data "ibm_is_endpoint_gateway_targets" "example" {
+}
+output "endpoint_gateway_target" {
+  value = ibm_is_endpoint_gateway_targets.example
+}
+
 ## IAM
 ##############################################################################
 # Role Writer supports both Pull and Push

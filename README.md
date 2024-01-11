@@ -13,7 +13,7 @@ The Terraform scripts will provision all those Cloud Services:
 * Log Analysis based on Mezmo
 * Cloud Monitoring based on Sysdig
 * COS (Cloud Object Storage) with a bucket
-* Key Protect to encrypt the COS bucket and the Mongo database
+* Key Protect to encrypt COS bucket, Mongo DB and OpenShift/Kubernetes clusters
 * CBR (Context-Based Restrictions) Zones and Rules
 * Secrets Manager (Hashicorp Vault aaS) to store the cluster certificate
 * SCC (Security Compliance Center) with a CIS profile and attached scan
