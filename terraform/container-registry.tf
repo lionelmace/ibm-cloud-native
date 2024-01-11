@@ -39,7 +39,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
 data "ibm_is_endpoint_gateway_targets" "example" {
 }
 output "endpoint_gateway_target" {
-  value = ibm_is_endpoint_gateway_targets.example
+  value = data.ibm_is_endpoint_gateway_targets.example
 }
 
 ## IAM
