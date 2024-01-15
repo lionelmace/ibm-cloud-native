@@ -151,7 +151,6 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
     crk_id           = ibm_kms_key.key.key_id                 # ID of customer root key
     private_endpoint = true
   }
-  # TODO
   depends_on = [
     ibm_iam_authorization_policy.roks-kms
   ]
@@ -248,7 +247,7 @@ resource "ibm_ob_monitoring" "openshift_connect_monitoring" {
 # IAM AUTHORIZATIONS
 ##############################################################################
 
-# TODO: Authorization policy between OpenShift and Key Protect
+# Authorization policy between OpenShift and Key Protect
 # Require to encrypt OpenShift with Key in Key Protect
 resource "ibm_iam_authorization_policy" "roks-kms" {
   source_service_name         = "containers-kubernetes"

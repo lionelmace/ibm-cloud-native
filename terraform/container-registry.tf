@@ -36,6 +36,9 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe_icr" {
   tags = var.tags
 }
 
+# A VPE gateway requires a target. See the resource above.
+# The data source for targets provides a set of targets that are available 
+# based on your provider region configuration.
 data "ibm_is_endpoint_gateway_targets" "example" {
 }
 
