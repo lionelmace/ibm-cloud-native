@@ -61,7 +61,7 @@ sysdig_enable_platform_metrics = false
 icd_mongo_plan = "standard"
 # expected length in the range (10 - 32) - must not contain special characters
 icd_mongo_adminpassword     = "AdministratorPassw0rd01"
-icd_mongo_db_version        = "5.0"
+icd_mongo_db_version        = "6.0"
 icd_mongo_service_endpoints = "private"
 icd_mongo_use_vpe           = true
 
