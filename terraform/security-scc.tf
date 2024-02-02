@@ -9,6 +9,17 @@ resource "ibm_resource_instance" "scc_instance" {
   resource_group_id = ibm_resource_group.group.id
 }
 
+# resource "ibm_scc_instance_settings" "scc_instance_settings" {
+#   instance_id = ibm_resource_instance.scc_instance.id
+#   event_notifications {
+#         instance_crn = ibm_resource_instance.event-notifications.crn
+#   }
+#   object_storage {
+#         instance_crn = ibm_resource_instance.cos.crn
+#         bucket = ibm_cos_bucket.scc-bucket.bucket_name
+#   }
+# }
+
 ## SCC Profile Attachment
 ##############################################################################
 resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
