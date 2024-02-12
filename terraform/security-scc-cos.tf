@@ -20,7 +20,7 @@ variable "cos_region" {
 # COS Service for OpenShift Internal Registry
 ##############################################################################
 
-resource "ibm_resource_instance" "cos" {
+resource "ibm_resource_instance" "cos-scc" {
   name              = format("%s-%s", local.basename, "cos-scc")
   service           = "cloud-object-storage"
   plan              = var.cos_plan
@@ -37,7 +37,7 @@ resource "ibm_resource_instance" "cos" {
 ##############################################################################
 resource "ibm_cos_bucket" "scc-bucket" {
   bucket_name          = format("%s-%s", local.basename, "scc-bucket")
-  resource_instance_id = ibm_resource_instance.cos.id
+  resource_instance_id = ibm_resource_instance.cos-scc.id
   storage_class        = "smart"
 
   # SCC Control 2.1.1.2

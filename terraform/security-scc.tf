@@ -15,7 +15,7 @@ resource "ibm_resource_instance" "scc_instance" {
 #         instance_crn = ibm_resource_instance.event-notifications.crn
 #   }
 #   object_storage {
-#         instance_crn = ibm_resource_instance.cos.crn
+#         instance_crn = ibm_resource_instance.cos-scc.crn
 #         bucket = ibm_cos_bucket.scc-bucket.bucket_name
 #   }
 # }
@@ -121,7 +121,7 @@ data "http" "scc_update_settings" {
       #   source_name  = "${ibm_resource_instance.compliance.name}-notifications"
       # },
       object_storage = {
-        instance_crn = ibm_resource_instance.cos.crn
+        instance_crn = ibm_resource_instance.cos-scc.crn
         bucket       = ibm_cos_bucket.scc-bucket.bucket_name
       }
     }

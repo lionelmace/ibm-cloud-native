@@ -80,7 +80,7 @@ resource "ibm_iam_access_group_policy" "policy-k8s-identity-administrator" {
 resource "ibm_iam_authorization_policy" "iam-auth-scc-cos" {
   source_service_name         = "compliance"
   target_service_name         = "cloud-object-storage"
-  target_resource_instance_id = ibm_resource_instance.cos.guid
+  target_resource_instance_id = ibm_resource_instance.cos-scc.guid
   roles                       = ["Writer"]
 }
 
@@ -88,7 +88,7 @@ resource "ibm_iam_authorization_policy" "iam-auth-scc-cos" {
 # Required to encrypt COS buckets
 resource "ibm_iam_authorization_policy" "iam-auth-kms-cos" {
   source_service_name         = "cloud-object-storage"
-  source_resource_instance_id = ibm_resource_instance.cos.guid
+  source_resource_instance_id = ibm_resource_instance.cos-scc.guid
   target_service_name         = "kms"
   target_resource_instance_id = ibm_resource_instance.key-protect.guid
   roles                       = ["Reader"]
