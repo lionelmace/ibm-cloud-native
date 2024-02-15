@@ -4,7 +4,7 @@
         "name": "icn-da",
         "label": "IBM Cloud Native Deployable Architecture",
         "product_kind": "solution",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "tags": [
           "network_vpc",
           "Technology"
