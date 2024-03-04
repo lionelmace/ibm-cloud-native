@@ -1,6 +1,8 @@
 
 variable "existing_secrets_manager_guid" {
   description = "GUID of an existing Secrets Manager instance located in the same region"
+  type        = string
+  default     = ""
 }
 
 resource "ibm_sm_secret_group" "secret_group" {
