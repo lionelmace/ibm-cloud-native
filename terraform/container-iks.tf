@@ -26,7 +26,7 @@ variable "iks_machine_flavor" {
 variable "iks_worker_nodes_per_zone" {
   description = "Number of workers to provision in each subnet"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "iks_wait_till" {
@@ -62,6 +62,44 @@ variable "iks_disable_public_service_endpoint" {
   default     = false
 }
 
+variable "iks_worker_pools" {
+  description = "List of maps describing worker pools"
+
+  type = list(object({
+    pool_name        = string
+    machine_type     = string
+    workers_per_zone = number
+  }))
+
+  default = [
+    {
+      pool_name        = "dev"
+      machine_type     = "bx2.4x16"
+      workers_per_zone = 1
+      # },
+      # {
+      #     pool_name        = "secondary"
+      #     machine_type     = "bx2.16x64"
+      #     workers_per_zone = 1
+    }
+  ]
+
+  validation {
+    error_message = "Worker pool names must match the regex `^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$`."
+    condition = length([
+      for pool in var.iks_worker_pools :
+      false if !can(regex("^([a-z]|[a-z][-a-z0-9]*[a-z0-9])$", pool.pool_name))
+    ]) == 0
+  }
+
+  validation {
+    error_message = "Worker pools cannot have duplicate names."
+    condition = length(distinct([
+      for pool in var.iks_worker_pools :
+      pool.pool_name
+    ])) == length(var.iks_worker_pools)
+  }
+}
 
 ## Resources
 ##############################################################################
@@ -96,23 +134,23 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
 
 # Additional Worker Pool
 ##############################################################################
-# resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
-#   for_each          = { for pool in var.worker_pools : pool.pool_name => pool }
-#   cluster           = ibm_container_vpc_cluster.iks_cluster.id
-#   resource_group_id = ibm_resource_group.group.id
-#   worker_pool_name  = each.key
-#   flavor            = lookup(each.value, "machine_type", null)
-#   vpc_id            = ibm_is_vpc.vpc.id
-#   worker_count      = each.value.workers_per_zone
+resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
+  for_each          = { for pool in var.iks_worker_pools : pool.pool_name => pool }
+  cluster           = ibm_container_vpc_cluster.iks_cluster.id
+  resource_group_id = ibm_resource_group.group.id
+  worker_pool_name  = each.key
+  flavor            = lookup(each.value, "machine_type", null)
+  vpc_id            = ibm_is_vpc.vpc.id
+  worker_count      = each.value.workers_per_zone
 
-#   dynamic "zones" {
-#     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
-#     content {
-#       name      = zones.value.zone
-#       subnet_id = zones.value.id
-#     }
-#   }
-# }
+  dynamic "zones" {
+    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    content {
+      name      = zones.value.zone
+      subnet_id = zones.value.id
+    }
+  }
+}
 
 # data "ibm_container_vpc_alb" "iks_cluster_alb" {
 #   alb_id = ibm_container_vpc_cluster.iks_cluster.albs[0].id
