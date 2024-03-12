@@ -4,10 +4,10 @@ variable "vpn_client_ip_pool" {
   default     = "10.0.0.0/20"
 }
 
-  # Use those IPs to access service endpoints and IaaS endpoints from your client
-  # client_dns_server_ips  = ["161.26.0.10", "161.26.0.11"]
-  # Use those IPs if you need to resolve private DNS names from your client.
-  # Requires to be able to open OpenShift Console.
+# Use those IPs to access service endpoints and IaaS endpoints from your client
+# client_dns_server_ips  = ["161.26.0.10", "161.26.0.11"]
+# Use those IPs if you need to resolve private DNS names from your client.
+# Requires to be able to open OpenShift Console.
 variable "client_dns_server_ips" {
   type        = list(string)
   description = "DNS server addresses that will be provided to VPN clients connected to this VPN server"

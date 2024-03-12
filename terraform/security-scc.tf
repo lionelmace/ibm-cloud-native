@@ -12,11 +12,11 @@ resource "ibm_resource_instance" "scc_instance" {
 resource "ibm_scc_instance_settings" "scc_instance_settings" {
   instance_id = ibm_resource_instance.scc_instance.guid
   event_notifications {
-        instance_crn = ibm_resource_instance.event-notifications.crn
+    instance_crn = ibm_resource_instance.event-notifications.crn
   }
   object_storage {
-        instance_crn = ibm_resource_instance.cos-scc.crn
-        bucket = ibm_cos_bucket.scc-bucket.bucket_name
+    instance_crn = ibm_resource_instance.cos-scc.crn
+    bucket       = ibm_cos_bucket.scc-bucket.bucket_name
   }
 }
 
