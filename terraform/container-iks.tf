@@ -26,7 +26,7 @@ variable "iks_machine_flavor" {
 variable "iks_worker_nodes_per_zone" {
   description = "Number of workers to provision in each subnet"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "iks_wait_till" {

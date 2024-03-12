@@ -23,7 +23,7 @@ iks_machine_flavor        = "bx2.4x16"
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 iks_wait_till             = "IngressReady"
 iks_update_all_workers    = true
-iks_worker_nodes_per_zone = 2
+# iks_worker_nodes_per_zone = 2
 
 
 ##############################################################################
