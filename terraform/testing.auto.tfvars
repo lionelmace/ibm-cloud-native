@@ -17,7 +17,7 @@ vpc_enable_public_gateway     = true
 ## Cluster IKS
 ##############################################################################
 iks_worker_nodes_per_zone = 1
-iks_machine_flavor        = "bx2.4x16"
+iks_machine_flavor        = "cx2.2x4" # "bx2.4x16"
 # iks_machine_flavor    = "bx2.16x64" # ODF or Portworx flavor
 
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady

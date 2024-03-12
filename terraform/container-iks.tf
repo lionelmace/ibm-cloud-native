@@ -20,7 +20,7 @@ variable "iks_version" {
 variable "iks_machine_flavor" {
   description = "The flavor of VPC worker node to use for your cluster. Use `ibmcloud ks flavors` to find flavors for a region."
   type        = string
-  default     = "bx2.4x16"
+  default     = "cx2.2x4"
 }
 
 variable "iks_worker_nodes_per_zone" {
@@ -74,7 +74,7 @@ variable "iks_worker_pools" {
   default = [
     {
       pool_name        = "dev"
-      machine_type     = "bx2.4x16"
+      machine_type     = "cx2.2x4"
       workers_per_zone = 1
       # },
       # {
