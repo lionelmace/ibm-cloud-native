@@ -21,8 +21,8 @@ iks_machine_flavor        = "cx2.2x4" # "bx2.4x16"
 # iks_machine_flavor    = "bx2.16x64" # ODF or Portworx flavor
 
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
-iks_wait_till             = "IngressReady"
-iks_update_all_workers    = true
+iks_wait_till          = "IngressReady"
+iks_update_all_workers = true
 # iks_worker_nodes_per_zone = 2
 
 
@@ -36,6 +36,10 @@ openshift_machine_flavor = "bx2.4x16"
 openshift_wait_till          = "OneWorkerNodeReady"
 openshift_update_all_workers = false
 
+##############################################################################
+## COS
+##############################################################################
+existing_secrets_manager_name = "secrets-manager"
 
 ##############################################################################
 ## COS
@@ -54,6 +58,7 @@ log_enable_platform_logs = false
 sysdig_plan                    = "graduated-tier"
 sysdig_enable_platform_metrics = false
 
+activity_tracker_name = "platform-activities"
 
 ##############################################################################
 ## ICD Mongo

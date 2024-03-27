@@ -5,6 +5,10 @@ terraform-iam/testing.auto.tfvars
 # Infracost
 **/.infracost/*
 
+# Key
+*.pem
+*.pub
+
 # Local .terraform directories
 **/.terraform/*
 # .tfstate files
