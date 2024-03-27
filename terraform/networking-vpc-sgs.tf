@@ -1,10 +1,8 @@
 # Security Groups
 ##############################################################################
 
-# Rules required to allow necessary inbound traffic to your cluster (IKS/OCP)
+# Allow incoming ICMP packets (Ping)
 ##############################################################################
-# To expose apps by using load balancers or Ingress, allow traffic through VPC 
-# load balancers. For example, for Ingress listening on TCP/443
 resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
   group     = ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
@@ -15,8 +13,10 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
   }
 }
 
-# Allow incoming ICMP packets (Ping)
+# Rules required to allow necessary inbound traffic to your cluster (IKS/OCP)
 ##############################################################################
+# To expose apps by using load balancers or Ingress, allow traffic through VPC 
+# load balancers. For example, for Ingress listening on TCP/443
 resource "ibm_is_security_group_rule" "sg-rule-inbound-https" {
   group     = ibm_is_vpc.vpc.default_security_group
   direction = "inbound"

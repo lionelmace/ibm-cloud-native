@@ -157,3 +157,16 @@ EOT
 output "vpn" {
   value = ibm_is_vpn_server.vpn
 }
+
+## IAM
+##############################################################################
+
+# Authorization policy between VPN and Secrets Manager
+resource "ibm_iam_authorization_policy" "vpn-sm" {
+  source_service_name         = "is"
+  source_resource_type        = "vpn-server"
+  source_resource_instance_id = ibm_is_vpn_server.vpn.id
+  target_service_name         = "secrets-manager"
+  target_resource_instance_id = local.secrets_manager_id
+  roles                       = ["SecretsReader"]
+}

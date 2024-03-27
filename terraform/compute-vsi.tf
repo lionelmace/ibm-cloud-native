@@ -13,6 +13,12 @@ variable "profile_name" {
   # default     = "bx2-2x8"
 }
 
+variable "create_public_ip" {
+  type        = bool
+  default     = "true"
+}
+
+
 ##############################################################################
 
 data "ibm_is_image" "image" {
@@ -57,6 +63,25 @@ resource "ibm_is_instance" "vsi-server" {
   }
 }
 
+# A Public Floating IP for the VSI
+resource "ibm_is_floating_ip" "public_ip_client" {
+  count = tobool(var.create_public_ip) ? 1 : 0
+
+  name   = "${local.basename}-floating-ip-client"
+  target = ibm_is_instance.vsi-client.primary_network_interface[0].id
+  tags   = var.tags
+}
+
+# A Public Floating IP for the VSI
+resource "ibm_is_floating_ip" "public_ip_server" {
+  count = tobool(var.create_public_ip) ? 1 : 0
+
+  name   = "${local.basename}-floating-ip-server"
+  target = ibm_is_instance.vsi-server.primary_network_interface[0].id
+  tags   = var.tags
+}
+
+
 # Create a VSI (Virtual Server Instance)
 resource "ibm_is_instance" "vsi-client" {
   name           = "${local.basename}-vsi-client"
@@ -74,5 +99,27 @@ resource "ibm_is_instance" "vsi-client" {
 
   boot_volume {
     name = "${local.basename}-boot"
+  }
+}
+
+# allows inbound and outbound Remote Desktop Protocol traffic (TCP port 3389).
+resource "ibm_is_security_group_rule" "sg-rule-inbound-rdp-tcp" {
+  group     = ibm_is_vpc.vpc.default_security_group
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+
+  tcp {
+    port_min = 3389
+    port_max = 3389
+  }
+}
+resource "ibm_is_security_group_rule" "sg-rule-inbound-rdp-udp" {
+  group     = ibm_is_vpc.vpc.default_security_group
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+
+  udp {
+    port_min = 3389
+    port_max = 3389
   }
 }
