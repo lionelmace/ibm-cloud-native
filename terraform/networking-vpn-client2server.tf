@@ -11,8 +11,7 @@ variable "vpn_client_ip_pool" {
 variable "client_dns_server_ips" {
   type        = list(string)
   description = "DNS server addresses that will be provided to VPN clients connected to this VPN server"
-  # default     = ["161.26.0.7", "161.26.0.8"]
-  default     = ["161.26.0.10", "161.26.0.11"]
+  default     = ["161.26.0.7", "161.26.0.8"]
 }
 
 resource "ibm_is_vpn_server" "vpn" {
