@@ -29,6 +29,7 @@ iks_update_all_workers = true
 ##############################################################################
 ## Cluster ROKS
 ##############################################################################
+# openshift_version = "4.14_openshift"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
@@ -37,7 +38,7 @@ openshift_wait_till          = "OneWorkerNodeReady"
 openshift_update_all_workers = false
 
 ##############################################################################
-## COS
+## Secrets Manager
 ##############################################################################
 existing_secrets_manager_name = "secrets-manager"
 
