@@ -112,6 +112,7 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
   tags                            = var.tags
   disable_public_service_endpoint = var.iks_disable_public_service_endpoint
   update_all_workers              = var.iks_update_all_workers
+  force_delete_storage            = var.iks_force_delete_storage
 
   flavor       = var.iks_machine_flavor
   worker_count = var.iks_worker_nodes_per_zone
