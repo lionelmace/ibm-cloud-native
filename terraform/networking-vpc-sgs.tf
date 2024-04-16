@@ -48,6 +48,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
 data "ibm_cis_ip_addresses" "ip_addresses" {
 }
 
+# TBD
 # variable "cis_ipv4_cidrs" {
 #   description = "List of CIS Cloudflare IPv4 IPs"
 #   default = [
