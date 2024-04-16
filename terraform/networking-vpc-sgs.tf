@@ -48,21 +48,14 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
 data "ibm_cis_ip_addresses" "ip_addresses" {
 }
 
-variable "cis_ipv4_cidrs" {
-  description = "List of CIS Cloudflare IPv4 IPs"
-  default = [
-    "173.245.48.0/20", "103.21.244.0/22", "103.22.200.0/22",
-    "103.31.4.0/22", "141.101.64.0/18", "108.162.192.0/18",
-    "190.93.240.0/20", "188.114.96.0/20", "197.234.240.0/22",
-    "198.41.128.0/17", "162.158.0.0/15", "104.16.0.0/13",
-  "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22"]
-}
-
-# IPV6 not supported by VPC yet https://cloud.ibm.com/docs/vpc?topic=vpc-limitations
-# variable "cis_ipv6_cidrs" {
-#   description = "List of CIS Cloudflare IPv6 IPs"
-#   default = ["2400:cb00::/32","2606:4700::/32","2803:f800::/32",
-#   "2405:b500::/32","2405:8100::/32","2a06:98c0::/29","2c0f:f248::/32"]
+# variable "cis_ipv4_cidrs" {
+#   description = "List of CIS Cloudflare IPv4 IPs"
+#   default = [
+#     "173.245.48.0/20", "103.21.244.0/22", "103.22.200.0/22",
+#     "103.31.4.0/22", "141.101.64.0/18", "108.162.192.0/18",
+#     "190.93.240.0/20", "188.114.96.0/20", "197.234.240.0/22",
+#     "198.41.128.0/17", "162.158.0.0/15", "104.16.0.0/13",
+#   "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22"]
 # }
 
 resource "ibm_is_security_group" "sg-cis-cloudflare" {
@@ -82,19 +75,6 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-cloudflare-ipv4" {
     port_max = 443
   }
 }
-
-# IPV6 not supported by VPC yet https://cloud.ibm.com/docs/vpc?topic=vpc-limitations
-# resource "ibm_is_security_group_rule" "sg-rule-inbound-cloudflare-ipv6" {
-#   group     = ibm_is_security_group.sg-cis-cloudflare.id
-#   count     = 7
-#   direction = "inbound"
-#   remote    = element(var.cis_ipv6_cidrs, count.index)
-#   tcp {
-#     port_min = 443
-#     port_max = 443
-#   }
-# }
-
 
 # Control Plane IPs
 # Source:
