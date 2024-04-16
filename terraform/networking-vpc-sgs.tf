@@ -73,10 +73,10 @@ resource "ibm_is_security_group" "sg-cis-cloudflare" {
 
 resource "ibm_is_security_group_rule" "sg-rule-inbound-cloudflare-ipv4" {
   group     = ibm_is_security_group.sg-cis-cloudflare.id
-  count     = length(data.ibm_cis_ip_addresses.ip_addresses[0].ipv4_cidrs)
+  count     = length(data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs)
   direction = "inbound"
-  # remote    = element(var.cis_ipv4_cidrs, count.index)
-  remote    = data.ibm_cis_ip_addresses.ip_addresses[0].ipv4_cidrs[count.index]
+  remote    = element(data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs, count.index)
+  # remote    = data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs[count.index]
   tcp {
     port_min = 443
     port_max = 443
