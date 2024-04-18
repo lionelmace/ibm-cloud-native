@@ -42,13 +42,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
 }
 
 # CIS Cloudflare IPs
-#
 # Source: # https://api.cis.cloud.ibm.com/v1/ips
-##############################################################################
-data "ibm_cis_ip_addresses" "ip_addresses" {
-}
-
-# TBD
 # variable "cis_ipv4_cidrs" {
 #   description = "List of CIS Cloudflare IPv4 IPs"
 #   default = [
@@ -58,6 +52,10 @@ data "ibm_cis_ip_addresses" "ip_addresses" {
 #     "198.41.128.0/17", "162.158.0.0/15", "104.16.0.0/13",
 #   "104.24.0.0/14", "172.64.0.0/13", "131.0.72.0/22"]
 # }
+# Use of this datasource to dynamically retrieve the IP above.
+##############################################################################
+data "ibm_cis_ip_addresses" "ip_addresses" {
+}
 
 resource "ibm_is_security_group" "sg-cis-cloudflare" {
   name           = format("%s-%s", local.basename, "sg-cis-ips")
