@@ -14,6 +14,12 @@ variable "openshift_version" {
   default     = ""
 }
 
+variable "openshift_os" {
+  description = "The Operating System for the Worker Nodes."
+  type        = string
+  default     = "rhcos"
+}
+
 variable "openshift_machine_flavor" {
   description = " The default flavor of the OpenShift worker node."
   type        = string
@@ -126,18 +132,21 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   name              = format("%s-%s", local.basename, var.openshift_cluster_name)
   vpc_id            = ibm_is_vpc.vpc.id
   resource_group_id = ibm_resource_group.group.id
-  # Optional: Specify OpenShift version. If not included, 4.14 is used
-  kube_version                    = var.openshift_version == "" ? "4.14_openshift" : var.openshift_version
-  cos_instance_crn                = var.is_openshift_cluster ? ibm_resource_instance.cos_openshift_registry[0].id : null
-  entitlement                     = var.entitlement
-  force_delete_storage            = var.openshift_force_delete_storage
-  tags                            = var.tags
-  disable_public_service_endpoint = var.openshift_disable_public_service_endpoint
-  update_all_workers              = var.openshift_update_all_workers
+  # Optional: Specify OpenShift version. If not included, 4.15 is used
+  kube_version         = var.openshift_version == "" ? "4.15_openshift" : var.openshift_version
+  operating_system     = var.openshift_os
+  cos_instance_crn     = var.is_openshift_cluster ? ibm_resource_instance.cos_openshift_registry[0].id : null
+  entitlement          = var.entitlement
+  force_delete_storage = var.openshift_force_delete_storage
+  tags                 = var.tags
+  update_all_workers   = var.openshift_update_all_workers
 
-  flavor       = var.openshift_machine_flavor
-  worker_count = var.openshift_worker_nodes_per_zone
-  wait_till    = var.openshift_wait_till
+  flavor                          = var.openshift_machine_flavor
+  worker_count                    = var.openshift_worker_nodes_per_zone
+  wait_till                       = var.openshift_wait_till
+  disable_public_service_endpoint = var.openshift_disable_public_service_endpoint
+  # By default, public outbound access is blocked in OpenShift versions 4.15
+  disable_outbound_traffic_protection = true
 
   dynamic "zones" {
     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }

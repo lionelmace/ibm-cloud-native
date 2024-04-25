@@ -29,7 +29,8 @@ iks_update_all_workers = true
 ##############################################################################
 ## Cluster ROKS
 ##############################################################################
-# openshift_version = "4.14_openshift"
+# Optional: Specify OpenShift version. If not included, 4.15 is used
+openshift_version        = ""
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
