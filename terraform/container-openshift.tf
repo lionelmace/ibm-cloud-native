@@ -17,7 +17,7 @@ variable "openshift_version" {
 variable "openshift_os" {
   description = "The Operating System (REDHAT_8_64 or RHCOS) for the Worker Nodes."
   type        = string
-  default     = "rhcos"
+  default     = "RHCOS"
 }
 
 variable "openshift_machine_flavor" {
