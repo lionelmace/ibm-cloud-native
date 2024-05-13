@@ -20,7 +20,7 @@ variable "iks_version" {
 variable "iks_machine_flavor" {
   description = "The flavor of VPC worker node to use for your cluster. Use `ibmcloud ks flavors` to find flavors for a region."
   type        = string
-  default     = "cx2.2x4"
+  default     = "bx2.4x16"
 }
 
 variable "iks_worker_nodes_per_zone" {
@@ -155,14 +155,6 @@ resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
     }
   }
 }
-
-# data "ibm_container_vpc_alb" "iks_cluster_alb" {
-#   alb_id = ibm_container_vpc_cluster.iks_cluster.albs[0].id
-# }
-
-# output "iks_cluster_alb" {
-#   value = data.ibm_container_vpc_alb.iks_cluster_alb
-# }
 
 ##############################################################################
 # Connect Log Analysis Service to cluster
