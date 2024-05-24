@@ -31,8 +31,8 @@ iks_update_all_workers = true
 ##############################################################################
 # Optional: Specify OpenShift version. If not included, 4.15 is used
 openshift_version        = ""
-openshift_machine_flavor = "bx2.4x16"
-# openshift_machine_flavor = "bx2.16x64" # ODF Flavors
+# openshift_machine_flavor = "bx2.4x16"
+openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
 # Available values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 openshift_wait_till          = "OneWorkerNodeReady"
