@@ -79,7 +79,7 @@ icd_mongo_use_vpe           = true
 # icd_mongo_core_allocation = 6
 
 # Minimum parameter for Standard Edition
-icd_mongo_ram_allocation  = 1024
+icd_mongo_ram_allocation  = 4096 # old value: 1024
 icd_mongo_disk_allocation = 20480
 icd_mongo_core_allocation = 0
 
