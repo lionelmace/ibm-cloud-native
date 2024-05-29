@@ -16,7 +16,7 @@ variable "icd_mongo_adminpassword" {
 variable "icd_mongo_ram_allocation" {
   type        = number
   description = "RAM (GB/data member)"
-  default     = 1024
+  default     = 4096
 }
 
 variable "icd_mongo_disk_allocation" {
@@ -79,7 +79,7 @@ resource "ibm_database" "icd_mongo" {
   adminpassword = var.icd_mongo_adminpassword
   group {
     group_id = "member"
-    # host_flavor { id = "multitenant" }
+    host_flavor { id = "multitenant" }
     memory { allocation_mb = var.icd_mongo_ram_allocation }
     disk { allocation_mb = var.icd_mongo_disk_allocation }
     cpu { allocation_count = var.icd_mongo_core_allocation }
