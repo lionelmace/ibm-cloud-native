@@ -30,9 +30,14 @@ iks_update_all_workers = true
 ## Cluster ROKS
 ##############################################################################
 # Optional: Specify OpenShift version. If not included, 4.15 is used
-openshift_version = ""
-# openshift_machine_flavor = "bx2.4x16"
+openshift_version        = ""
+openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.16x64" # ODF Flavors
+# openshift_machine_flavor = "bx2.4x16"
+
+openshift_disable_public_service_endpoint = false
+# By default, public outbound access is blocked in OpenShift 4.15
+openshift_disable_outbound_traffic_protection = true
 
 # Available values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 openshift_wait_till          = "OneWorkerNodeReady"

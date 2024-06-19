@@ -53,6 +53,12 @@ variable "openshift_wait_till" {
   }
 }
 
+variable "openshift_disable_outbound_traffic_protection" {
+  description = "Include this option to allow public outbound access from the cluster workers."
+  type        = bool
+  default     = true
+}
+
 variable "openshift_disable_public_service_endpoint" {
   description = "Boolean value true if Public service endpoint to be disabled."
   type        = bool
@@ -146,7 +152,7 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   wait_till                       = var.openshift_wait_till
   disable_public_service_endpoint = var.openshift_disable_public_service_endpoint
   # By default, public outbound access is blocked in OpenShift versions 4.15
-  disable_outbound_traffic_protection = true
+  disable_outbound_traffic_protection = var.openshift_disable_outbound_traffic_protection
 
   dynamic "zones" {
     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
