@@ -28,7 +28,7 @@ resource "ibm_resource_instance" "cos-for-logs" {
   service           = "cloud-object-storage"
   plan              = var.cos_plan_for_logs
   location          = var.cos_region_for_logs
-  resource_group_id = local.resource_group_id
+  resource_group_id = ibm_resource_group.group.id
   tags              = var.tags
 
   parameters = {
