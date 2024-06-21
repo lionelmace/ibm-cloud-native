@@ -24,7 +24,7 @@ variable "cos_region_for_logs" {
 ##############################################################################
 
 resource "ibm_resource_instance" "cos-for-logs" {
-  name              = format("%s-%s", local.basename, "cos-scc")
+  name              = format("%s-%s", local.basename, "cos-for-logs")
   service           = "cloud-object-storage"
   plan              = var.cos_plan_for_logs
   location          = var.cos_region_for_logs
