@@ -37,8 +37,11 @@ openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 # openshift_machine_flavor = "bx2.4x16"
 
 openshift_disable_public_service_endpoint = false
-# By default, public outbound access is blocked in OpenShift 4.15
-openshift_disable_outbound_traffic_protection = true
+# Secure By default - Public outbound access is blocked as of OpenShift 4.15
+# Protect network traffic by enabling only the connectivity necessary 
+# for the cluster to operate and preventing access to the public Internet.
+# By default, value is false.
+openshift_disable_outbound_traffic_protection = false
 
 # Available values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 openshift_wait_till          = "OneWorkerNodeReady"
