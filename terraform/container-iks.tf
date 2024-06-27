@@ -162,12 +162,12 @@ resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
 # Integrating Logging requires the master node to be 'Ready'
 # If not, you will face a timeout error after 45mins
 ##############################################################################
-resource "ibm_ob_logging" "iks_connect_log" {
-  depends_on       = [module.log_analysis.key_guid]
-  cluster          = ibm_container_vpc_cluster.iks_cluster.id
-  instance_id      = module.log_analysis.guid
-  private_endpoint = var.log_private_endpoint
-}
+# resource "ibm_ob_logging" "iks_connect_log" {
+#   depends_on       = [module.log_analysis.key_guid]
+#   cluster          = ibm_container_vpc_cluster.iks_cluster.id
+#   instance_id      = module.log_analysis.guid
+#   private_endpoint = var.log_private_endpoint
+# }
 
 ##############################################################################
 # Connect Monitoring Service to cluster
