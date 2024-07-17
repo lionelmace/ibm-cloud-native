@@ -146,6 +146,7 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   force_delete_storage = var.openshift_force_delete_storage
   tags                 = var.tags
   update_all_workers   = var.openshift_update_all_workers
+  security_groups      = [ibm_is_security_group.sg-cluster-outbound.id]
 
   flavor                          = var.openshift_machine_flavor
   worker_count                    = var.openshift_worker_nodes_per_zone
