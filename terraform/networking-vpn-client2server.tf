@@ -99,6 +99,13 @@ resource "ibm_is_security_group_rule" "vpn_outbound_subnet" {
   remote    = element(var.subnet_cidr_blocks, count.index)
 }
 
+//LMA
+resource "ibm_is_security_group_rule" "vpn_outbound_subnet-nlb" {
+  group     = ibm_is_security_group.vpn.id
+  direction = "outbound"
+  remote    = "10.243.1.0/24"
+}
+
 ## VPN Server Routes
 ##############################################################################
 
