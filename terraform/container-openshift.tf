@@ -168,9 +168,9 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
     crk_id           = ibm_kms_key.key.key_id                 # ID of customer root key
     private_endpoint = true
   }
-  depends_on = [
-    ibm_iam_authorization_policy.roks-kms
-  ]
+  # depends_on = [
+  #   ibm_iam_authorization_policy.roks-kms
+  # ]
 }
 
 # Additional Worker Pool
