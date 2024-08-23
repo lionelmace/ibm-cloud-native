@@ -41,7 +41,7 @@ openshift_disable_public_service_endpoint = false
 # Protect network traffic by enabling only the connectivity necessary 
 # for the cluster to operate and preventing access to the public Internet.
 # By default, value is false.
-openshift_disable_outbound_traffic_protection = false
+openshift_disable_outbound_traffic_protection = true
 
 # Available values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 openshift_wait_till          = "OneWorkerNodeReady"
@@ -69,7 +69,8 @@ log_enable_platform_logs = false
 sysdig_plan                    = "graduated-tier"
 sysdig_enable_platform_metrics = false
 
-activity_tracker_name = "platform-activities"
+# activity_tracker_name = "platform-activities"
+activity_tracker_name = "shared-activity-tracker-de"
 
 ##############################################################################
 ## ICD Mongo

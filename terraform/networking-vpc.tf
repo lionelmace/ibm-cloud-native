@@ -120,6 +120,7 @@ resource "ibm_is_network_acl" "multizone_acl" {
   name           = "${local.basename}-multizone-acl"
   vpc            = ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
+  tags           = var.tags
 
   dynamic "rules" {
 
@@ -156,7 +157,7 @@ resource "ibm_is_subnet" "subnet" {
 }
 
 ##############################################################################
-# Create a VPC subnet that is dedicated to the VPC NLB
+# Create a VPC subnet that is dedicated to the private VPC NLB
 ##############################################################################
 
 resource "ibm_is_subnet" "subnet-nlb" {
