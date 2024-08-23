@@ -269,7 +269,7 @@ resource "ibm_ob_monitoring" "openshift_connect_monitoring" {
 # Require to encrypt OpenShift with Key in Key Protect
 resource "ibm_iam_authorization_policy" "roks-kms" {
   source_service_name         = "containers-kubernetes"
-  # source_resource_instance_id = ibm_container_vpc_cluster.roks_cluster.guid
+  source_resource_instance_id = ibm_container_vpc_cluster.roks_cluster.guid
   target_service_name         = "kms"
   target_resource_instance_id = ibm_resource_instance.key-protect.guid
   roles                       = ["Reader"]
