@@ -46,7 +46,7 @@ openshift_disable_outbound_traffic_protection = true
 
 # Available values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 openshift_wait_till          = "OneWorkerNodeReady"
-openshift_update_all_workers = false
+openshift_update_all_workers = true
 
 ##############################################################################
 ## Secrets Manager
