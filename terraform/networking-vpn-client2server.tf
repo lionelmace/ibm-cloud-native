@@ -140,6 +140,14 @@ resource "ibm_is_vpn_server_route" "route_to_subnet" {
   depends_on  = [ibm_iam_authorization_policy.secret_group_to_vpn]
 }
 
+resource "ibm_is_vpn_server_route" "route_to_subnet_nlb" {
+  vpn_server  = ibm_is_vpn_server.vpn.id
+  action      = "translate"
+  destination = "10.243.1.0/24"
+  name        = "route-2-subnet-nlb"
+  depends_on  = [ibm_iam_authorization_policy.secret_group_to_vpn]
+}
+
 ## VPN Output Configuration
 ##############################################################################
 
