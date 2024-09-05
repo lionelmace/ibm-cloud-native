@@ -8,7 +8,7 @@
 ##############################################################################
 
 resource "ibm_resource_instance" "logs_instance" {
-  resource_group_id = local.resource_group_id
+  resource_group_id = ibm_resource_group.group.id
   name              = format("%s-%s", local.basename, "cloud-logs")
   service           = "logs"
   plan              = "standard"
