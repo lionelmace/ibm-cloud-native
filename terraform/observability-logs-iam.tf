@@ -6,7 +6,7 @@ resource "ibm_iam_authorization_policy" "cloud-logs-cos" {
   source_service_name         = "logs"
   # source_resource_instance_id = ibm_resource_instance.logs_instance.guid
   target_service_name         = "cloud-object-storage"
-  # target_resource_instance_id = ibm_resource_instance.cos-for-logs.guid
+  target_resource_instance_id = ibm_resource_instance.cos-for-logs.guid
   roles                       = ["Writer"]
 }
 
