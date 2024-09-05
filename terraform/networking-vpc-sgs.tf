@@ -172,20 +172,19 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-4443" {
     port_max = 4443
   }
 }
-##############################################################################
 
-# Allow access to the OpenShift Console my home IP address
-# Required if allowing traffic only from CIS
+# New custom Security Group for VPC LB
+# Usecase: allow IP filtering
 ##############################################################################
-resource "ibm_is_security_group" "home-access" {
-  name           = format("%s-%s", local.basename, "access-from-home")
+resource "ibm_is_security_group" "custom-sg-for-lb" {
+  name           = format("%s-%s", local.basename, "custom-sg-for-lb")
   vpc            = ibm_is_vpc.vpc.id
   resource_group = ibm_resource_group.group.id
   tags           = var.tags
 }
 
 resource "ibm_is_security_group_rule" "sg-rule-inbound-home" {
-  group     = ibm_is_security_group.home-access.id
+  group     = ibm_is_security_group.custom-sg-for-lb.id
   direction = "inbound"
-  remote    = "90.8.141.48"
+  remote    = "2.15.18.161"
 }
