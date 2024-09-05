@@ -14,6 +14,7 @@ resource "ibm_iam_authorization_policy" "cloud-logs-cos" {
 resource "ibm_iam_authorization_policy" "cloud-logs-router" {
   source_service_name = "logs-router"
   target_service_name = "logs"
+  target_resource_instance_id = ibm_resource_instance.logs_instance.guid
   roles = ["Sender"]
 }
 
