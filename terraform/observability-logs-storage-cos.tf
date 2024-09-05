@@ -24,11 +24,11 @@ variable "cos_region_for_logs" {
 ##############################################################################
 
 resource "ibm_resource_instance" "cos-for-logs" {
-  name              = format("%s-%s", local.basename, "cos-for-logs")
+  name              = format("%s-%s", local.basename, "cos-scc")
   service           = "cloud-object-storage"
   plan              = var.cos_plan_for_logs
   location          = var.cos_region_for_logs
-  resource_group_id = ibm_resource_group.group.id
+  resource_group_id = local.resource_group_id
   tags              = var.tags
 
   parameters = {
@@ -48,7 +48,7 @@ resource "ibm_cos_bucket" "logs-bucket-data" {
   # SCC Control 2.1.1.2
   # Ensure Cloud Object Storage encryption is enabled with BYOK
   # Key management services can only be added during bucket creation.
-  depends_on  = [ibm_iam_authorization_policy.iam-auth-kms-cos]
+  depends_on  = [ibm_iam_authorization_policy.iam-auth-kms-cos-for-logs]
   kms_key_crn = ibm_kms_key.key.id
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
@@ -67,7 +67,7 @@ resource "ibm_cos_bucket" "logs-bucket-metrics" {
   # SCC Control 2.1.1.2
   # Ensure Cloud Object Storage encryption is enabled with BYOK
   # Key management services can only be added during bucket creation.
-  depends_on  = [ibm_iam_authorization_policy.iam-auth-kms-cos]
+  depends_on  = [ibm_iam_authorization_policy.iam-auth-kms-cos-for-logs]
   kms_key_crn = ibm_kms_key.key.id
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
