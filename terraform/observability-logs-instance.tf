@@ -27,24 +27,26 @@ resource "ibm_resource_instance" "logs_instance" {
 }
 
 # Cloud Logs Routing
+#
+# Warning: Conflicting if deployed in shared account that already has a target
 ##############################################################################
-resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
-  name = format("%s-%s", local.basename, "cloud-logs-router")
-  targets {
-    log_sink_crn = ibm_resource_instance.logs_instance.id
-    name = "my-cloud-logs-target"
-    parameters {
-      host = "www.example-2.com"
-      port = 80
-    }
-  }
-  targets {
-    log_sink_crn = module.log_analysis.crn
-    name = "my-log-analysis-target"
-    parameters {
-      host = "www.example-1.com"
-      port = 80
-      access_credential = "new-cred"
-    }
-  }
-}
+# resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
+#   name = format("%s-%s", local.basename, "cloud-logs-router")
+#   targets {
+#     log_sink_crn = ibm_resource_instance.logs_instance.id
+#     name = "my-cloud-logs-target"
+#     parameters {
+#       host = "www.example-2.com"
+#       port = 80
+#     }
+#   }
+#   targets {
+#     log_sink_crn = module.log_analysis.crn
+#     name = "my-log-analysis-target"
+#     parameters {
+#       host = "www.example-1.com"
+#       port = 80
+#       access_credential = "new-cred"
+#     }
+#   }
+# }
