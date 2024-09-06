@@ -70,8 +70,8 @@ log_enable_platform_logs = false
 sysdig_plan                    = "graduated-tier"
 sysdig_enable_platform_metrics = false
 
-# activity_tracker_name = "platform-activities"
-activity_tracker_name = "shared-activity-tracker-de"
+activity_tracker_name = "activity-tracker"
+# activity_tracker_name = "shared-activity-tracker-de"
 
 ##############################################################################
 ## ICD Mongo
