@@ -44,9 +44,9 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
     log_sink_crn = module.log_analysis.crn
     name = "my-log-analysis-target"
     parameters {
-      host = "www.example-1.com"
-      port = 80
-      access_credential = "new-cred"
+      host = "logs.private.${var.region}.logging.cloud.ibm.com"
+      port = 443
+      access_credential = module.log_analysis.ingestion_key
     }
   }
 }
