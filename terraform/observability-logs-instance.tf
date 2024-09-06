@@ -36,8 +36,8 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
     log_sink_crn = ibm_resource_instance.logs_instance.id
     name = "my-cloud-logs-target"
     parameters {
-      host = "www.example-2.com"
-      port = 80
+      host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+      port = 443
     }
   }
   targets {
