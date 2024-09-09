@@ -16,7 +16,7 @@ vpc_enable_public_gateway     = true
 ##############################################################################
 ## Cluster IKS
 ##############################################################################
-# iks_version               = "1.30.3"
+# iks_version               = "1.30.4"
 iks_worker_nodes_per_zone = 1
 iks_machine_flavor        = "bx2.4x16"
 # iks_machine_flavor    = "bx2.16x64" # ODF or Portworx flavor
