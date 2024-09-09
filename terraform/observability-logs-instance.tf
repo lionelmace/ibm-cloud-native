@@ -38,7 +38,8 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
     parameters {
       # Private Endpoint is not supported yet.
       # host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
-      host = ibm_resource_instance.logs_instance.extensions.external_ingress_public
+      # port = 443
+      host = ibm_resource_instance.logs_instance.extensions.external_ingress
       port = 8080
     }
   }
