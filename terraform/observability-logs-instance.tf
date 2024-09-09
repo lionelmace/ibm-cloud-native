@@ -36,8 +36,10 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
     log_sink_crn = ibm_resource_instance.logs_instance.id
     name = "my-cloud-logs-target"
     parameters {
-      host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
-      port = 443
+      # Private Endpoint is not supported yet.
+      # host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+      host = ibm_resource_instance.logs_instance.extensions.external_ingress_public
+      port = 8080
     }
   }
   targets {
