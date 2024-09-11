@@ -38,4 +38,8 @@ output "activity_tracker_id" {
   value = local.activity_tracker_id
 }
 
+resource "ibm_resource_key" "at_key" {
+  name                 = format("%s-%s", local.basename, "at-key")
+  resource_instance_id = local.activity_tracker_id
+}
 
