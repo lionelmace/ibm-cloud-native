@@ -18,7 +18,7 @@ resource "ibm_atracker_target" "at_logs_target" {
   cloudlogs_endpoint {
     target_crn = ibm_resource_instance.logs_instance.id
   }
-  name        = format("%s-%s", local.basename, "at-logs-target"
+  name        = format("%s-%s", local.basename, "at-logs-target")
   target_type = "cloud_logs"
   region      = var.region
 }
@@ -29,7 +29,7 @@ resource "ibm_atracker_target" "at_mezmo_target" {
     target_crn = local.activity_tracker_id
     ingestion_key = ibm_resource_key.at_key.credentials.ingestion_key
   }
-  name = format("%s-%s", local.basename, "at-mezmo-target"
+  name = format("%s-%s", local.basename, "at-mezmo-target")
   target_type = "logdna"
   region = var.region
 }
