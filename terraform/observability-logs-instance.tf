@@ -29,7 +29,8 @@ resource "ibm_resource_instance" "logs_instance" {
 # Cloud Logs Routing
 ##############################################################################
 resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
-  name = format("%s-%s", local.basename, "cloud-logs-router")
+  name   = format("%s-%s", local.basename, "cloud-logs-router")
+  region = var.region
   targets {
     log_sink_crn = ibm_resource_instance.logs_instance.id
     name         = "my-cloud-logs-target"
