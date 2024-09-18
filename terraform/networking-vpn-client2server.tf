@@ -29,7 +29,6 @@ resource "ibm_is_vpn_server" "vpn" {
   protocol               = "udp"
   subnets = [
     ibm_is_subnet.subnet[0].id, ibm_is_subnet.subnet[1].id
-    # ibm_is_subnet.subnet.id
   ]
   security_groups = [
     ibm_is_vpc.vpc.default_security_group,
