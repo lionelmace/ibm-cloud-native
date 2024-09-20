@@ -34,8 +34,9 @@ iks_update_all_workers = true
 openshift_version = ""
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
-openshift_machine_flavor = "bx2.16x64" # ODF Flavors
-# openshift_machine_flavor = "bx2.4x16"
+openshift_machine_flavor = "bx2.4x16"
+# openshift_machine_flavor = "bx2.16x64" # ODF Flavors
+
 
 openshift_disable_public_service_endpoint = false
 # Secure By default - Public outbound access is blocked as of OpenShift 4.15
