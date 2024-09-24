@@ -8,4 +8,5 @@ module "observability_agents" {
   is_vpc_cluster                   = true
   cluster_id                       = ibm_container_vpc_cluster.roks_cluster.id
   cluster_resource_group_id        = ibm_container_vpc_cluster.roks_cluster.id
+  log_analysis_enabled = false
 }
