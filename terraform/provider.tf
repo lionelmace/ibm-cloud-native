@@ -41,5 +41,6 @@ provider "helm" {
 
 data "ibm_container_cluster_config" "roks_cluster_config" {
   # update this value with the Id of the cluster where these agents will be provisioned
-  cluster_name_id = ibm_container_vpc_cluster.roks_cluster.id
+  cluster_name_id   = ibm_container_vpc_cluster.roks_cluster.id
+  resource_group_id = ibm_resource_group.group.id
 }
