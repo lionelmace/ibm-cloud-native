@@ -34,3 +34,16 @@ resource "ibm_atracker_target" "at_mezmo_target" {
   target_type = "logdna"
   region      = var.region
 }
+
+
+resource "ibm_atracker_settings" "atracker_settings" {
+  default_targets = [ ibm_atracker_target.at_logs_target.id ]
+  metadata_region_primary = var.region
+  metadata_region_backup = "eu-es"
+  permitted_target_regions = [ "eu-de", "eu-es", "eu-gb" ]
+  private_api_endpoint_only = false
+  # Optional but recommended lifecycle flag to ensure target delete order is correct
+  lifecycle {
+    create_before_destroy = true
+  }
+}
