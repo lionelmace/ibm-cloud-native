@@ -44,9 +44,9 @@ variable "icd_mongo_users" {
 }
 
 # MongoDB cannot support both public and private endpoints simultaneously.
-# This cannot be changed after provisioning.
+# This setting cannot be changed after provisioning.
 variable "icd_mongo_service_endpoints" {
-  default     = "public"
+  default     = "private"
   type        = string
   description = "Types of the service endpoints. Possible values are 'public', 'private', 'public-and-private'."
 }
@@ -155,9 +155,10 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
 locals {
   endpoints = [
     {
-      name     = "mongo",
+      name     = "mongo"
       crn      = ibm_database.icd_mongo.id
       hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
+      conn     = "http://${ibm_database.icd_mongo.ibm_database_connection.icd_conn}"
     }
   ]
 }
