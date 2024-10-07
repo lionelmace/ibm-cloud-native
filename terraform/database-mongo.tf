@@ -158,7 +158,6 @@ locals {
       name     = "mongo"
       crn      = ibm_database.icd_mongo.id
       hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
-      conn     = "http://${ibm_database.icd_mongo.ibm_database_connection.icd_conn}"
     }
   ]
 }

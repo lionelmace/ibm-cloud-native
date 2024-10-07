@@ -107,7 +107,8 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
   name              = format("%s-%s", local.basename, var.iks_cluster_name)
   vpc_id            = ibm_is_vpc.vpc.id
   resource_group_id = ibm_resource_group.group.id
-  # Optional: Specify Kubes version. If not included, default version is used
+  
+  # Optional: Specify Kube version. If not included, default version is used
   kube_version         = var.iks_version == "" ? null : var.iks_version
   tags                 = var.tags
   update_all_workers   = var.iks_update_all_workers
