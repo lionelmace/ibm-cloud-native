@@ -45,7 +45,8 @@ module "observability_agents" {
   logs_agent_enabled          = true
   logs_agent_iam_mode         = "IAMAPIKey"
   logs_agent_iam_api_key      = module.iam_service_id.service_id_apikey
-  cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+  # cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+  cloud_logs_ingress_endpoint = ibm_resource_instance.ogs_instance.extensions.external_ingress_private
   cloud_logs_ingress_port     = 3443
   logs_agent_enable_scc       = false # only true for Openshift
 
