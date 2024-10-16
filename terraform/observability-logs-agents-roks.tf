@@ -48,7 +48,7 @@ module "observability_agents" {
   # cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   cloud_logs_ingress_port     = 3443
-  logs_agent_enable_scc       = false # only true for Openshift
+  logs_agent_enable_scc       = true # only true for Openshift
 
   # Monitoring agent
   cloud_monitoring_enabled = false
