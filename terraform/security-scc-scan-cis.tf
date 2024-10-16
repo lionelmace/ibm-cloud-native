@@ -1,31 +1,10 @@
 
-## SCC Instance
-##############################################################################
-resource "ibm_resource_instance" "scc_instance" {
-  name              = format("%s-%s", local.basename, "scc")
-  service           = "compliance"
-  plan              = "security-compliance-center-standard-plan"
-  location          = var.region
-  resource_group_id = ibm_resource_group.group.id
-}
-
-resource "ibm_scc_instance_settings" "scc_instance_settings" {
-  instance_id = ibm_resource_instance.scc_instance.guid
-  event_notifications {
-    instance_crn = ibm_resource_instance.event-notifications.crn
-  }
-  object_storage {
-    instance_crn = ibm_resource_instance.cos-scc.crn
-    bucket       = ibm_cos_bucket.scc-bucket.bucket_name
-  }
-}
-
 ## SCC Profile Attachment
 ##############################################################################
 resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
   name        = format("%s-%s", local.basename, "cis")
   depends_on  = [ibm_scc_instance_settings.scc_instance_settings]
-  profile_id  = "a0bd1ee2-1ed3-407e-a2f4-ce7a1a38f54d" # CIS IBM Foundations v1.0.0
+  profile_id  = "48279384-3d29-4089-8259-8ed354774b4a" # CIS IBM Foundations v1.1.0
   instance_id = ibm_resource_instance.scc_instance.guid
   description = "scc-profile-attachment"
   scope {
@@ -57,8 +36,8 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
   attachment_parameters {
     parameter_name         = "tls_version"
     parameter_display_name = "IBM Cloud Internet Services TLS version"
-    parameter_type         = "string"
-    parameter_value        = "1.3"
+    parameter_type         = "string_list"
+    parameter_value        = "['1.2', '1.3']"
     assessment_type        = "automated"
     assessment_id          = "rule-e16fcfea-fe21-4d30-a721-423611481fea"
   }
@@ -94,16 +73,14 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_instance" {
     assessment_type        = "automated"
     assessment_id          = "rule-f1e80ee7-88d5-4bf2-b42f-c863bb24601c"
   }
+  attachment_parameters {
+    parameter_name         = "exclude_default_security_groups"
+    parameter_display_name = "Exclude the default security groups"
+    parameter_type         = "string_list"
+    parameter_value        = "['Update the parameter']"
+    assessment_type        = "automated"
+    assessment_id          = "rule-96527f89-1867-4581-b923-1400e04661e0"
+  }
+
 }
 
-## IAM
-##############################################################################
-# resource "ibm_iam_access_group_policy" "iam-scc" {
-#   access_group_id = ibm_iam_access_group.accgrp.id
-#   roles           = ["Reader", "Viewer"]
-
-#   resources {
-#     service           = "compliance"
-#     resource_group_id = ibm_resource_group.group.id
-#   }
-# }
