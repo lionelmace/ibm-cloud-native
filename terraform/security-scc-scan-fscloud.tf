@@ -963,4 +963,12 @@ resource "ibm_scc_profile_attachment" "scc_profile_attachment_fs" {
     assessment_type        = "automated"
     assessment_id          = "rule-a8a69cd6-a902-4144-b652-8be68600a029"
   }
+  attachment_parameters {
+    parameter_name         = "exclude_default_security_groups"
+    parameter_display_name = "Exclude the default security groups"
+    parameter_type         = "string_list"
+    parameter_value        = "['Update the parameter']"
+    assessment_type        = "automated"
+    assessment_id          = "rule-96527f89-1867-4581-b923-1400e04661e0"
+  }
 }
