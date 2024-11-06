@@ -4,7 +4,7 @@
 ##############################################################################
 
 module "create_profile_attachment" {
-  source                 = "terraform-ibm-modules/scc/ibm/modules/attachment"
+  source                 = "terraform-ibm-modules/scc/ibm//modules/attachment"
   profile_name           = "IBM Cloud Framework for Financial Services"
   profile_version        = "latest"
   scc_instance_id        = ibm_resource_instance.scc_instance.guid
