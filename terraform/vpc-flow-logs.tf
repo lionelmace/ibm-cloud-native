@@ -24,3 +24,19 @@ resource "ibm_is_flow_log" "example" {
   active         = true
   storage_bucket = ibm_cos_bucket.bucket-flow-logs.bucket_name
 }
+
+resource "ibm_iam_authorization_policy" "iam-auth-flowlogs-cos" {
+  source_service_name         = "is"
+  source_resource_type        = "flow-log-collector"
+  target_service_name         = "cloud-object-storage"
+  target_resource_instance_id = ibm_resource_instance.cos-flow-logs.id
+  roles                       = ["Reader", "Writer"]
+}
+
+# ID:                        4a4bc075-cafc-4143-b1fd-baee962d7143
+# Source service name:       is
+# Source service instance:   All instances
+# Source resource type:      flow-log-collector
+# Target service name:       cloud-object-storage
+# Target service instance:   f18612b6-f80f-43db-ac80-5a945047f64c
+# Roles:                     Reader, Writer
