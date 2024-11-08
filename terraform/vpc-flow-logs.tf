@@ -17,13 +17,12 @@ resource "ibm_cos_bucket" "bucket-flow-logs" {
   storage_class        = "standard"
 }
 
-resource "ibm_is_flow_log" "example" {
+resource "ibm_is_flow_log" "flowlog" {
   depends_on     = [ibm_cos_bucket.bucket-flow-logs]
   name           = format("%s-%s", local.basename, "flow-logs")
   target         = ibm_is_vpc.vpc.id
   active         = true
   storage_bucket = ibm_cos_bucket.bucket-flow-logs.bucket_name
-  # depends_on = [ibm_iam_authorization_policy.iam-auth-flowlogs-cos]
 }
 
 resource "ibm_iam_authorization_policy" "iam-auth-flowlogs-cos" {
@@ -33,11 +32,3 @@ resource "ibm_iam_authorization_policy" "iam-auth-flowlogs-cos" {
   target_resource_instance_id = ibm_resource_instance.cos-flow-logs.guid
   roles                       = ["Reader", "Writer"]
 }
-
-# ID:                        4a4bc075-cafc-4143-b1fd-baee962d7143
-# Source service name:       is
-# Source service instance:   All instances
-# Source resource type:      flow-log-collector
-# Target service name:       cloud-object-storage
-# Target service instance:   f18612b6-f80f-43db-ac80-5a945047f64c
-# Roles:                     Reader, Writer
