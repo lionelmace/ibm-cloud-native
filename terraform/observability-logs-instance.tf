@@ -41,13 +41,14 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
       port = 443
     }
   }
-  targets {
-    log_sink_crn = module.log_analysis.crn
-    name         = "my-log-analysis-target"
-    parameters {
-      host              = "logs.private.${var.region}.logging.cloud.ibm.com"
-      port              = 443
-      access_credential = module.log_analysis.ingestion_key
-    }
-  }
+  # DEPRECATED (LMA)
+  # targets {
+  #   log_sink_crn = module.log_analysis.crn
+  #   name         = "my-log-analysis-target"
+  #   parameters {
+  #     host              = "logs.private.${var.region}.logging.cloud.ibm.com"
+  #     port              = 443
+  #     access_credential = module.log_analysis.ingestion_key
+  #   }
+  # }
 }
