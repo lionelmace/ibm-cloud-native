@@ -75,7 +75,7 @@ variable "iks_worker_pools" {
     {
       pool_name        = "dev"
       machine_type     = "cx2.2x4"
-      workers_per_zone = 0
+      workers_per_zone = 1
       # },
       # {
       #     pool_name        = "secondary"
