@@ -14,7 +14,7 @@ variable "sysdig_plan" {
 }
 
 variable "sysdig_service_endpoints" {
-  description = "Only allow the value public-and-private. Previouslly it incorrectly allowed values of public and private however it is not possible to create public only or private only Cloud Monitoring instances."
+  description = "Only allow the value public-and-private. Previously it incorrectly allowed values of public and private however it is not possible to create public only or private only Cloud Monitoring instances."
   type        = string
   default     = "public-and-private"
 }
