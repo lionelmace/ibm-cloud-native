@@ -34,7 +34,7 @@ resource "ibm_cos_bucket" "backup-bucket" {
 ##############################################################################
 resource "ibm_resource_key" "cos-hmac-backup" {
   name                 = format("%s-%s", local.basename, "cos-backup-key")
-  resource_instance_id = ibm_resource_instance.cos.id
+  resource_instance_id = ibm_resource_instance.cos-backup.id
   role                 = "Writer"
   parameters           = { HMAC = true }
 }
