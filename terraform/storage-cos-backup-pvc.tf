@@ -33,7 +33,7 @@ resource "ibm_cos_bucket" "backup-bucket" {
 #   endpoint_type = "private"
 }
 
-## Service Credentials
+## HMAC Service Credentials
 ##############################################################################
 resource "ibm_resource_key" "cos-hmac-backup" {
   name                 = format("%s-%s", local.basename, "cos-backup-key")
@@ -56,4 +56,19 @@ locals {
 
 output "cos-backkup-credentials" {
   value = local.backup-endpoints
+}
+
+# Store your IBM COS credentials in a Kubernetes secret.
+resource "kubernetes_secret" "cos_write_access" {
+  metadata {
+    name      = "cos-write-access"
+    namespace = "default"
+  }
+
+  data = {
+    "access-key" = base64encode(local.backup-endpoints.cos_access_key_id)
+    "secret-key" = base64encode(local.backup-endpoints.cos_secret_access_key)
+  }
+
+  type = "ibm/ibmc-s3fs"
 }
