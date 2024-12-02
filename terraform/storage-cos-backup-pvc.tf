@@ -40,7 +40,7 @@ resource "ibm_resource_key" "cos-hmac-backup" {
 }
 
 locals {
-  endpoints = [
+  backup-endpoints = [
     {
       name                  = "backup",
       cos_access_key_id     = nonsensitive(ibm_resource_key.cos-hmac-backup.credentials["cos_hmac_keys.access_key_id"])
@@ -51,6 +51,6 @@ locals {
   ]
 }
 
-output "cos-credentials" {
-  value = local.endpoints
+output "cos-backkup-credentials" {
+  value = local.backup-endpoints
 }
