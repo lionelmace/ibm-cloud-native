@@ -1,8 +1,11 @@
 ##############################################################################
 # COS Instance with 1 bucket
+# 
+# Source:
+# https://cloud.ibm.com/docs/containers?topic=containers-utilities#ibmcloud-backup-restore
 ##############################################################################
 
-# COS Service for OpenShift Internal Registry
+# COS to backup PVC
 ##############################################################################
 
 resource "ibm_resource_instance" "cos-backup" {

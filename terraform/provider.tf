@@ -27,6 +27,16 @@ provider "ibm" {
   region           = var.region
 }
 
+provider "kubernetes" {
+  host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+  token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+  cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  # config_path = "~/.kube/config" # Path to your kubeconfig file
+  # config_context = "your-context" # Optional: specify the kube context
+}
+
+# Helm is used to install IBM Cloud Logs
+##############################################################################
 provider "helm" {
   kubernetes {
     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
