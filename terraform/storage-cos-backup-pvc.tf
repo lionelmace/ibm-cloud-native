@@ -1,0 +1,70 @@
+##############################################################################
+# COS Instance with 1 bucket
+##############################################################################
+
+# COS Variables
+##############################################################################
+variable "cos_plan" {
+  description = "COS plan type"
+  type        = string
+  default     = "standard"
+}
+
+variable "cos_region" {
+  description = "Enter Region for provisioning"
+  type        = string
+  default     = "global"
+}
+
+# COS Service for OpenShift Internal Registry
+##############################################################################
+
+resource "ibm_resource_instance" "cos-backup" {
+  name              = format("%s-%s", local.basename, "cos-backup")
+  service           = "cloud-object-storage"
+  plan              = var.cos_plan
+  location          = var.cos_region
+  resource_group_id = ibm_resource_group.group.id
+  tags              = var.tags
+
+  parameters = {
+    service-endpoints = "private"
+  }
+}
+
+## COS Bucket for PVC Backup
+##############################################################################
+resource "ibm_cos_bucket" "backup-bucket" {
+  bucket_name          = format("%s-%s", local.basename, "cos-bucket-backup")
+  resource_instance_id = ibm_resource_instance.cos-backup.id
+  storage_class        = "smart"
+
+  cross_region_location = "eu"
+#   endpoint_type         = "public"
+  endpoint_type = "private"
+}
+
+## Service Credentials
+##############################################################################
+resource "ibm_resource_key" "cos-hmac-backup" {
+  name                 = format("%s-%s", local.basename, "cos-backup-key")
+  resource_instance_id = ibm_resource_instance.cos.id
+  role                 = "Writer"
+  parameters           = { HMAC = true }
+}
+
+locals {
+  endpoints = [
+    {
+      name                  = "backup",
+      cos_access_key_id     = nonsensitive(ibm_resource_key.cos-hmac-backup.credentials["cos_hmac_keys.access_key_id"])
+      cos_secret_access_key = nonsensitive(ibm_resource_key.cos-hmac-backup.credentials["cos_hmac_keys.secret_access_key"])
+      cos_endpoint          = ibm_cos_bucket.backup-bucket.s3_endpoint_direct
+      cos_bucket_name       = ibm_cos_bucket.backup-bucket.bucket_name
+    }
+  ]
+}
+
+output "cos-credentials" {
+  value = local.endpoints
+}
