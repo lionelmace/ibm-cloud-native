@@ -29,8 +29,8 @@ resource "ibm_cos_bucket" "backup-bucket" {
   storage_class        = "smart"
 
   cross_region_location = "eu"
-#   endpoint_type         = "public"
-  endpoint_type = "private"
+  endpoint_type         = "public"
+#   endpoint_type = "private"
 }
 
 ## Service Credentials
