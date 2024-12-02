@@ -54,7 +54,7 @@ locals {
   ]
 }
 
-output "cos-backkup-credentials" {
+output "cos-backup-credentials" {
   value = local.backup-endpoints
 }
 
@@ -66,8 +66,8 @@ resource "kubernetes_secret" "cos_write_access" {
   }
 
   data = {
-    "access-key" = base64encode(local.backup-endpoints.cos_access_key_id)
-    "secret-key" = base64encode(local.backup-endpoints.cos_secret_access_key)
+    "access-key" = base64encode(local.backup-endpoints[0].cos_access_key_id)
+    "secret-key" = base64encode(local.backup-endpoints[0].cos_secret_access_key)
   }
 
   type = "ibm/ibmc-s3fs"
