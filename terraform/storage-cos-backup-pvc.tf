@@ -59,6 +59,7 @@ output "cos-backup-credentials" {
 }
 
 # Store your IBM COS credentials in a Kubernetes secret.
+##############################################################################
 resource "kubernetes_secret" "cos_write_access" {
   metadata {
     name      = "cos-write-access"
@@ -71,4 +72,48 @@ resource "kubernetes_secret" "cos_write_access" {
   }
 
   type = "ibm/ibmc-s3fs"
+}
+
+# Backup Restore Helm chart to back up data in file/block storage PVC to COS
+##############################################################################
+resource "helm_release" "backup-pvc" {
+  name       = "my-backup-pvc"
+  chart      = "ibmcloud-backup-restore"
+  repository = "icr.io/iks-charts/ibmcloud-backup-restore"
+  namespace  = "default"
+
+  # Optional: Set values inline (overrides values.yaml if conflicts exist)
+  set {
+    name  = "pullPolicy"
+    value = "Always"
+  }
+  set {
+    name  = "tag"
+    value = "latest"
+  }
+
+  # Dynamically reference backup-endpoints
+  dynamic "set" {
+    for_each = {
+      cos_access_key_id     = local.backup-endpoints[0].cos_access_key_id
+      cos_secret_access_key = local.backup-endpoints[0].cos_secret_access_key
+      cos_endpoint          = local.backup-endpoints[0].cos_endpoint
+      cos_bucket_name       = local.backup-endpoints[0].cos_bucket_name
+    }
+
+    content {
+      name  = set.key
+      value = set.value
+    }
+  }
+
+  # Additional sets
+  set {
+    name  = "my_first_pvc_backup"
+    value = "latest"
+  }
+  set {
+    name  = "PVC_NAMES"
+    value = "latest"
+  }
 }
