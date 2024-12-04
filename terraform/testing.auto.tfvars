@@ -36,6 +36,13 @@ openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
+roks_worker_pools = [
+    {
+      pool_name        = "dev"
+      machine_type     = "bx2.4x16"
+      workers_per_zone = 1
+    }
+]
 
 openshift_disable_public_service_endpoint = false
 # Secure By default - Public outbound access is blocked as of OpenShift 4.15
