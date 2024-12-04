@@ -65,13 +65,12 @@ resource "kubernetes_secret" "cos_write_access" {
     name      = "cos-write-access"
     namespace = "default"
   }
-
   data = {
     "access-key" = base64encode(local.backup-endpoints[0].cos_access_key_id)
     "secret-key" = base64encode(local.backup-endpoints[0].cos_secret_access_key)
   }
-
   type = "ibm/ibmc-s3fs"
+  depends_on = [ibm_container_vpc_cluster.roks_cluster.id]
 }
 
 # Backup Restore Helm chart to back up data in file/block storage PVC to COS
