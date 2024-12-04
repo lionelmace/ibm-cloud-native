@@ -103,16 +103,16 @@ variable "roks_worker_pools" {
   }))
 
   default = [
-    {
-      pool_name        = "dev"
-      machine_type     = "bx2.4x16"
-      workers_per_zone = 1
-    },
-    {
-      pool_name        = "odf"
-      machine_type     = "bx2.16x64"
-      workers_per_zone = 1
-    }
+    # {
+    #   pool_name        = "dev"
+    #   machine_type     = "bx2.4x16"
+    #   workers_per_zone = 1
+    # },
+    # {
+    #   pool_name        = "odf"
+    #   machine_type     = "bx2.16x64"
+    #   workers_per_zone = 1
+    # }
   ]
 
   validation {
