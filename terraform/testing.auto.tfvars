@@ -36,11 +36,12 @@ openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
+# Scale up by adding a worker pool or Scale down by setting the number of worker to Zero
 roks_worker_pools = [
     {
       pool_name        = "dev"
       machine_type     = "bx2.4x16"
-      workers_per_zone = 1
+      workers_per_zone = 0
     }
 ]
 
