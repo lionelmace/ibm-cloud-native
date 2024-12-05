@@ -72,16 +72,16 @@ variable "iks_worker_pools" {
   }))
 
   default = [
-    {
-      pool_name        = "dev"
-      machine_type     = "cx2.2x4"
-      workers_per_zone = 1
-      # },
-      # {
-      #     pool_name        = "secondary"
-      #     machine_type     = "bx2.16x64"
-      #     workers_per_zone = 1
-    }
+    # {
+    #   pool_name        = "secondary"
+    #   machine_type     = "bx2.16x64"
+    #   workers_per_zone = 1
+    # },
+    # {
+    #   pool_name        = "dev"
+    #   machine_type     = "cx2.2x4"
+    #   workers_per_zone = 1
+    # }
   ]
 
   validation {

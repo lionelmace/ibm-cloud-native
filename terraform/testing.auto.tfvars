@@ -20,6 +20,15 @@ iks_worker_nodes_per_zone = 1
 iks_machine_flavor        = "bx2.4x16"
 # iks_machine_flavor    = "bx2.16x64" # ODF or Portworx flavor
 
+# Scale up by adding a worker pool or Scale down by setting the number of worker to Zero
+iks_worker_pools = [
+    {
+      pool_name        = "secondary"
+      machine_type     = "bx2.4x16"
+      workers_per_zone = 0
+    }
+]
+
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 iks_wait_till          = "IngressReady"
 iks_update_all_workers = true
@@ -29,7 +38,7 @@ iks_update_all_workers = true
 ##############################################################################
 ## Cluster ROKS
 ##############################################################################
-# Optional: Specify OpenShift version. If not included, 4.16 is used
+# Optional: Specify OpenShift version. If not included, 4.17 is used
 openshift_version = ""
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"

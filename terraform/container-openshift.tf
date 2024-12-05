@@ -104,13 +104,13 @@ variable "roks_worker_pools" {
 
   default = [
     # {
-    #   pool_name        = "dev"
-    #   machine_type     = "bx2.4x16"
+    #   pool_name        = "odf"
+    #   machine_type     = "bx2.16x64"
     #   workers_per_zone = 1
     # },
     # {
-    #   pool_name        = "odf"
-    #   machine_type     = "bx2.16x64"
+    #   pool_name        = "dev"
+    #   machine_type     = "bx2.4x16"
     #   workers_per_zone = 1
     # }
   ]
@@ -138,8 +138,8 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   name              = format("%s-%s", local.basename, var.openshift_cluster_name)
   vpc_id            = ibm_is_vpc.vpc.id
   resource_group_id = ibm_resource_group.group.id
-  # Optional: Specify OpenShift version. If not included, 4.16 is used
-  kube_version         = var.openshift_version == "" ? "4.16_openshift" : var.openshift_version
+  # Optional: Specify OpenShift version. If not included, 4.17 is used
+  kube_version         = var.openshift_version == "" ? "4.17_openshift" : var.openshift_version
   operating_system     = var.openshift_os
   cos_instance_crn     = var.is_openshift_cluster ? ibm_resource_instance.cos_openshift_registry[0].id : null
   entitlement          = var.entitlement
@@ -193,21 +193,6 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
     }
   }
 }
-
-# Retrieve VPC LB attached to the cluster
-##############################################################################
-# data "ibm_container_vpc_cluster" "roks_cluster" {
-#   name = ibm_container_vpc_cluster.roks_cluster.id
-# }
-
-# data "ibm_container_vpc_alb" "roks_cluster_alb" {
-#   alb_id = data.ibm_container_vpc_cluster.roks_cluster.albs[0].id
-# }
-
-# output "roks_cluster_alb" {
-#   value = data.ibm_container_vpc_alb.roks_cluster_alb
-# }
-
 
 ## IAM
 ##############################################################################
