@@ -156,10 +156,13 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   disable_outbound_traffic_protection = var.openshift_disable_outbound_traffic_protection
 
   dynamic "zones" {
-    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    # for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    for_each = ibm_is_subnet.subnet
     content {
-      name      = zones.value.zone
-      subnet_id = zones.value.id
+      # name      = zones.value.zone
+      name      = each.value.zone
+      # subnet_id = zones.value.id
+      subnet_id = each.value.id
     }
   }
 
@@ -186,10 +189,13 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
   operating_system  = var.openshift_os
 
   dynamic "zones" {
-    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    # for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    for_each = ibm_is_subnet.subnet
     content {
-      name      = zones.value.zone
-      subnet_id = zones.value.id
+      # name      = zones.value.zone
+      name      = each.value.zone
+      # subnet_id = zones.value.id
+      subnet_id = each.value.id
     }
   }
 }
