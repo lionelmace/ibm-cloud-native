@@ -35,19 +35,19 @@ provider "kubernetes" {
   # config_context = "your-context" # Optional: specify the kube context
 }
 
-# provider "helm" {
-#   kubernetes {
-#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   }
-#   # IBM Cloud credentials are required to authenticate to the helm repo
-#   registry {
-#     url      = "oci://icr.io/iks-charts"
-#     username = "iamapikey"
-#     password = var.ibmcloud_api_key # replace with an IBM cloud apikey
-#   }
-# }
+provider "helm" {
+  kubernetes {
+    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  }
+  # IBM Cloud credentials are required to authenticate to the helm repo
+  registry {
+    url      = "oci://icr.io/iks-charts"
+    username = "iamapikey"
+    password = var.ibmcloud_api_key # replace with an IBM cloud apikey
+  }
+}
 
 
 # Helm is used to install IBM Cloud Logs
