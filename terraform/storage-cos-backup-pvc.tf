@@ -80,6 +80,7 @@ resource "helm_release" "backup-pvc" {
   # chart      = "ibmcloud-backup-restore"
   chart       = "oci://icr.io/iks-charts/ibmcloud-backup-restore"
   # repository = "icr.io/iks-charts/ibmcloud-backup-restore"
+  version = "1.0.10"
   namespace  = "default"
 
   # Optional: Set values inline (overrides values.yaml if conflicts exist)
