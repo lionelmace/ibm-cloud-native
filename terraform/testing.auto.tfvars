@@ -20,13 +20,15 @@ iks_worker_nodes_per_zone = 1
 iks_machine_flavor        = "bx2.4x16"
 # iks_machine_flavor    = "bx2.16x64" # ODF or Portworx flavor
 
-# Scale up by adding a worker pool or Scale down by setting the number of worker to Zero
+# Scale up   by adding a worker pool
+# Scale down by setting the number of worker to Zero
+# Uncomment to create worker pool
 iks_worker_pools = [
-    {
-      pool_name        = "secondary"
-      machine_type     = "bx2.4x16"
-      workers_per_zone = 1
-    }
+    # {
+    #   pool_name        = "secondary"
+    #   machine_type     = "bx2.4x16"
+    #   workers_per_zone = 1
+    # }
 ]
 
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
@@ -45,13 +47,15 @@ openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 
-# Scale up by adding a worker pool or Scale down by setting the number of worker to Zero
+# Scale up   by adding a worker pool
+# Scale down by setting the number of worker to Zero
+# Uncomment to create worker pool
 roks_worker_pools = [
-    {
-      pool_name        = "dev"
-      machine_type     = "bx2.4x16"
-      workers_per_zone = 1
-    }
+    # {
+    #   pool_name        = "dev"
+    #   machine_type     = "bx2.4x16"
+    #   workers_per_zone = 1
+    # }
 ]
 
 openshift_disable_public_service_endpoint = false
