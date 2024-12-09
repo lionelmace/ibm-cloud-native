@@ -45,8 +45,7 @@ provider "helm" {
   }
   # IBM Cloud credentials are required to authenticate to the helm repo
   registry {
-    # url      = "oci://icr.io/iks-charts"
-    url      = "icr.io/iks-charts"
+    url      = "oci://icr.io/iks-charts"
     username = "iamapikey"
     password = var.ibmcloud_api_key # replace with an IBM cloud apikey
   }
