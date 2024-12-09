@@ -38,9 +38,10 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+    config_path = try (data.ibm_container_cluster_config.openshift[0].config_file_path, "")
+    # host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+    # token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+    # cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
   }
   # IBM Cloud credentials are required to authenticate to the helm repo
   registry {
