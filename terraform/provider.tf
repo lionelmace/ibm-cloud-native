@@ -44,11 +44,11 @@ provider "helm" {
     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
   }
   # IBM Cloud credentials are required to authenticate to the helm repo
-  registry {
-    url      = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
-    username = "iamapikey"
-    password = var.ibmcloud_api_key
-  }
+  # registry {
+  #   url      = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  #   username = "iamapikey"
+  #   password = var.ibmcloud_api_key
+  # }
 }
 
 
