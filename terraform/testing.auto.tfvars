@@ -55,7 +55,13 @@ roks_worker_pools = [
     pool_name        = "dev"
     machine_type     = "bx2.4x16"
     workers_per_zone = 1
+  },
+  {
+    pool_name        = "default"
+    machine_type     = "mx2.4x32"
+    workers_per_zone = 1
   }
+
 ]
 
 openshift_disable_public_service_endpoint = false
