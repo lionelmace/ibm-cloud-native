@@ -77,7 +77,8 @@ resource "kubernetes_secret" "cos_write_access" {
 ##############################################################################
 resource "helm_release" "backup-pvc" {
   name      = "my-backup-pvc"
-  chart     = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  # chart     = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  chart     = "https://icr.io/helm/iks-charts/charts/ibmcloud-backup-restore-1.0.10.tgz"
   version   = "1.0.10"
   namespace = "default"
 
