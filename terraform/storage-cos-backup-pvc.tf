@@ -77,9 +77,11 @@ resource "kubernetes_secret" "cos_write_access" {
 ##############################################################################
 resource "helm_release" "backup-pvc" {
   name      = "my-backup-pvc"
-  # chart     = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  # chart     = "oci://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  # oci prefix does not work, the old charts aren't in a Helm Registry.
+  # They are in a legacy Helm Repo and need to be pointed to directly.
   chart     = "https://icr.io/helm/iks-charts/charts/ibmcloud-backup-restore-1.0.10.tgz"
-  version   = "1.0.10"
+  # version   = "1.0.10"
   namespace = "default"
 
   # Optional: Set values inline (overrides values.yaml if conflicts exist)
