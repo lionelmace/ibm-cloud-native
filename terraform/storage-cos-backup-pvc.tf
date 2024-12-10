@@ -30,7 +30,7 @@ resource "ibm_cos_bucket" "backup-bucket" {
 
   cross_region_location = "eu"
   endpoint_type         = "public"
-#   endpoint_type = "private"
+  #   endpoint_type = "private"
 }
 
 ## HMAC Service Credentials
@@ -69,20 +69,17 @@ resource "kubernetes_secret" "cos_write_access" {
     "access-key" = base64encode(local.backup-endpoints[0].cos_access_key_id)
     "secret-key" = base64encode(local.backup-endpoints[0].cos_secret_access_key)
   }
-  type = "ibm/ibmc-s3fs"
+  type       = "ibm/ibmc-s3fs"
   depends_on = [ibm_container_vpc_cluster.roks_cluster, ibm_resource_key.cos-hmac-backup]
 }
 
 # Backup Restore Helm chart to back up data in file/block storage PVC to COS
 ##############################################################################
 resource "helm_release" "backup-pvc" {
-  name       = "my-backup-pvc"
-  # chart      = "ibmcloud-backup-restore"
-  chart       = "icr.io/helm/iks-charts/ibmcloud-backup-restore"
-  # chart       = "oci://icr.io/iks-charts/ibmcloud-backup-restore"
-  # repository = "icr.io/iks-charts/ibmcloud-backup-restore"
-  version = "1.0.10"
-  namespace  = "default"
+  name      = "my-backup-pvc"
+  chart     = "oci://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  version   = "1.0.10"
+  namespace = "default"
 
   # Optional: Set values inline (overrides values.yaml if conflicts exist)
   set {
