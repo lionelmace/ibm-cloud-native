@@ -123,7 +123,7 @@ icd_mongo_core_allocation = 0
 
 icd_mongo_users = [{
   name     = "user123"
-  password = "password12"
+  password = "Password12"
 }]
 
 ##############################################################################
