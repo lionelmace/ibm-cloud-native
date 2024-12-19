@@ -27,7 +27,7 @@ iks_worker_pools = [
   {
     pool_name        = "secondary"
     machine_type     = "bx2.4x16"
-    workers_per_zone = 1
+    workers_per_zone = 0
   }
 ]
 
