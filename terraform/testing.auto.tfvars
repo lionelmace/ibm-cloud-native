@@ -24,11 +24,11 @@ iks_machine_flavor        = "bx2.4x16"
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
 iks_worker_pools = [
-  # {
-  #   pool_name        = "secondary"
-  #   machine_type     = "bx2.4x16"
-  #   workers_per_zone = 1
-  # }
+  {
+    pool_name        = "secondary"
+    machine_type     = "bx2.4x16"
+    workers_per_zone = 1
+  }
 ]
 
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
@@ -51,11 +51,11 @@ openshift_machine_flavor = "bx2.4x16"
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
 roks_worker_pools = [
-  # {
-  #   pool_name        = "dev"
-  #   machine_type     = "bx2.4x16"
-  #   workers_per_zone = 1
-  # },
+  {
+    pool_name        = "odf"
+    machine_type     = "bx2.16x64"
+    workers_per_zone = 1
+  },
   # {
   #   pool_name        = "default"
   #   machine_type     = "mx2.4x32"
