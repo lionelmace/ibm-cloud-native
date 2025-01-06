@@ -31,21 +31,21 @@ provider "kubernetes" {
   # config_context = "your-context" # Optional: specify the kube context
 }
 
-# provider "helm" {
-#   alias = "backup-pvc"
-#   kubernetes {
-#     # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
-#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   }
-#   # IBM Cloud credentials are required to authenticate to the helm repo
-#   # registry {
-#   #   url      = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
-#   #   username = "iamapikey"
-#   #   password = var.ibmcloud_api_key
-#   # }
-# }
+provider "helm" {
+  alias = "backup-pvc"
+  kubernetes {
+    # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
+    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  }
+  # IBM Cloud credentials are required to authenticate to the helm repo
+  # registry {
+  #   url      = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
+  #   username = "iamapikey"
+  #   password = var.ibmcloud_api_key
+  # }
+}
 
 
 # Helm is used to install IBM Cloud Logs
