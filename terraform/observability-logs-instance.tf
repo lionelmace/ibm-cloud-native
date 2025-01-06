@@ -35,9 +35,11 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
     log_sink_crn = ibm_resource_instance.logs_instance.id
     name         = "my-cloud-logs-target"
     parameters {
-      host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
       # host = ibm_resource_instance.logs_instance.extensions.external_ingress
-      port = 443
+      # When connecting to a private endpoint using a VPE, use port 443.
+      # When connecting to a private endpoint using a CSE, use port 3443.
+      host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+      port = 3443
     }
   }
 }
