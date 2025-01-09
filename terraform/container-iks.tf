@@ -62,6 +62,12 @@ variable "iks_disable_public_service_endpoint" {
   default     = false
 }
 
+variable "create_secondary_iks_pool" {
+  description = "Set to true to create the secondary worker pool."
+  type        = bool
+  default     = false
+}
+
 variable "iks_worker_pools" {
   description = "List of maps describing worker pools"
 
@@ -140,6 +146,7 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
 # Additional Worker Pool
 ##############################################################################
 resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
+  count = var.create_secondary_iks_pool ? 1 : 0
   for_each          = { for pool in var.iks_worker_pools : pool.pool_name => pool }
   cluster           = ibm_container_vpc_cluster.iks_cluster.id
   resource_group_id = ibm_resource_group.group.id
