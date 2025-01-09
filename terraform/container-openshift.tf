@@ -182,9 +182,8 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
 # Additional Worker Pool
 ##############################################################################
 resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
-  count = var.create_secondary_roks_pool ? 1 : 0
+  for_each = var.create_secondary_roks_pool ? { for pool in var.roks_worker_pools : pool.pool_name => pool } : {}
 
-  for_each          = { for pool in var.roks_worker_pools : pool.pool_name => pool }
   cluster           = ibm_container_vpc_cluster.roks_cluster.id
   resource_group_id = ibm_resource_group.group.id
   worker_pool_name  = each.key
