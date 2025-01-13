@@ -60,18 +60,18 @@ output "cloud_monitoring_crn" {
 ##############################################################################
 resource "ibm_metrics_router_target" "metrics_router_target" {
   destination_crn = module.cloud_monitoring.crn
-  name = format("%s-%s", local.basename, "metric-target")
-  region = var.region
+  name            = format("%s-%s", local.basename, "metric-target")
+  region          = var.region
 }
 
 # Set the default target for the metrics router
 resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
   default_targets {
-        id = ibm_metrics_router_target.metrics_router_target.id
+    id = ibm_metrics_router_target.metrics_router_target.id
   }
-  permitted_target_regions = [ var.region ]
-  primary_metadata_region = var.region
-  backup_metadata_region = "eu-es"
+  permitted_target_regions  = [var.region]
+  primary_metadata_region   = var.region
+  backup_metadata_region    = "eu-es"
   private_api_endpoint_only = false
 }
 
@@ -80,18 +80,18 @@ resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
 # and where to store them
 ##############################################################################
 resource "ibm_metrics_router_route" "metrics_route_eu_de" {
-    name = format("%s-%s", local.basename, "route-to-de")
-    rules {
-        action = "send"
-        targets {
-            id = ibm_metrics_router_target.metrics_router_target.id
-        }
-        inclusion_filters {
-            operand = "location"
-            operator = "is"
-            values = [ var.region ]
-        }
-      }
+  name = format("%s-%s", local.basename, "route-to-de")
+  rules {
+    action = "send"
+    targets {
+      id = ibm_metrics_router_target.metrics_router_target.id
+    }
+    inclusion_filters {
+      operand  = "location"
+      operator = "is"
+      values   = [var.region]
+    }
+  }
 }
 
 ## IAM

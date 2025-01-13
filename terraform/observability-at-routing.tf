@@ -8,7 +8,7 @@ resource "ibm_atracker_route" "atracker_route_de" {
     target_ids = [ibm_atracker_target.at_logs_target.id]
     # Activity Tracker is deprecated
     # target_ids = [ibm_atracker_target.at_logs_target.id, ibm_atracker_target.at_mezmo_target.id]
-    locations  = [var.region, "global"]
+    locations = [var.region, "global"]
   }
   lifecycle {
     # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first
