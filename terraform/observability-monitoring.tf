@@ -62,7 +62,7 @@ resource "ibm_metrics_router_route" "metrics_route_eu_de" {
     rules {
         action = "send"
         targets {
-            id = module.cloud_monitoring.crn
+            id = module.cloud_monitoring.guid
         }
         inclusion_filters {
             operand = "location"
