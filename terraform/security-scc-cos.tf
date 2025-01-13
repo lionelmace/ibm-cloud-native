@@ -50,11 +50,12 @@ resource "ibm_cos_bucket" "scc-bucket" {
   cross_region_location = "eu"
   # region_location      = "eu-de"
 
-  activity_tracking {
-    read_data_events     = true
-    write_data_events    = true
-    activity_tracker_crn = local.activity_tracker_id
-  }
+  # Activity Tracked is Deprecated
+  # activity_tracking {
+  #   read_data_events     = true
+  #   write_data_events    = true
+  #   activity_tracker_crn = local.activity_tracker_id
+  # }
   metrics_monitoring {
     usage_metrics_enabled   = true
     request_metrics_enabled = true
