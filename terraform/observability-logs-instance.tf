@@ -27,6 +27,8 @@ resource "ibm_resource_instance" "logs_instance" {
 }
 
 # Cloud Logs Routing
+# When you configure a target, you are defining the destination where you plan 
+# to send platform metrics that are collected in a region in your account.
 ##############################################################################
 resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
   name   = format("%s-%s", local.basename, "cloud-logs-router")
