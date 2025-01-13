@@ -60,6 +60,16 @@ resource "ibm_metrics_router_target" "metrics_router_target" {
   region = var.region
 }
 
+resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
+  default_targets {
+        id = ibm_metrics_router_target.metrics_router_target.id
+  }
+  permitted_target_regions = [ var.region ]
+  primary_metadata_region = var.region
+  backup_metadata_region = "eu-es"
+  private_api_endpoint_only = false
+}
+
 # Metrics Route
 # A route defines the rules that indicate what metrics are routed in a region 
 # and where to store them
