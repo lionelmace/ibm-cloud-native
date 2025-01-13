@@ -54,12 +54,17 @@ output "cloud_monitoring_crn" {
 }
 
 
+# Metrics Target
+# A route defines the rules that indicate what metrics are routed in a region 
+# and where to store them
+##############################################################################
 resource "ibm_metrics_router_target" "metrics_router_target" {
   destination_crn = module.cloud_monitoring.crn
-  name = "my-mr-target"
+  name = format("%s-%s", local.basename, "metric-target")
   region = var.region
 }
 
+# Set the default target for the metrics router
 resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
   default_targets {
         id = ibm_metrics_router_target.metrics_router_target.id
@@ -75,7 +80,7 @@ resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
 # and where to store them
 ##############################################################################
 resource "ibm_metrics_router_route" "metrics_route_eu_de" {
-    name = "my-route-to-de"
+    name = format("%s-%s", local.basename, "route-to-de")
     rules {
         action = "send"
         targets {
