@@ -25,15 +25,16 @@ resource "ibm_atracker_target" "at_logs_target" {
 }
 
 # Activity Tracker (Mezmo) Target
-resource "ibm_atracker_target" "at_mezmo_target" {
-  logdna_endpoint {
-    target_crn    = local.activity_tracker_id
-    ingestion_key = ibm_resource_key.at_key.credentials.ingestion_key
-  }
-  name        = format("%s-%s", local.basename, "at-target-mezmo")
-  target_type = "logdna"
-  region      = var.region
-}
+# Deprecated
+# resource "ibm_atracker_target" "at_mezmo_target" {
+#   logdna_endpoint {
+#     target_crn    = local.activity_tracker_id
+#     ingestion_key = ibm_resource_key.at_key.credentials.ingestion_key
+#   }
+#   name        = format("%s-%s", local.basename, "at-target-mezmo")
+#   target_type = "logdna"
+#   region      = var.region
+# }
 
 
 resource "ibm_atracker_settings" "atracker_settings" {
