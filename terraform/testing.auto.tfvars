@@ -97,8 +97,6 @@ cos_region = "global"
 sysdig_plan                    = "graduated-tier"
 sysdig_enable_platform_metrics = false
 
-activity_tracker_name = "activity-tracker"
-# activity_tracker_name = "shared-activity-tracker-de"
 
 ##############################################################################
 ## ICD Mongo

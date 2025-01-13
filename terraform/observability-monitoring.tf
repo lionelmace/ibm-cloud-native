@@ -53,6 +53,25 @@ output "cloud_monitoring_crn" {
   value       = module.cloud_monitoring.crn
 }
 
+# Metrics Route
+# A route defines the rules that indicate what metrics are routed in a region 
+# and where to store them
+##############################################################################
+resource "ibm_metrics_router_route" "metrics_route_eu_de" {
+    name = "my-route-to-de"
+    rules {
+        action = "send"
+        targets {
+            id = module.cloud_monitoring.crn
+        }
+        inclusion_filters {
+            operand = "location"
+            operator = "is"
+            values = [ "eu-de" ]
+        }
+      }
+}
+
 ## IAM
 ##############################################################################
 
