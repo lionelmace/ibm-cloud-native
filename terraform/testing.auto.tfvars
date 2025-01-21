@@ -50,18 +50,23 @@ openshift_machine_flavor = "bx2.4x16"
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
-# roks_worker_pools = [
-#   {
-#     pool_name        = "odf"
-#     machine_type     = "bx2.16x64"
-#     workers_per_zone = 0
-#   },
-#   # {
-#   #   pool_name        = "default"
-#   #   machine_type     = "mx2.4x32"
-#   #   workers_per_zone = 1
-#   # }
-# ]
+roks_worker_pools = [
+  {
+    pool_name        = "rhoai"
+    machine_type     = "bx2.8x32"
+    workers_per_zone = 1
+  },
+  # {
+  #   pool_name        = "odf"
+  #   machine_type     = "bx2.16x64"
+  #   workers_per_zone = 0
+  # },
+  # {
+  #   pool_name        = "default"
+  #   machine_type     = "mx2.4x32"
+  #   workers_per_zone = 1
+  # }
+]
 
 openshift_disable_public_service_endpoint = false
 # Secure By default - Public outbound access is blocked as of OpenShift 4.15
