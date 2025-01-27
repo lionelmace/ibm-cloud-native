@@ -22,6 +22,7 @@ iks_machine_flavor        = "bx2.4x16"
 
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
+create_secondary_iks_pool = false
 # Uncomment to create worker pool
 # iks_worker_pools = [
 #   {
@@ -50,7 +51,7 @@ openshift_machine_flavor = "bx2.4x16"
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
-create_secondary_roks_pool = true
+create_secondary_roks_pool = false
 roks_worker_pools = [
   {
     pool_name        = "rhoai"
