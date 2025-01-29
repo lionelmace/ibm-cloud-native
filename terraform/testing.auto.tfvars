@@ -61,7 +61,7 @@ roks_worker_pools = [
   {
     pool_name        = "odf"
     machine_type     = "bx2.16x64"
-    workers_per_zone = 0
+    workers_per_zone = 1
   },
   # {
   #   pool_name        = "default"
