@@ -201,14 +201,14 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
   }
 }
 
-## Install File Storage Addon
+## Install Containers Add-on
 resource "ibm_container_addons" "roks-addons" {
   depends_on = [ ibm_container_vpc_cluster.roks_cluster ]
   cluster = ibm_container_vpc_cluster.roks_cluster.name
-  addons {
-    name    = "vpc-file-csi-driver"
-    version = "2.0"
-  }
+  # addons {
+  #   name    = "vpc-file-csi-driver"
+  #   version = "2.0"
+  # }
   # addons {
   #   name    = "vpc-block-csi-driver"
   #   version = "2.0.3"
@@ -217,18 +217,18 @@ resource "ibm_container_addons" "roks-addons" {
   #   name    = "cluster-autoscaler"
   #   version = "1.0.1"
   # }
-  # addons {
-  #   name = "openshift-data-foundation"
-  #   version = "4.12.0"
-  #   parameters_json = <<PARAMETERS_JSON
-  #       {
-  #           "osdSize":"200Gi",
-  #           "numOfOsd":"2",
-  #           "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
-  #           "odfDeploy":"true"
-  #       }
-  #       PARAMETERS_JSON
-  #   }
+  addons {
+    name = "openshift-data-foundation"
+    version = "4.16.0"
+    parameters_json = <<PARAMETERS_JSON
+        {
+            "osdSize":"200Gi",
+            "numOfOsd":"2",
+            "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
+            "odfDeploy":"true"
+        }
+        PARAMETERS_JSON
+    }
 }
 
 ## IAM
