@@ -213,10 +213,10 @@ resource "ibm_container_addons" "roks-addons" {
   #   name    = "vpc-block-csi-driver"
   #   version = "2.0.3"
   # }
-  # addons {
-  #   name    = "cluster-autoscaler"
-  #   version = "1.0.1"
-  # }
+  addons {
+    name    = "cluster-autoscaler"
+    version = "1.2.3"
+  }
   addons {
     name = "openshift-data-foundation"
     version = "4.16.0"
