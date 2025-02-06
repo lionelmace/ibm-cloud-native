@@ -25,6 +25,9 @@ module "create_profile_attachment_fs" {
       }
     ]
   }]
+  depends_on = [
+    ibm_scc_instance_settings.scc_instance_settings
+  ]
 }
 
 module "create_profile_attachment_cis" {
@@ -49,5 +52,8 @@ module "create_profile_attachment_cis" {
       }
     ]
   }]
+  depends_on = [
+    ibm_scc_instance_settings.scc_instance_settings
+  ]
 }
 
