@@ -219,7 +219,7 @@ resource "ibm_container_addons" "roks-addons" {
   }
   addons {
     name = "openshift-data-foundation"
-    version = "4.16.0"
+    version = "4.17.0"
     parameters_json = <<PARAMETERS_JSON
         {
             "osdSize":"200Gi",
