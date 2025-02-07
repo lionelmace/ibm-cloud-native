@@ -217,18 +217,18 @@ resource "ibm_container_addons" "roks-addons" {
     name    = "cluster-autoscaler"
     version = "1.2.3"
   }
-  # addons {
-  #   name = "openshift-data-foundation"
-  #   version = "4.17.0"
-  #   parameters_json = <<PARAMETERS_JSON
-  #       {
-  #           "osdSize":"200Gi",
-  #           "numOfOsd":"2",
-  #           "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
-  #           "odfDeploy":"true"
-  #       }
-  #       PARAMETERS_JSON
-  #   }
+  addons {
+    name = "openshift-data-foundation"
+    version = "4.17.0"
+    parameters_json = <<PARAMETERS_JSON
+        {
+            "osdSize":"200Gi",
+            "numOfOsd":"2",
+            "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
+            "odfDeploy":"true"
+        }
+        PARAMETERS_JSON
+    }
 }
 
 ## IAM
