@@ -51,18 +51,18 @@ openshift_machine_flavor = "bx2.4x16"
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
-create_secondary_roks_pool = false
+create_secondary_roks_pool = true
 roks_worker_pools = [
   {
     pool_name        = "rhoai"
     machine_type     = "bx2.8x32"
     workers_per_zone = 1
   },
-  {
-    pool_name        = "odf"
-    machine_type     = "bx2.16x64"
-    workers_per_zone = 1
-  },
+  # {
+  #   pool_name        = "odf"
+  #   machine_type     = "bx2.16x64"
+  #   workers_per_zone = 1
+  # },
   # {
   #   pool_name        = "default"
   #   machine_type     = "mx2.4x32"
