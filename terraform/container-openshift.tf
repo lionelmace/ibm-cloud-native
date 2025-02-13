@@ -217,15 +217,19 @@ resource "ibm_container_addons" "roks-addons" {
     name    = "cluster-autoscaler"
     version = "1.2.3"
   }
+  # Source: https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/openshift-data-foundation/addon/4.17.0
+  # Specify workerpool to deploy ODF, if not specified ODF will deploy on all nodes
   # addons {
   #   name = "openshift-data-foundation"
-  #   version = "4.17.0"
   #   parameters_json = <<PARAMETERS_JSON
   #       {
+  #           "billingType":"advanced"
   #           "osdSize":"200Gi",
   #           "numOfOsd":"2",
   #           "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
   #           "odfDeploy":"true"
+  #           "odfVersion":"4.17.0"
+  #           "workerPools":"wpool-odf"
   #       }
   #       PARAMETERS_JSON
   #   }
