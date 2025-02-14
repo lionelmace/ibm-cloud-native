@@ -218,7 +218,7 @@ resource "ibm_container_addons" "roks-addons" {
   # Block Storage for VPC is installed by default at the cluster creation
   addons {
     name    = "vpc-block-csi-driver"
-    version = "5.1"
+    version = "5.2"
   }
   addons {
     name    = "cluster-autoscaler"
@@ -229,16 +229,16 @@ resource "ibm_container_addons" "roks-addons" {
   addons {
     name            = "openshift-data-foundation"
     parameters_json = <<PARAMETERS_JSON
-        {
-            "billingType":"advanced"
-            "osdSize":"200Gi",
-            "numOfOsd":"2",
-            "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
-            "odfDeploy":"true"
-            "odfVersion":"4.17.0"
-            "workerPools":"wpool-odf"
-        }
-        PARAMETERS_JSON
+    {
+        "billingType":"advanced"
+        "osdSize":"200Gi",
+        "numOfOsd":"2",
+        "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
+        "odfDeploy":"true"
+        "odfVersion":"4.17.0"
+        "workerPools":"wpool-odf"
+    }
+    PARAMETERS_JSON
   }
 }
 
