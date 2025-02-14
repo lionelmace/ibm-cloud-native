@@ -208,13 +208,14 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
 
 ## Install Containers Add-on
 resource "ibm_container_addons" "roks-addons" {
-  count         = var.install_addons ? 1 : 0
-  depends_on = [ ibm_container_vpc_cluster.roks_cluster ]
-  cluster = ibm_container_vpc_cluster.roks_cluster.name
+  count      = var.install_addons ? 1 : 0
+  depends_on = [ibm_container_vpc_cluster.roks_cluster]
+  cluster    = ibm_container_vpc_cluster.roks_cluster.name
   # addons {
   #   name    = "vpc-file-csi-driver"
   #   version = "2.0"
   # }
+  # Block Storage for VPC is installed by default at the cluster creation
   addons {
     name    = "vpc-block-csi-driver"
     version = "5.1"
@@ -226,7 +227,7 @@ resource "ibm_container_addons" "roks-addons" {
   # Source: https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/openshift-data-foundation/addon/4.17.0
   # Specify workerpool to deploy ODF, if not specified ODF will deploy on all nodes
   addons {
-    name = "openshift-data-foundation"
+    name            = "openshift-data-foundation"
     parameters_json = <<PARAMETERS_JSON
         {
             "billingType":"advanced"
@@ -238,7 +239,7 @@ resource "ibm_container_addons" "roks-addons" {
             "workerPools":"wpool-odf"
         }
         PARAMETERS_JSON
-    }
+  }
 }
 
 ## IAM

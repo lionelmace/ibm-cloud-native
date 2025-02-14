@@ -6,7 +6,7 @@ resource "ibm_atracker_route" "atracker_route_de" {
   name = format("%s-%s", local.basename, "at-route")
   rules {
     target_ids = [ibm_atracker_target.at_logs_target.id]
-    locations = [var.region, "global"]
+    locations  = [var.region, "global"]
   }
   lifecycle {
     # Recommended to ensure that if a target ID is removed here and destroyed in a plan, this is updated first

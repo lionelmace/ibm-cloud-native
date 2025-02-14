@@ -47,6 +47,7 @@ openshift_version = ""
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
+install_addons = true
 
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
@@ -54,7 +55,7 @@ openshift_machine_flavor = "bx2.4x16"
 create_secondary_roks_pool = true
 roks_worker_pools = [
   {
-    pool_name        = "rhoai"
+    pool_name        = "wpool-rhoai"
     machine_type     = "bx2.8x32"
     workers_per_zone = 1
   },
