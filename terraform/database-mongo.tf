@@ -153,20 +153,41 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
 }
 
 locals {
-  endpoints = [
+  credentials = [
     {
       name     = "mongo"
-      crn      = ibm_database.icd_mongo.id
-      hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
+      # crn      = ibm_database.icd_mongo.id
+      db-user     = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.username"]
+      db-password = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.password"]
+      db-hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
+      db-cert64   = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.certificate.certificate_base64"]
     }
   ]
 }
 
-output "endpoints" {
+output "icd-mongo-credentials" {
   sensitive = true
-  value     = local.endpoints
+  value     = local.credentials
 }
 
+#BEGIN
+# locals {
+#   endpoints = [
+#     {
+#       name        = "postgres",
+#       db-name     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.database"])
+#       db-host     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.hosts.0.hostname"])
+#       db-port     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.hosts.0.port"])
+#       db-user     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.authentication.username"])
+#       db-password = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.authentication.password"])
+#     }
+#   ]
+# }
+# MONGO_USERNAME=
+# #MONGO_PASSWORD=
+# #MONGO_HOSTS=
+# #MONGO_CERTIFICATE_BASE64=
+#END
 
 ## VPE (Optional)
 ##############################################################################
