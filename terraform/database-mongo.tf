@@ -157,16 +157,16 @@ locals {
     {
       name     = "mongo"
       # crn      = ibm_database.icd_mongo.id
-      db-user     = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.username"]
-      db-password = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.password"]
-      db-hostname = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"]
-      db-cert64   = ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.certificate.certificate_base64"]
+      db-user     = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.username"])
+      db-password = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.password"])
+      db-hostname = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"])
+      db-cert64   = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.certificate.certificate_base64"])
     }
   ]
 }
 
 output "icd-mongo-credentials" {
-  sensitive = true
+  # sensitive = true
   value     = local.endpoints
 }
 
