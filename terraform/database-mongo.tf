@@ -153,7 +153,7 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
 }
 
 locals {
-  credentials = [
+  endpoints = [
     {
       name     = "mongo"
       # crn      = ibm_database.icd_mongo.id
@@ -167,7 +167,7 @@ locals {
 
 output "icd-mongo-credentials" {
   sensitive = true
-  value     = local.credentials
+  value     = local.endpoints
 }
 
 #BEGIN
