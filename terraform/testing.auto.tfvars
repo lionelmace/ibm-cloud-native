@@ -59,11 +59,11 @@ roks_worker_pools = [
     machine_type     = "bx2.8x32"
     workers_per_zone = 1
   },
-  {
-    pool_name        = "wpool-odf"
-    machine_type     = "bx2.16x64"
-    workers_per_zone = 1
-  },
+  # {
+  #   pool_name        = "wpool-odf"
+  #   machine_type     = "bx2.16x64"
+  #   workers_per_zone = 1
+  # },
   # {
   #   pool_name        = "default"
   #   machine_type     = "mx2.4x32"
