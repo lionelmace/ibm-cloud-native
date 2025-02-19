@@ -170,25 +170,6 @@ output "icd-mongo-credentials" {
   value     = local.endpoints
 }
 
-#BEGIN
-# locals {
-#   endpoints = [
-#     {
-#       name        = "postgres",
-#       db-name     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.database"])
-#       db-host     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.hosts.0.hostname"])
-#       db-port     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.hosts.0.port"])
-#       db-user     = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.authentication.username"])
-#       db-password = nonsensitive(ibm_resource_key.db-svc-credentials.credentials["connection.postgres.authentication.password"])
-#     }
-#   ]
-# }
-# MONGO_USERNAME=
-# #MONGO_PASSWORD=
-# #MONGO_HOSTS=
-# #MONGO_CERTIFICATE_BASE64=
-#END
-
 ## VPE (Optional)
 ##############################################################################
 # VPE can only be created once Mongo DB is fully registered in the backend
