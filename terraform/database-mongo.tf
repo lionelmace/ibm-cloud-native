@@ -160,6 +160,7 @@ locals {
       db-user     = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.username"])
       db-password = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.password"])
       db-hostname = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.hostname"])
+      db-port     = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.hosts.0.port"])
       db-cert64   = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.certificate.certificate_base64"])
     }
   ]
