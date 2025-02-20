@@ -39,16 +39,10 @@ provider "helm" {
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
   }
-  # IBM Cloud credentials are required to authenticate to the helm repo
-  # registry {
-  #   url      = "https://icr.io/helm/iks-charts/ibmcloud-backup-restore"
-  #   username = "iamapikey"
-  #   password = var.ibmcloud_api_key
-  # }
 }
 
 
-# Helm is used to install IBM Cloud Logs
+# Helm to install IBM Cloud Logs
 ##############################################################################
 provider "helm" {
   alias = "logs"
@@ -61,7 +55,7 @@ provider "helm" {
   registry {
     url      = "oci://icr.io/ibm/observe/logs-agent-helm"
     username = "iamapikey"
-    password = var.ibmcloud_api_key # replace with an IBM cloud apikey
+    password = var.ibmcloud_api_key
   }
 }
 
