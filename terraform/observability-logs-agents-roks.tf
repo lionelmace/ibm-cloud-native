@@ -39,6 +39,8 @@ module "logs_agent_module" {
   cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   cluster_resource_group_id = ibm_resource_group.group.id
   # Logs Agent variables
+  logs_agent_iam_mode    = "IAMAPIKey"
+  logs_agent_iam_api_key = module.iam_service_id.service_id_apikey
   # logs_agent_trusted_profile  = "XXXXXXXX"
   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   #  Port 443 if you use a VPE, or port 3443 when you connect by using CSEs.
