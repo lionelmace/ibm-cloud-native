@@ -220,10 +220,10 @@ resource "ibm_container_addons" "roks-addons" {
     name    = "vpc-block-csi-driver"
     version = "5.2"
   }
-  # addons {
-  #   name    = "cluster-autoscaler"
-  #   version = "1.2.3"
-  # }
+  addons {
+    name    = "cluster-autoscaler"
+    version = "1.2.3"
+  }
   # Source: https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/openshift-data-foundation/addon/4.17.0
   # Specify workerpool to deploy ODF, if not specified ODF will deploy on all nodes
   addons {
