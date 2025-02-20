@@ -34,24 +34,35 @@ resource "time_sleep" "wait_operators" {
   create_duration = "45s"
 }
 
-module "observability_agents" {
-  source                    = "terraform-ibm-modules/observability-agents/ibm"
-  is_vpc_cluster            = true
-  cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+module "logs_agent_module" {
+  source = "terraform-ibm-modules/observability-agents/ibm//modules/logs-agent"
+  cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   cluster_resource_group_id = ibm_resource_group.group.id
-  depends_on                = [time_sleep.wait_operators]
-
-  # Logs Agent
-  logs_agent_enabled     = true
-  logs_agent_iam_mode    = "IAMAPIKey"
-  logs_agent_iam_api_key = module.iam_service_id.service_id_apikey
-  cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
-  # cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
-  cloud_logs_ingress_port     = 3443
-  logs_agent_enable_scc       = true # only true for Openshift
-
-  # Monitoring agent
-  cloud_monitoring_enabled = false
-  #   cloud_monitoring_access_key      = module.observability_instances.cloud_monitoring_access_key
-  #   cloud_monitoring_instance_region = module.observability_instances.region
+  # Logs Agent variables
+  # logs_agent_trusted_profile  = "XXXXXXXX"
+  cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+  #  Port 443 if you use a VPE, or port 3443 when you connect by using CSEs.
+  cloud_logs_ingress_port     = 443
 }
+
+# module "observability_agents" {
+#   source                    = "terraform-ibm-modules/observability-agents/ibm"
+#   is_vpc_cluster            = true
+#   cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+#   cluster_resource_group_id = ibm_resource_group.group.id
+#   depends_on                = [time_sleep.wait_operators]
+
+#   # Logs Agent
+#   logs_agent_enabled     = true
+#   logs_agent_iam_mode    = "IAMAPIKey"
+#   logs_agent_iam_api_key = module.iam_service_id.service_id_apikey
+#   cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+#   # cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+#   cloud_logs_ingress_port     = 3443
+#   logs_agent_enable_scc       = true # only true for Openshift
+
+#   # Monitoring agent
+#   cloud_monitoring_enabled = false
+#   #   cloud_monitoring_access_key      = module.observability_instances.cloud_monitoring_access_key
+#   #   cloud_monitoring_instance_region = module.observability_instances.region
+# }

@@ -155,7 +155,7 @@ resource "ibm_iam_access_group_policy" "iam-mongo" {
 locals {
   endpoints = [
     {
-      name     = "mongo"
+      name = "mongo"
       # crn      = ibm_database.icd_mongo.id
       db-user     = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.username"])
       db-password = nonsensitive(ibm_resource_key.icd_mongo_key.credentials["connection.mongodb.authentication.password"])
@@ -168,7 +168,7 @@ locals {
 
 output "icd-mongo-credentials" {
   # sensitive = true
-  value     = local.endpoints
+  value = local.endpoints
 }
 
 ## VPE (Optional)
