@@ -9,7 +9,7 @@
 # As a `Sender`, you can send logs to your IBM Cloud Logs service instance - but not query or tail logs. This role is meant to be used by agents and routers sending logs.
 module "iam_service_id" {
   source                          = "terraform-ibm-modules/iam-service-id/ibm"
-  version                         = "1.2.0"
+  # version                         = "1.2.0"
   iam_service_id_name             = format("%s-%s", local.basename, "service-id")
   iam_service_id_description      = "Logs Agent service id"
   iam_service_id_apikey_provision = true
@@ -45,8 +45,8 @@ module "observability_agents" {
   logs_agent_enabled     = true
   logs_agent_iam_mode    = "IAMAPIKey"
   logs_agent_iam_api_key = module.iam_service_id.service_id_apikey
-  # cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
-  cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+  cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+  # cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   cloud_logs_ingress_port     = 3443
   logs_agent_enable_scc       = true # only true for Openshift
 
