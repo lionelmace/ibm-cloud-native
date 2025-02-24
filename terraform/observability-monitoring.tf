@@ -31,6 +31,11 @@ variable "sysdig_enable_platform_metrics" {
   default     = false
 }
 
+variable "sysdig_use_vpe" {
+  default = true
+}
+
+
 # Monitoring Resource
 ##############################################################################
 
@@ -53,6 +58,33 @@ output "cloud_monitoring_crn" {
   value       = module.cloud_monitoring.crn
 }
 
+# VPE (Virtual Private Endpoint) for Mongo
+##############################################################################
+# Make sure your Cloud Databases deployment's private endpoint is enabled
+# otherwise you'll face this error: "Service does not support VPE extensions."
+##############################################################################
+resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
+  for_each = { for target in local.endpoints : target.name => target if tobool(var.sysdig_use_vpe) }
+
+  name           = "${local.basename}-monitoring-vpe"
+  resource_group = ibm_resource_group.group.id
+  vpc            = ibm_is_vpc.vpc.id
+
+  target {
+    crn           = module.cloud_monitoring.crn
+    resource_type = "provider_cloud_service"
+  }
+
+  # one Reserved IP for per zone in the VPC
+  dynamic "ips" {
+    for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
+    content {
+      subnet = ips.key
+      name   = "${ips.value.name}-ip-monitoring"
+    }
+  }
+  tags = var.tags
+}
 
 # Metrics Target
 # A route defines the rules that indicate what metrics are routed in a region 
