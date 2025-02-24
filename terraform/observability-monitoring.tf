@@ -63,7 +63,7 @@ output "cloud_monitoring_crn" {
 # Make sure your Cloud Databases deployment's private endpoint is enabled
 # otherwise you'll face this error: "Service does not support VPE extensions."
 ##############################################################################
-resource "ibm_is_virtual_endpoint_gateway" "vpe_mongo" {
+resource "ibm_is_virtual_endpoint_gateway" "vpe_monitoring" {
   for_each = { for target in local.endpoints : target.name => target if tobool(var.sysdig_use_vpe) }
 
   name           = "${local.basename}-monitoring-vpe"
