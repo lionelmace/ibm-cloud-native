@@ -56,6 +56,16 @@ provider "helm" {
     username = "iamapikey"
     password = var.ibmcloud_api_key
   }
+  # Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
+  provisioner "local-exec" {
+    command = <<EOT
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x kubectl
+    mkdir -p $HOME/bin
+    mv kubectl $HOME/bin/
+    echo 'export PATH=$HOME/bin:$PATH' >> $HOME/.bashrc
+    EOT
+  }
 }
 
 # Init cluster config for helm
