@@ -44,7 +44,7 @@ provider "kubernetes" {
 # Helm to install IBM Cloud Logs
 ##############################################################################
 provider "helm" {
-  alias = "logs"
+  # alias = "logs"
   kubernetes {
     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
