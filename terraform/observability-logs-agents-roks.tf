@@ -34,6 +34,11 @@ resource "time_sleep" "wait_operators" {
   create_duration = "45s"
 }
 
+# Module Logs Agent uses kubectl in the background.
+provisioner "local-exec" {
+  command = "curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl"
+}
+
 module "logs_agent_module" {
   source = "terraform-ibm-modules/observability-agents/ibm//modules/logs-agent"
   cluster_id = ibm_container_vpc_cluster.roks_cluster.id
