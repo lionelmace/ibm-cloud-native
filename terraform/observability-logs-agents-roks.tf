@@ -35,8 +35,10 @@ resource "time_sleep" "wait_operators" {
 }
 
 # Module Logs Agent uses kubectl in the background.
-provisioner "local-exec" {
-  command = "curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl"
+resource "null_resource" "install_kubectl" {
+  provisioner "local-exec" {
+    command = "curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/bin/"
+  }
 }
 
 module "logs_agent_module" {
@@ -50,6 +52,7 @@ module "logs_agent_module" {
   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   #  Port 443 if you use a VPE, or port 3443 when you connect by using CSEs.
   cloud_logs_ingress_port     = 443
+  depends_on = [null_resource.install_kubectl]
 }
 
 # module "observability_agents" {
