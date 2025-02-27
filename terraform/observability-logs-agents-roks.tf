@@ -34,10 +34,16 @@ resource "time_sleep" "wait_operators" {
   create_duration = "45s"
 }
 
-# Module Logs Agent uses kubectl in the background.
+# Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
 resource "null_resource" "install_kubectl" {
   provisioner "local-exec" {
-    command = "curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/bin/"
+    command = <<EOT
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x kubectl
+    mkdir -p $HOME/bin
+    mv kubectl $HOME/bin/
+    echo 'export PATH=$HOME/bin:$PATH' >> $HOME/.bashrc
+    EOT
   }
 }
 
