@@ -31,16 +31,15 @@ provider "kubernetes" {
   # config_context = "your-context" # Optional: specify the kube context
 }
 
-provider "helm" {
-  alias = "backup-pvc"
-  kubernetes {
-    # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
-    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-  }
-}
-
+# provider "helm" {
+#   alias = "backup-pvc"
+#   kubernetes {
+#     # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
+#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+#   }
+# }
 
 # Helm to install IBM Cloud Logs
 ##############################################################################
