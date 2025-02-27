@@ -35,7 +35,6 @@ resource "time_sleep" "wait_operators" {
 }
 
 module "logs_agent_module" {
-  provider = helm.logs
   source = "terraform-ibm-modules/observability-agents/ibm//modules/logs-agent"
   cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   cluster_resource_group_id = ibm_resource_group.group.id
