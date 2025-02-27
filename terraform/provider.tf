@@ -61,9 +61,7 @@ provider "helm" {
     command = <<EOT
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
     chmod +x kubectl
-    mkdir -p $HOME/bin
-    mv kubectl $HOME/bin/
-    echo 'export PATH=$HOME/bin:$PATH' >> $HOME/.bashrc
+    ./kubectl version --client
     EOT
   }
 }
