@@ -45,7 +45,6 @@ module "logs_agent_module" {
   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   #  Port 443 if you use a VPE, or port 3443 when you connect by using CSEs.
   cloud_logs_ingress_port     = 443
-  depends_on = [null_resource.install_kubectl]
 }
 
 # module "observability_agents" {
