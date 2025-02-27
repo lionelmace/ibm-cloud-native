@@ -56,12 +56,16 @@ provider "helm" {
     username = "iamapikey"
     password = var.ibmcloud_api_key
   }
-  # Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
+  depends_on = [null_resource.install_kubectl]
+}
+
+# Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
+resource "null_resource" "install_kubectl" {
   provisioner "local-exec" {
     command = <<EOT
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
     chmod +x kubectl
-    ./kubectl version --client
+    sudo mv kubectl /usr/bin/
     EOT
   }
 }
