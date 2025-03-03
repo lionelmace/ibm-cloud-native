@@ -55,8 +55,7 @@ provider "helm" {
     url      = "oci://icr.io/ibm/observe/logs-agent-helm"
     username = "iamapikey"
     password = var.ibmcloud_api_key
-  }
-  depends_on = [null_resource.install_kubectl]
+  }  
 }
 
 # Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
