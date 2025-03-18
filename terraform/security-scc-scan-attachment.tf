@@ -5,8 +5,8 @@ resource "ibm_scc_scope" "scc_account_scope" {
   environment = "ibm-cloud"
   instance_id = ibm_resource_instance.scc_instance.guid
   name        = "Account Scope"
-  properties  = {
-    scope_id = local.account_id
+  properties = {
+    scope_id   = local.account_id
     scope_type = "account"
   }
 }
@@ -16,12 +16,11 @@ resource "ibm_scc_scope" "scc_group_scope" {
   environment = "ibm-cloud"
   instance_id = ibm_resource_instance.scc_instance.guid
   name        = "Account Scope"
-  properties  = {
-    scope_id = ibm_resource_group.group.id
+  properties = {
+    scope_id   = ibm_resource_group.group.id
     scope_type = "account.resource_group"
   }
 }
-
 
 ## SCC Profile Attachment
 ##############################################################################
@@ -35,7 +34,7 @@ module "create_profile_attachment_fs" {
   attachment_description = "profile-attachment-description"
   attachment_schedule    = "daily"
   # scope the attachment to a specific resource group
-  scope_ids              = [ibm_scc_scope.scc_group_scope.scope_id]
+  scope_ids = [ibm_scc_scope.scc_group_scope.scope_id]
   # scope = [{
   #   environment = "ibm-cloud"
   #   properties = [
@@ -63,7 +62,7 @@ module "create_profile_attachment_cis" {
   attachment_description = "profile-attachment-description"
   attachment_schedule    = "daily"
   # scope the attachment to the account
-  scope_ids              = [ibm_scc_scope.scc_account_scope.scope_id]
+  scope_ids = [ibm_scc_scope.scc_account_scope.scope_id]
   # scope = [{
   #   environment = "ibm-cloud"
   #   properties = [
