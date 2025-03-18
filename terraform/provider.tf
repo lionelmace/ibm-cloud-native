@@ -23,56 +23,56 @@ provider "ibm" {
   region           = var.region
 }
 
-# provider "kubernetes" {
-#   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#   cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   # config_path = "~/.kube/config" # Path to your kubeconfig file
-#   # config_context = "your-context" # Optional: specify the kube context
-# }
+provider "kubernetes" {
+  host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+  token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+  cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  # config_path = "~/.kube/config" # Path to your kubeconfig file
+  # config_context = "your-context" # Optional: specify the kube context
+}
 
-# provider "helm" {
-#   alias = "backup-pvc"
-#   kubernetes {
-#     # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
-#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   }
-# }
+provider "helm" {
+  alias = "backup-pvc"
+  kubernetes {
+    # config_path = try(data.ibm_container_cluster_config.roks_cluster_config.config_file_path, "")
+    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  }
+}
 
 # Helm to install IBM Cloud Logs
 ##############################################################################
-# provider "helm" {
-#   # alias = "logs"
-#   kubernetes {
-#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   }
-#   # IBM Cloud credentials are required to authenticate to the helm repo
-#   registry {
-#     url      = "oci://icr.io/ibm/observe/logs-agent-helm"
-#     username = "iamapikey"
-#     password = var.ibmcloud_api_key
-#   }  
-# }
+provider "helm" {
+  # alias = "logs"
+  kubernetes {
+    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+  }
+  # IBM Cloud credentials are required to authenticate to the helm repo
+  registry {
+    url      = "oci://icr.io/ibm/observe/logs-agent-helm"
+    username = "iamapikey"
+    password = var.ibmcloud_api_key
+  }  
+}
 
-# # Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
-# resource "null_resource" "install_kubectl" {
-#   provisioner "local-exec" {
-#     command = <<EOT
-#     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-#     chmod +x kubectl
-#     sudo mv kubectl /usr/bin/
-#     EOT
-#   }
-# }
+# Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
+resource "null_resource" "install_kubectl" {
+  provisioner "local-exec" {
+    command = <<EOT
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x kubectl
+    sudo mv kubectl /usr/bin/
+    EOT
+  }
+}
 
 # Init cluster config for helm
-# ############################################################################
-# data "ibm_container_cluster_config" "roks_cluster_config" {
-#   # update this value with the cluster ID where these agents will be provisioned
-#   cluster_name_id   = ibm_container_vpc_cluster.roks_cluster.id
-#   resource_group_id = ibm_resource_group.group.id
-# }
+############################################################################
+data "ibm_container_cluster_config" "roks_cluster_config" {
+  # update this value with the cluster ID where these agents will be provisioned
+  cluster_name_id   = ibm_container_vpc_cluster.roks_cluster.id
+  resource_group_id = ibm_resource_group.group.id
+}
