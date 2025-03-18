@@ -59,15 +59,15 @@ provider "helm" {
 }
 
 # Module Logs Agent uses kubectl in the background, not available in Terraform Cloud
-resource "null_resource" "install_kubectl" {
-  provisioner "local-exec" {
-    command = <<EOT
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x kubectl
-    sudo mv kubectl /usr/bin/
-    EOT
-  }
-}
+# resource "null_resource" "install_kubectl" {
+#   provisioner "local-exec" {
+#     command = <<EOT
+#     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+#     chmod +x kubectl
+#     sudo mv kubectl /usr/bin/
+#     EOT
+#   }
+# }
 
 # Init cluster config for helm
 ############################################################################
