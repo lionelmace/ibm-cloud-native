@@ -37,6 +37,12 @@ module "trusted_profile" {
   ]
 }
 
+data "ibm_is_security_groups" "vpc_security_groups" {
+  #LMA depends_on = [module.ocp_base]
+  depends_on = [ibm_container_vpc_cluster.roks_cluster]
+  vpc_id     = ibm_is_vpc.vpc.id
+}
+
 # VPE for Cloud logs in the provisioned VPC which allows the agents 
 # to access the private Cloud Logs Ingress endpoint.
 ##############################################################################
