@@ -162,3 +162,13 @@ resource "ibm_is_subnet" "subnet-nlb" {
   tags            = var.tags
   resource_group  = ibm_resource_group.group.id
 }
+
+locals {
+  subnet_zone_list = [
+    for subnet in ibm_is_subnet.subnet : {
+      id   = subnet.id
+      name = subnet.name
+      zone = subnet.zone
+    }
+  ]
+}
