@@ -184,12 +184,13 @@ resource "ibm_container_vpc_worker_pool" "iks_worker_pools" {
 # Integrating Monitoring requires the master node to be 'Ready'
 # If not, you will face a timeout error after 45mins
 ##############################################################################
-resource "ibm_ob_monitoring" "iks_connect_monitoring" {
-  depends_on       = [module.cloud_monitoring.key_guid]
-  cluster          = ibm_container_vpc_cluster.iks_cluster.id
-  instance_id      = module.cloud_monitoring.guid
-  private_endpoint = var.sysdig_private_endpoint
-}
+# DEPRECATED (LMA)
+# resource "ibm_ob_monitoring" "iks_connect_monitoring" {
+#   depends_on       = [module.cloud_monitoring.key_guid]
+#   cluster          = ibm_container_vpc_cluster.iks_cluster.id
+#   instance_id      = module.cloud_monitoring.guid
+#   private_endpoint = var.sysdig_private_endpoint
+# }
 
 
 # Registers a Secrets Manager instance with the IKS cluster
