@@ -50,7 +50,9 @@ module "vpe" {
   subnet_zone_list = local.subnet_zone_list
   #LMA resource_group_id  = module.resource_group.resource_group_id
   resource_group_id  = ibm_resource_group.group.id
-  security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${module.ocp_base.cluster_id}"] # Select only security group attached to the Cluster
+  # Select only security group attached to the Cluster
+  #LMA security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${module.ocp_base.cluster_id}"] 
+  security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${ibm_container_vpc_cluster.roks_cluster.id}"]
   cloud_service_by_crn = [
     {
       #LMA crn          = module.observability_instances.cloud_logs_crn
@@ -81,7 +83,8 @@ module "observability_agents" {
   # example of how to add additional metadata to the logs agents
   logs_agent_additional_metadata = [{
     key   = "cluster_id"
-    value = module.ocp_base.cluster_id
+    #LMA value = module.ocp_base.cluster_id
+    value = ibm_container_vpc_cluster.roks_cluster.id
   }]
   # example of how to add additional log source path
   logs_agent_additional_log_source_paths = ["/logs/*.log"]
