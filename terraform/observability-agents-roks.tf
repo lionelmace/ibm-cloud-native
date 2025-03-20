@@ -84,7 +84,8 @@ module "observability_agents" {
   logs_agent_trusted_profile  = module.trusted_profile.trusted_profile.id
   logs_agent_namespace        = local.logs_agent_namespace
   logs_agent_name             = local.logs_agent_name
-  cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+  #LMA cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+  cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   cloud_logs_ingress_port     = 443
   # example of how to add additional metadata to the logs agents
   logs_agent_additional_metadata = [{
