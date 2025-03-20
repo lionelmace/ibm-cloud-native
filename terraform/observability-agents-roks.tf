@@ -48,11 +48,13 @@ module "vpe" {
   vpc_id   = ibm_is_vpc.vpc.id
   #LMA vpc_name = "${var.prefix}-vpc"
   subnet_zone_list = local.subnet_zone_list
-  resource_group_id  = module.resource_group.resource_group_id
+  #LMA resource_group_id  = module.resource_group.resource_group_id
+  resource_group_id  = ibm_resource_group.group.id
   security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${module.ocp_base.cluster_id}"] # Select only security group attached to the Cluster
   cloud_service_by_crn = [
     {
-      crn          = module.observability_instances.cloud_logs_crn
+      #LMA crn          = module.observability_instances.cloud_logs_crn
+      crn          = ibm_resource_instance.logs_instance.id
       service_name = "logs"
     }
   ]
