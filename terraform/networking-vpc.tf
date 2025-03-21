@@ -172,3 +172,7 @@ locals {
     }
   ]
 }
+
+output "subnet_zone_list" {
+  value = local.subnet_zone_list
+}
