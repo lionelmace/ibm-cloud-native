@@ -73,36 +73,36 @@ module "vpe" {
 # Observability Agents
 ##############################################################################
 
-module "observability_agents" {
-  source                    = "terraform-ibm-modules/observability-agents/ibm"
-  depends_on                = [module.vpe]
-  #LMA cluster_id                = module.ocp_base.cluster_id
-  cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
-  #LMA cluster_resource_group_id = module.resource_group.resource_group_id
-  cluster_resource_group_id = ibm_resource_group.group.id
-  # Cloud Logs agent
-  logs_agent_trusted_profile  = module.trusted_profile.trusted_profile.id
-  logs_agent_namespace        = local.logs_agent_namespace
-  logs_agent_name             = local.logs_agent_name
-  #LMA cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
-  cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
-  cloud_logs_ingress_port     = 443
-  # example of how to add additional metadata to the logs agents
-  logs_agent_additional_metadata = [{
-    key   = "cluster_id"
-    #LMA value = module.ocp_base.cluster_id
-    value = ibm_container_vpc_cluster.roks_cluster.id
-  }]
-  # example of how to add additional log source path
-  logs_agent_additional_log_source_paths = ["/logs/*.log"]
+# module "observability_agents" {
+#   source                    = "terraform-ibm-modules/observability-agents/ibm"
+#   depends_on                = [module.vpe]
+#   #LMA cluster_id                = module.ocp_base.cluster_id
+#   cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+#   #LMA cluster_resource_group_id = module.resource_group.resource_group_id
+#   cluster_resource_group_id = ibm_resource_group.group.id
+#   # Cloud Logs agent
+#   logs_agent_trusted_profile  = module.trusted_profile.trusted_profile.id
+#   logs_agent_namespace        = local.logs_agent_namespace
+#   logs_agent_name             = local.logs_agent_name
+#   #LMA cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
+#   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
+#   cloud_logs_ingress_port     = 443
+#   # example of how to add additional metadata to the logs agents
+#   logs_agent_additional_metadata = [{
+#     key   = "cluster_id"
+#     #LMA value = module.ocp_base.cluster_id
+#     value = ibm_container_vpc_cluster.roks_cluster.id
+#   }]
+#   # example of how to add additional log source path
+#   logs_agent_additional_log_source_paths = ["/logs/*.log"]
   
-  # Monitoring agent
-  #LMA cloud_monitoring_access_key = module.observability_instances.cloud_monitoring_access_key
-  cloud_monitoring_access_key = module.cloud_monitoring.access_key
-  # example of how to include / exclude metrics - more info https://cloud.ibm.com/docs/monitoring?topic=monitoring-change_kube_agent#change_kube_agent_log_metrics
-  cloud_monitoring_metrics_filter   = [{ type = "exclude", name = "metricA.*" }, { type = "include", name = "metricB.*" }]
-  cloud_monitoring_container_filter = [{ type = "exclude", parameter = "kubernetes.namespace.name", name = "kube-system" }]
-  cloud_monitoring_agent_tags       = var.tags
-  #LMLA cloud_monitoring_instance_region  = module.observability_instances.region
-  cloud_monitoring_instance_region  = var.region
-}
+#   # Monitoring agent
+#   #LMA cloud_monitoring_access_key = module.observability_instances.cloud_monitoring_access_key
+#   cloud_monitoring_access_key = module.cloud_monitoring.access_key
+#   # example of how to include / exclude metrics - more info https://cloud.ibm.com/docs/monitoring?topic=monitoring-change_kube_agent#change_kube_agent_log_metrics
+#   cloud_monitoring_metrics_filter   = [{ type = "exclude", name = "metricA.*" }, { type = "include", name = "metricB.*" }]
+#   cloud_monitoring_container_filter = [{ type = "exclude", parameter = "kubernetes.namespace.name", name = "kube-system" }]
+#   cloud_monitoring_agent_tags       = var.tags
+#   #LMLA cloud_monitoring_instance_region  = module.observability_instances.region
+#   cloud_monitoring_instance_region  = var.region
+# }
