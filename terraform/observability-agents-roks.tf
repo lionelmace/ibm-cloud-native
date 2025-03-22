@@ -48,7 +48,7 @@ data "ibm_is_security_groups" "vpc_security_groups" {
 ##############################################################################
 module "vpe" {
   source   = "terraform-ibm-modules/vpe-gateway/ibm"
-  version  = "4.3.0"
+  version  = "4.5.0"
   region   = var.region
   prefix   = var.prefix
   vpc_id   = ibm_is_vpc.vpc.id
