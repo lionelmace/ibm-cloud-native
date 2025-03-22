@@ -53,6 +53,7 @@ module "vpe" {
   prefix   = var.prefix
   vpc_id   = ibm_is_vpc.vpc.id
   #LMA vpc_name = "${var.prefix}-vpc"
+  vpc_name = ibm_is_vpc.vpc.name
   subnet_zone_list = local.subnet_zone_list
   #LMA resource_group_id  = module.resource_group.resource_group_id
   resource_group_id  = ibm_resource_group.group.id
