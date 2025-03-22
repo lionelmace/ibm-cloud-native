@@ -13,6 +13,9 @@ terraform {
       source  = "salrashid123/http-full"
       version = "1.3.1"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+    }
   }
 }
 
@@ -59,15 +62,24 @@ provider "helm" {
 }
 
 # Module Logs Agent requires kubectl in the background, not available in Terraform Cloud
-resource "null_resource" "install_kubectl" {
-  provisioner "local-exec" {
-    command = <<EOT
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x kubectl
-    sudo mv kubectl /usr/bin/
-    EOT
-  }
-}
+# WARNING local-exec is not supported by Terraform Cloud
+# resource "null_resource" "install_kubectl" {
+#   provisioner "local-exec" {
+#     command = <<EOT
+#     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+#     chmod +x kubectl
+#     sudo mv kubectl /usr/bin/
+#     EOT
+#   }
+# }
+
+provider "kubectl" {}
+# provider "kubectl" {
+#   host                   = var.k8s_host
+#   token                  = var.k8s_token
+#   cluster_ca_certificate = base64decode(var.k8s_ca_cert)
+#   load_config_file       = false
+# }
 
 # Init cluster config for helm
 ############################################################################
