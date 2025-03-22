@@ -29,7 +29,7 @@ module "trusted_profile" {
     cr_type = "ROKS_SA"
     links = [{
       #LMA crn       = module.ocp_base.cluster_crn
-      crn       = ibm_container_vpc_cluster.roks_cluster.id
+      crn       = ibm_container_vpc_cluster.roks_cluster.crn
       namespace = local.logs_agent_namespace
       name      = local.logs_agent_name
     }]
