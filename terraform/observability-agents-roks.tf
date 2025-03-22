@@ -50,7 +50,7 @@ module "vpe" {
   source   = "terraform-ibm-modules/vpe-gateway/ibm"
   version  = "4.5.0"
   region   = var.region
-  prefix   = var.prefix
+  prefix   = "vpe"
   vpc_id   = ibm_is_vpc.vpc.id
   #LMA vpc_name = "${var.prefix}-vpc"
   vpc_name = ibm_is_vpc.vpc.name
