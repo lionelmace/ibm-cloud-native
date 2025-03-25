@@ -68,6 +68,7 @@ module "vpe" {
     }
   ]
   service_endpoints = "private"
+  depends_on = [ibm_is_subnet.subnet]
 }
 
 
