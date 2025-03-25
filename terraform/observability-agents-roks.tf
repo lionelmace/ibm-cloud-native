@@ -13,7 +13,7 @@ locals {
 
 
 module "trusted_profile" {
-  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  source = "terraform-ibm-modules/trusted-profile/ibm"
   # version                     = "2.0.1"
   trusted_profile_name        = "${var.prefix}-profile"
   trusted_profile_description = "Logs agent Trusted Profile"
@@ -47,16 +47,16 @@ data "ibm_is_security_groups" "vpc_security_groups" {
 # to access the private Cloud Logs Ingress endpoint.
 ##############################################################################
 module "vpe" {
-  source   = "terraform-ibm-modules/vpe-gateway/ibm"
-  version  = "4.5.0"
-  region   = var.region
-  prefix   = "vpe"
-  vpc_id   = ibm_is_vpc.vpc.id
+  source  = "terraform-ibm-modules/vpe-gateway/ibm"
+  version = "4.5.0"
+  region  = var.region
+  prefix  = "vpe"
+  vpc_id  = ibm_is_vpc.vpc.id
   #LMA vpc_name = "${var.prefix}-vpc"
-  vpc_name = ibm_is_vpc.vpc.name
+  vpc_name         = ibm_is_vpc.vpc.name
   subnet_zone_list = local.subnet_zone_list
   #LMA resource_group_id  = module.resource_group.resource_group_id
-  resource_group_id  = ibm_resource_group.group.id
+  resource_group_id = ibm_resource_group.group.id
   # Select only security group attached to the Cluster
   #LMA security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${module.ocp_base.cluster_id}"] 
   security_group_ids = [for group in data.ibm_is_security_groups.vpc_security_groups.security_groups : group.id if group.name == "kube-${ibm_container_vpc_cluster.roks_cluster.id}"]
@@ -68,7 +68,7 @@ module "vpe" {
     }
   ]
   service_endpoints = "private"
-  depends_on = [ibm_is_subnet.subnet]
+  depends_on        = [ibm_is_subnet.subnet]
 }
 
 
@@ -76,28 +76,28 @@ module "vpe" {
 ##############################################################################
 
 module "observability_agents" {
-  source                    = "terraform-ibm-modules/observability-agents/ibm"
-  depends_on                = [module.vpe]
+  source     = "terraform-ibm-modules/observability-agents/ibm"
+  depends_on = [module.vpe]
   #LMA cluster_id                = module.ocp_base.cluster_id
-  cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+  cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   #LMA cluster_resource_group_id = module.resource_group.resource_group_id
   cluster_resource_group_id = ibm_resource_group.group.id
   # Cloud Logs agent
-  logs_agent_trusted_profile  = module.trusted_profile.trusted_profile.id
-  logs_agent_namespace        = local.logs_agent_namespace
-  logs_agent_name             = local.logs_agent_name
+  logs_agent_trusted_profile = module.trusted_profile.trusted_profile.id
+  logs_agent_namespace       = local.logs_agent_namespace
+  logs_agent_name            = local.logs_agent_name
   #LMA cloud_logs_ingress_endpoint = module.observability_instances.cloud_logs_ingress_private_endpoint
   cloud_logs_ingress_endpoint = ibm_resource_instance.logs_instance.extensions.external_ingress_private
   cloud_logs_ingress_port     = 443
   # example of how to add additional metadata to the logs agents
   logs_agent_additional_metadata = [{
-    key   = "cluster_id"
+    key = "cluster_id"
     #LMA value = module.ocp_base.cluster_id
     value = ibm_container_vpc_cluster.roks_cluster.id
   }]
   # example of how to add additional log source path
   logs_agent_additional_log_source_paths = ["/logs/*.log"]
-  
+
   # Monitoring agent
   #LMA cloud_monitoring_access_key = module.observability_instances.cloud_monitoring_access_key
   cloud_monitoring_access_key = module.cloud_monitoring.access_key
@@ -106,5 +106,5 @@ module "observability_agents" {
   cloud_monitoring_container_filter = [{ type = "exclude", parameter = "kubernetes.namespace.name", name = "kube-system" }]
   cloud_monitoring_agent_tags       = var.tags
   #LMLA cloud_monitoring_instance_region  = module.observability_instances.region
-  cloud_monitoring_instance_region  = var.region
+  cloud_monitoring_instance_region = var.region
 }
