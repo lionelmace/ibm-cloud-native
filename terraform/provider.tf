@@ -64,28 +64,28 @@ provider "helm" {
 # Module Logs Agent requires kubectl in the background, not available in Terraform Cloud
 ##############################################################################
 # WARNING local-exec is not supported by Terraform Cloud
-resource "null_resource" "install_kubectl" {
-  # download kubectl
-  provisioner "local-exec" {
-    command = <<EOT
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x kubectl
-    mkdir -p $HOME/bin
-    mv kubectl $HOME/bin/kubectl
-    echo "$HOME/bin" >> $GITHUB_PATH
-    EOT
-  }
-}
+# resource "null_resource" "install_kubectl" {
+#   # download kubectl
+#   provisioner "local-exec" {
+#     command = <<EOT
+#     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+#     chmod +x kubectl
+#     mkdir -p $HOME/bin
+#     mv kubectl $HOME/bin/kubectl
+#     echo "$HOME/bin" >> $GITHUB_PATH
+#     EOT
+#   }
+# }
 
 # OR
 
 # provider "kubectl" {}
-# provider "kubectl" {
-#   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#   cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
-#   load_config_file       = false
-# }
+provider "kubectl" {
+  host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+  token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+  cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
+  load_config_file       = false
+}
 ##############################################################################
 
 # Init cluster config for helm
