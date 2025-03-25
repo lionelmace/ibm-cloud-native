@@ -62,6 +62,7 @@ provider "helm" {
 }
 
 # Module Logs Agent requires kubectl in the background, not available in Terraform Cloud
+##############################################################################
 # WARNING local-exec is not supported by Terraform Cloud
 # resource "null_resource" "install_kubectl" {
 #   provisioner "local-exec" {
@@ -73,13 +74,16 @@ provider "helm" {
 #   }
 # }
 
-provider "kubectl" {}
-# provider "kubectl" {
-#   host                   = var.k8s_host
-#   token                  = var.k8s_token
-#   cluster_ca_certificate = base64decode(var.k8s_ca_cert)
-#   load_config_file       = false
-# }
+# OR
+
+# provider "kubectl" {}
+provider "kubectl" {
+  host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+  token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+  cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
+  load_config_file       = false
+}
+##############################################################################
 
 # Init cluster config for helm
 ############################################################################
