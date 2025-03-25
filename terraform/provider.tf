@@ -70,7 +70,9 @@ resource "null_resource" "install_kubectl" {
     command = <<EOT
     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
     chmod +x kubectl
-    mv kubectl /usr/bin/
+    mkdir -p $HOME/bin
+    mv kubectl $HOME/bin/kubectl
+    echo "$HOME/bin" >> $GITHUB_PATH
     EOT
   }
 }
