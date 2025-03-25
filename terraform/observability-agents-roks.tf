@@ -77,7 +77,7 @@ module "vpe" {
 
 module "observability_agents" {
   source     = "terraform-ibm-modules/observability-agents/ibm"
-  depends_on = [module.vpe]
+  depends_on = [module.vpe, null_resource.install_kubectl]
   #LMA cluster_id                = module.ocp_base.cluster_id
   cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   #LMA cluster_resource_group_id = module.resource_group.resource_group_id
