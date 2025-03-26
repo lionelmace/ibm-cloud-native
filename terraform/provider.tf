@@ -13,9 +13,9 @@ terraform {
       source  = "salrashid123/http-full"
       version = "1.3.1"
     }
-    kubectl = {
-      source = "gavinbunney/kubectl"
-    }
+    # kubectl = {
+    #   source = "gavinbunney/kubectl"
+    # }
   }
 }
 
@@ -80,12 +80,12 @@ provider "helm" {
 # OR
 
 # provider "kubectl" {}
-provider "kubectl" {
-  host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-  token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-  cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
-  load_config_file       = false
-}
+# provider "kubectl" {
+#   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+#   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+#   cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
+#   load_config_file       = false
+# }
 ##############################################################################
 
 # Init cluster config for helm
