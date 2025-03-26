@@ -162,3 +162,7 @@ Your Terraform Cloud Agent is running. Now, let’s install kubectl on the agent
     ```sh
     journalctl -u tfc-agent --no-pager --lines=50
     ````
+
+## Resources
+
+* [Documentation Terraform Cloud Agents](https://developer.hashicorp.com/terraform/cloud-docs/agents)

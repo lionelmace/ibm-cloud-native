@@ -24,13 +24,13 @@ iks_machine_flavor        = "bx2.4x16"
 # Scale down by setting the number of worker to Zero
 create_secondary_iks_pool = false
 # Uncomment to create worker pool
-# iks_worker_pools = [
-#   {
-#     pool_name        = "secondary"
-#     machine_type     = "bx2.4x16"
-#     workers_per_zone = 0
-#   }
-# ]
+iks_worker_pools = [
+  {
+    pool_name        = "secondary"
+    machine_type     = "bx2.4x16"
+    workers_per_zone = 0
+  }
+]
 
 # Possible values: MasterNodeReady, OneWorkerNodeReady, or IngressReady
 iks_wait_till          = "IngressReady"

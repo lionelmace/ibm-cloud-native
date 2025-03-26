@@ -4,7 +4,7 @@ resource "ibm_scc_scope" "scc_account_scope" {
   description = "Allow a profile attachment to target an IBM account"
   environment = "ibm-cloud"
   instance_id = ibm_resource_instance.scc_instance.guid
-  name        = "Account Scope"
+  name        = format("%s-%s", local.basename, "scope-account")
   properties = {
     scope_id   = local.account_id
     scope_type = "account"
@@ -15,7 +15,7 @@ resource "ibm_scc_scope" "scc_group_scope" {
   description = "Allow a profile attachment to target a Resource Group"
   environment = "ibm-cloud"
   instance_id = ibm_resource_instance.scc_instance.guid
-  name        = "Account Scope"
+  name        = format("%s-%s", local.basename, "scope-group")
   properties = {
     scope_id   = ibm_resource_group.group.id
     scope_type = "account.resource_group"
