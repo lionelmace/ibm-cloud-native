@@ -47,7 +47,7 @@ openshift_version = ""
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
-install_addons = true
+install_odf_addons = false
 
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero

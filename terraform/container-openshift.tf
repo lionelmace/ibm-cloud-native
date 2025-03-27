@@ -99,7 +99,7 @@ variable "create_secondary_roks_pool" {
   default     = false
 }
 
-variable "install_roks_addons" {
+variable "install_odf_addons" {
   type    = bool
   default = false
 }
@@ -207,8 +207,7 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
 }
 
 ## Install Containers Add-on
-resource "ibm_container_addons" "roks-addons" {
-  count      = var.install_roks_addons ? 1 : 0
+resource "ibm_container_addons" "roks-general-addons" {
   depends_on = [ibm_container_vpc_cluster.roks_cluster]
   cluster    = ibm_container_vpc_cluster.roks_cluster.name
   # addons {
@@ -224,6 +223,12 @@ resource "ibm_container_addons" "roks-addons" {
     name    = "cluster-autoscaler"
     version = "1.2.3"
   }
+}
+
+resource "ibm_container_addons" "roks-odf-addons" {
+  count      = var.install_odf_addons ? 1 : 0
+  depends_on = [ibm_container_vpc_cluster.roks_cluster]
+  cluster    = ibm_container_vpc_cluster.roks_cluster.name
   # Source: https://github.com/IBM-Cloud/terraform-provider-ibm/tree/master/examples/openshift-data-foundation/addon/4.17.0
   # Specify workerpool to deploy ODF, if not specified ODF will deploy on all nodes
   addons {

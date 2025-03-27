@@ -13,9 +13,6 @@ terraform {
       source  = "salrashid123/http-full"
       version = "1.3.1"
     }
-    # kubectl = {
-    #   source = "gavinbunney/kubectl"
-    # }
   }
 }
 
@@ -61,7 +58,9 @@ provider "helm" {
   }
 }
 
-# Module Logs Agent requires kubectl in the background, not available in Terraform Cloud
+# Module Logs Agent requires kubectl in the background
+# Local-exec is not supported in Terraform Cloud.
+# Use Terraform Cloud Agent instead.
 ##############################################################################
 # WARNING local-exec is not supported by Terraform Cloud
 # resource "null_resource" "install_kubectl" {
@@ -75,16 +74,6 @@ provider "helm" {
 #     echo "$HOME/bin" >> $GITHUB_PATH
 #     EOT
 #   }
-# }
-
-# OR
-
-# provider "kubectl" {}
-# provider "kubectl" {
-#   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#   cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
-#   load_config_file       = false
 # }
 ##############################################################################
 
