@@ -45,7 +45,7 @@ iks_update_all_workers = true
 openshift_version = ""
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
-openshift_machine_flavor = "bx2.16x64"
+openshift_machine_flavor = "bx2.4x16"
 # openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 install_addons = true
 

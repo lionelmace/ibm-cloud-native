@@ -99,7 +99,7 @@ variable "create_secondary_roks_pool" {
   default     = false
 }
 
-variable "install_addons" {
+variable "install_roks_addons" {
   type    = bool
   default = false
 }
@@ -208,7 +208,7 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
 
 ## Install Containers Add-on
 resource "ibm_container_addons" "roks-addons" {
-  count      = var.install_addons ? 1 : 0
+  count      = var.install_roks_addons ? 1 : 0
   depends_on = [ibm_container_vpc_cluster.roks_cluster]
   cluster    = ibm_container_vpc_cluster.roks_cluster.name
   # addons {
