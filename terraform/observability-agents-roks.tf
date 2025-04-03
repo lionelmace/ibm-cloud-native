@@ -47,11 +47,11 @@ data "ibm_is_security_groups" "vpc_security_groups" {
 # to access the private Cloud Logs Ingress endpoint.
 ##############################################################################
 module "vpe" {
-  source  = "terraform-ibm-modules/vpe-gateway/ibm"
-  version = "4.5.0"
-  region  = var.region
-  prefix  = "vpe"
-  vpc_id  = ibm_is_vpc.vpc.id
+  source = "terraform-ibm-modules/vpe-gateway/ibm"
+  # version = "4.5.0"
+  region = var.region
+  prefix = "vpe"
+  vpc_id = ibm_is_vpc.vpc.id
   #LMA vpc_name = "${var.prefix}-vpc"
   vpc_name         = ibm_is_vpc.vpc.name
   subnet_zone_list = local.subnet_zone_list
