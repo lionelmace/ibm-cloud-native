@@ -52,7 +52,6 @@ module "vpe" {
   region = var.region
   prefix = "vpe"
   vpc_id = ibm_is_vpc.vpc.id
-  #LMA vpc_name = "${var.prefix}-vpc"
   vpc_name         = ibm_is_vpc.vpc.name
   subnet_zone_list = local.subnet_zone_list
   #LMA resource_group_id  = module.resource_group.resource_group_id

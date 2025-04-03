@@ -210,10 +210,6 @@ resource "ibm_container_vpc_worker_pool" "roks_worker_pools" {
 resource "ibm_container_addons" "roks-general-addons" {
   depends_on = [ibm_container_vpc_cluster.roks_cluster]
   cluster    = ibm_container_vpc_cluster.roks_cluster.name
-  # addons {
-  #   name    = "vpc-file-csi-driver"
-  #   version = "2.0"
-  # }
   # Block Storage for VPC is installed by default at the cluster creation
   addons {
     name    = "vpc-block-csi-driver"
@@ -223,6 +219,10 @@ resource "ibm_container_addons" "roks-general-addons" {
     name    = "cluster-autoscaler"
     version = "1.2.3"
   }
+  # addons {
+  #   name    = "vpc-file-csi-driver"
+  #   version = "2.0"
+  # }
 }
 
 resource "ibm_container_addons" "roks-odf-addons" {
