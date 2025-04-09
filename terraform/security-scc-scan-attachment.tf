@@ -35,19 +35,6 @@ module "create_profile_attachment_fs" {
   attachment_schedule    = "daily"
   # scope the attachment to a specific resource group
   scope_ids = [ibm_scc_scope.scc_group_scope.scope_id]
-  # scope = [{
-  #   environment = "ibm-cloud"
-  #   properties = [
-  #     {
-  #       name  = "scope_type"
-  #       value = "account.resource_group"
-  #     },
-  #     {
-  #       name  = "scope_id"
-  #       value = ibm_resource_group.group.id
-  #     }
-  #   ]
-  # }]
   depends_on = [
     ibm_scc_instance_settings.scc_instance_settings
   ]
@@ -63,19 +50,6 @@ module "create_profile_attachment_cis" {
   attachment_schedule    = "daily"
   # scope the attachment to the account
   scope_ids = [ibm_scc_scope.scc_account_scope.scope_id]
-  # scope = [{
-  #   environment = "ibm-cloud"
-  #   properties = [
-  #     {
-  #       name  = "scope_type"
-  #       value = "account"
-  #     },
-  #     {
-  #       name  = "scope_id"
-  #       value = local.account_id
-  #     }
-  #   ]
-  # }]
   depends_on = [
     ibm_scc_instance_settings.scc_instance_settings
   ]

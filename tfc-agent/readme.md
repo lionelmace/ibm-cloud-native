@@ -163,6 +163,14 @@ Your Terraform Cloud Agent is running. Now, let’s install kubectl on the agent
     journalctl -u tfc-agent --no-pager --lines=50
     ````
 
+1. Check how the service is launched
+
+    ```sh
+    systemctl cat tfc-agent.service
+    ```
+
+1. Look for the line starting with ExecStart. Run this command directly.
+
 ## Resources
 
 * [Documentation Terraform Cloud Agents](https://developer.hashicorp.com/terraform/cloud-docs/agents)

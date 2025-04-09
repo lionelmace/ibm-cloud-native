@@ -7,7 +7,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "1.76.3"
+      version = "1.77.0"
     }
     http-full = {
       source  = "salrashid123/http-full"
@@ -42,40 +42,22 @@ provider "helm" {
 }
 
 # Helm to install IBM Cloud Logs
+# Temporary Removed
 ##############################################################################
-provider "helm" {
-  # alias = "logs"
-  kubernetes {
-    host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-    token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-    cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-  }
-  # IBM Cloud credentials are required to authenticate to the helm repo
-  registry {
-    url      = "oci://icr.io/ibm/observe/logs-agent-helm"
-    username = "iamapikey"
-    password = var.ibmcloud_api_key
-  }
-}
-
-# Module Logs Agent requires kubectl in the background
-# Local-exec is not supported in Terraform Cloud.
-# Use Terraform Cloud Agent instead.
-##############################################################################
-# WARNING local-exec is not supported by Terraform Cloud
-# resource "null_resource" "install_kubectl" {
-#   # download kubectl
-#   provisioner "local-exec" {
-#     command = <<EOT
-#     curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-#     chmod +x kubectl
-#     mkdir -p $HOME/bin
-#     mv kubectl $HOME/bin/kubectl
-#     echo "$HOME/bin" >> $GITHUB_PATH
-#     EOT
+# provider "helm" {
+#   # alias = "logs"
+#   kubernetes {
+#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
+#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
+#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
+#   }
+#   # IBM Cloud credentials are required to authenticate to the helm repo
+#   registry {
+#     url      = "oci://icr.io/ibm/observe/logs-agent-helm"
+#     username = "iamapikey"
+#     password = var.ibmcloud_api_key
 #   }
 # }
-##############################################################################
 
 # Init cluster config for helm
 ############################################################################
