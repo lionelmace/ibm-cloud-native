@@ -11,7 +11,7 @@ resource "ibm_resource_instance" "cos-flow-logs" {
 }
 
 resource "ibm_cos_bucket" "bucket-flow-logs" {
-  bucket_name          = format("%s-%s", local.basename, "bucket-flow-logs")
+  bucket_name          = format("%s-%s-%s", local.basename, "bucket-flow-logs", random_string.random.0.result)
   resource_instance_id = ibm_resource_instance.cos-flow-logs.id
   region_location      = var.region
   storage_class        = "standard"
