@@ -36,7 +36,7 @@ resource "ibm_resource_instance" "cos-scc" {
 ## COS Bucket
 ##############################################################################
 resource "ibm_cos_bucket" "scc-bucket" {
-  bucket_name          = format("%s-%s", local.basename, "scc-bucket")
+  bucket_name          = format("%s-%s-%s", local.basename, "scc-bucket", random_string.random.result)
   resource_instance_id = ibm_resource_instance.cos-scc.id
   storage_class        = "smart"
 
