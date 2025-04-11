@@ -16,12 +16,12 @@ variable "prefix" {
 }
 
 # Warning: only computed at apply time, 
-# resource "random_string" "random" {
-#   count = var.prefix == "" ? 1 : 0
+resource "random_string" "random" {
+  count = var.prefix == "" ? 1 : 0
 
-#   length  = 6
-#   special = false
-# }
+  length  = 6
+  special = false
+}
 
 locals {
   # Any value that depends on basename (like the VPC name) becomes unknown at plan time.
