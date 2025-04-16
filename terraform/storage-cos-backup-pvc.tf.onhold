@@ -76,7 +76,7 @@ resource "kubernetes_secret" "cos_write_access" {
 # Backup Restore Helm chart to back up data in file/block storage PVC to COS
 ##############################################################################
 resource "helm_release" "backup-pvc" {
-  provider = helm.backup-pvc
+  # provider = helm.backup-pvc
   name     = "my-backup-pvc"
   # chart     = "oci://icr.io/helm/iks-charts/ibmcloud-backup-restore"
   # oci prefix does not work, the old charts aren't in a Helm Registry.
