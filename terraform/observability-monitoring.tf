@@ -70,6 +70,7 @@ module "scc_wp" {
   resource_group_id             = ibm_resource_group.group.id
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+  scc_wp_service_plan           = var.sysdig_plan
 }
 
 module "scc_wp_agent" {
