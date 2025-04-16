@@ -58,6 +58,20 @@ output "cloud_monitoring_crn" {
   value       = module.cloud_monitoring.crn
 }
 
+########################################################################################################################
+# SCC WP instance
+########################################################################################################################
+
+module "scc_wp" {
+  source                        = "terraform-ibm-modules/scc-workload-protection/ibm"
+  # version = "latest" # Replace "latest" with a release version to lock into a specific release
+  name                          = local.basename
+  region                        = var.region
+  resource_group_id             = module.resource_group.resource_group_id
+  tags                          = var.tags
+  cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+}
+
 # VPE (Virtual Private Endpoint) for Monitoring
 ##############################################################################
 # resource "ibm_is_virtual_endpoint_gateway" "vpe_monitoring" {
