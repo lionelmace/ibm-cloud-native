@@ -59,7 +59,7 @@ output "cloud_monitoring_crn" {
 }
 
 ########################################################################################################################
-# SCC WP instance
+# SCC WP (Workload Protection) instance and agents
 ########################################################################################################################
 
 module "scc_wp" {
@@ -70,6 +70,16 @@ module "scc_wp" {
   resource_group_id             = ibm_resource_group.group.id
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
+}
+
+module "scc_wp_agent {
+  source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
+  # version = "latest" # Replace "latest" with a release version to lock into a specific release
+  access_key         = module.scc_wp.access_key
+  cluster_name       = ibm_container_vpc_cluster.roks_cluster.name
+  region             = var.region
+  endpoint_type      = "private"
+  name               = format("%s-%s", local.basename, "wp-agent")
 }
 
 # VPE (Virtual Private Endpoint) for Monitoring
