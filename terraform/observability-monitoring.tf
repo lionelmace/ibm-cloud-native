@@ -67,7 +67,7 @@ module "scc_wp" {
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
   name                          = local.basename
   region                        = var.region
-  resource_group_id             = module.resource_group.resource_group_id
+  resource_group_id             = ibm_resource_group.group.id
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
 }
