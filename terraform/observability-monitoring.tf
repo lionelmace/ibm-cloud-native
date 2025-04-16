@@ -72,7 +72,7 @@ module "scc_wp" {
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
 }
 
-module "scc_wp_agent {
+module "scc_wp_agent" {
   source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
   access_key         = module.scc_wp.access_key
