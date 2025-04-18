@@ -195,7 +195,7 @@ module "trusted_profile_app_config_general" {
 # Enable the config aggregator
 resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
   # instance_id                 = module.app_config.app_config_guid
-  instance_id                 = ibm_resource_instance.app_config.app_config_guid
+  instance_id                 = ibm_resource_instance.app_config.guid
   region                      = var.region
   resource_collection_enabled = true
   resource_collection_regions = ["all"]
