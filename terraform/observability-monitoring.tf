@@ -133,13 +133,23 @@ module "scc_wp_agent" {
 ########################################################################################################################
 
 # Create App Config instance
-module "app_config" {
-  source            = "terraform-ibm-modules/app-configuration/ibm"
-  version           = "1.3.0"
-  region            = var.region
+# BUG: does not support region eu-de
+# module "app_config" {
+#   source            = "terraform-ibm-modules/app-configuration/ibm"
+#   version           = "1.3.0"
+#   region            = var.region
+#   resource_group_id = ibm_resource_group.group.id
+#   app_config_name   = format("%s-%s", local.basename, "app-configuration")
+#   app_config_tags   = var.tags
+# }
+
+resource "ibm_resource_instance" "app_config" {
   resource_group_id = ibm_resource_group.group.id
-  app_config_name   = format("%s-%s", local.basename, "app-configuration")
-  app_config_tags   = var.tags
+  name              = format("%s-%s", local.basename, "app-configuration")
+  service           = "apprapp"
+  plan              = "standardv2"
+  location          = var.region
+  tags              = var.tags
 }
 
 # Create trusted profile for App Config instance
@@ -150,7 +160,8 @@ module "trusted_profile_app_config_general" {
   trusted_profile_description = "Trusted Profile for App Config general permissions"
 
   trusted_profile_identity = {
-    identifier    = module.app_config.app_config_crn
+    # identifier    = module.app_config.app_config_crn
+    identifier    = ibm_resource_instance.app_config.crn
     identity_type = "crn"
     type          = "crn"
   }
@@ -175,14 +186,16 @@ module "trusted_profile_app_config_general" {
   trusted_profile_links = [{
     cr_type = "VSI"
     links = [{
-      crn = module.app_config.app_config_crn
+      # crn = module.app_config.app_config_crn
+      crn = ibm_resource_instance.app_config.crn
     }]
   }]
 }
 
 # Enable the config aggregator
 resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
-  instance_id                 = module.app_config.app_config_guid
+  # instance_id                 = module.app_config.app_config_guid
+  instance_id                 = ibm_resource_instance.app_config.app_config_guid
   region                      = var.region
   resource_collection_enabled = true
   resource_collection_regions = ["all"]
