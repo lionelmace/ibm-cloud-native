@@ -83,6 +83,18 @@ module "scc_wp_agent" {
   name               = format("%s-%s", local.basename, "wp-agent")
 }
 
+########################################################################################################################
+# App Configuration
+########################################################################################################################
+resource "ibm_resource_instance" "app_config" {
+  resource_group_id = ibm_resource_group.group.id
+  name              = format("%s-%s", local.basename, "app-configuration")
+  service           = "apprapp"
+  plan              = "standardv2"
+  location          = var.region
+  tags              = var.tags
+}
+
 # VPE (Virtual Private Endpoint) for Monitoring
 ##############################################################################
 # resource "ibm_is_virtual_endpoint_gateway" "vpe_monitoring" {
