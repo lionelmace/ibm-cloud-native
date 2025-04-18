@@ -59,9 +59,10 @@ output "cloud_monitoring_crn" {
 }
 
 ########################################################################################################################
-# SCC WP (Workload Protection) instance and agents
+# SCC WP (Workload Protection)
 ########################################################################################################################
 
+# Create SCC Workload Protection instance
 module "scc_wp" {
   source                        = "terraform-ibm-modules/scc-workload-protection/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
@@ -73,6 +74,50 @@ module "scc_wp" {
   scc_wp_service_plan           = var.sysdig_plan
 }
 
+# Create Trusted profile for SCC Workload Protection instance
+module "trusted_profile_scc_wp" {
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.0"
+  trusted_profile_name        = "${var.prefix}-scc-wp-profile"
+  trusted_profile_description = "Trusted Profile for SCC-WP to access App Config and enterprise"
+
+  trusted_profile_identity = {
+    identifier    = module.scc_wp.crn
+    identity_type = "crn"
+    type          = "crn"
+  }
+
+  trusted_profile_policies = [
+    {
+      roles = ["Viewer", "Service Configuration Reader", "Manager"]
+      resources = [{
+        service = "apprapp"
+      }]
+      description = "App Config access"
+    }
+    # ,
+    # {
+    #   roles = ["Viewer", "Usage Report Viewer"]
+    #   resources = [{
+    #     service = "enterprise"
+    #   }]
+    #   description = "Enterprise access"
+    # }
+  ]
+
+  trusted_profile_links = [{
+    cr_type = "VSI"
+    links = [{
+      crn = module.scc_wp.crn
+    }]
+  }]
+}
+
+########################################################################################################################
+# SCC WP (Workload Protection) agents
+########################################################################################################################
+
+# Deploy SCC Workload Protection agent to the cluster
 module "scc_wp_agent" {
   source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
@@ -86,13 +131,73 @@ module "scc_wp_agent" {
 ########################################################################################################################
 # App Configuration
 ########################################################################################################################
-resource "ibm_resource_instance" "app_config" {
+
+# Create App Config instance
+module "app_config" {
+  source            = "terraform-ibm-modules/app-configuration/ibm"
+  version           = "1.3.0"
+  region            = var.region
   resource_group_id = ibm_resource_group.group.id
-  name              = format("%s-%s", local.basename, "app-configuration")
-  service           = "apprapp"
-  plan              = "standardv2"
-  location          = var.region
-  tags              = var.tags
+  app_config_name   = format("%s-%s", local.basename, "app-configuration")
+  app_config_tags   = var.tags
+}
+
+# Create trusted profile for App Config instance
+module "trusted_profile_app_config_general" {
+  source                      = "terraform-ibm-modules/trusted-profile/ibm"
+  version                     = "2.1.0"
+  trusted_profile_name        = "${var.prefix}-app-config-general-profile"
+  trusted_profile_description = "Trusted Profile for App Config general permissions"
+
+  trusted_profile_identity = {
+    identifier    = module.app_config.app_config_crn
+    identity_type = "crn"
+    type          = "crn"
+  }
+
+  trusted_profile_policies = [
+    {
+      roles              = ["Viewer", "Service Configuration Reader"]
+      account_management = true
+      description        = "All Account Management Services"
+    },
+    {
+      roles = ["Viewer", "Service Configuration Reader", "Reader"]
+      resource_attributes = [{
+        name     = "serviceType"
+        value    = "service"
+        operator = "stringEquals"
+      }]
+      description = "All Identity and Access enabled services"
+    }
+  ]
+
+  trusted_profile_links = [{
+    cr_type = "VSI"
+    links = [{
+      crn = module.app_config.app_config_crn
+    }]
+  }]
+}
+
+# Enable the config aggregator
+resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
+  instance_id                 = module.app_config.app_config_guid
+  region                      = var.region
+  resource_collection_enabled = true
+  resource_collection_regions = ["all"]
+  trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
+
+  # Enables resource collection for Enterprise acccounts
+  # additional_scope {
+  #   type          = "Enterprise"
+  #   enterprise_id = var.enterprise_id
+
+  #   profile_template {
+  #     id                 = module.trusted_profile_template.trusted_profile_template_id
+  #     trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
+  #   }
+  # }
 }
 
 # VPE (Virtual Private Endpoint) for Monitoring
