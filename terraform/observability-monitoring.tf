@@ -118,15 +118,15 @@ module "trusted_profile_scc_wp" {
 ########################################################################################################################
 
 # Deploy SCC Workload Protection agent to the cluster
-# module "scc_wp_agent" {
-#   source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
-#   # version = "latest" # Replace "latest" with a release version to lock into a specific release
-#   access_key         = module.scc_wp.access_key
-#   cluster_name       = ibm_container_vpc_cluster.roks_cluster.name
-#   region             = var.region
-#   endpoint_type      = "private"
-#   name               = format("%s-%s", local.basename, "wp-agent")
-# }
+module "scc_wp_agent" {
+  source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
+  # version = "latest" # Replace "latest" with a release version to lock into a specific release
+  access_key         = module.scc_wp.access_key
+  cluster_name       = ibm_container_vpc_cluster.roks_cluster.name
+  region             = var.region
+  endpoint_type      = "private"
+  name               = format("%s-%s", local.basename, "wp-agent")
+}
 
 ########################################################################################################################
 # App Configuration
