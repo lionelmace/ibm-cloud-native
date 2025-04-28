@@ -22,6 +22,7 @@ resource "ibm_atracker_target" "at_logs_target" {
   name        = format("%s-%s", local.basename, "at-target-logs")
   target_type = "cloud_logs"
   region      = var.region
+  depends_on = [ibm_iam_authorization_policy.iam-auth-atracker-2-logs]
 }
 
 resource "ibm_atracker_settings" "atracker_settings" {
