@@ -13,6 +13,10 @@ terraform {
       source  = "salrashid123/http-full"
       version = "1.3.1"
     }
+    sysdig = {
+      source = "sysdiglabs/sysdig"
+      version = "1.56.1"
+    }
   }
 }
 
@@ -35,6 +39,11 @@ provider "helm" {
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
     cluster_ca_certificate = base64decode(data.ibm_container_cluster_config.roks_cluster_config.ca_certificate)
   }
+}
+
+provider "sysdig" {
+  sysdig_secure_url="https://eu-de.monitoring.cloud.ibm.com"
+  sysdig_secure_api_token = var.ibmcloud_api_key
 }
 
 # Init cluster config for helm and kubernetes providers
