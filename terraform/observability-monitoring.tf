@@ -140,77 +140,75 @@ module "app_config" {
   resource_group_id = ibm_resource_group.group.id
   app_config_name   = format("%s-%s", local.basename, "app-configuration")
   app_config_tags   = var.tags
-}
-
-# resource "ibm_resource_instance" "app_config" {
-#   resource_group_id = ibm_resource_group.group.id
-#   name              = format("%s-%s", local.basename, "app-configuration")
-#   service           = "apprapp"
-#   plan              = "standardv2"
-#   location          = var.region
-#   tags              = var.tags
-# }
-
-# Create trusted profile for App Config instance
-module "trusted_profile_app_config_general" {
-  source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.0"
-  trusted_profile_name        = "${var.prefix}-app-config-general-profile"
-  trusted_profile_description = "Trusted Profile for App Config general permissions"
-
-  trusted_profile_identity = {
-    identifier    = module.app_config.app_config_crn
-    # identifier    = ibm_resource_instance.app_config.crn
-    identity_type = "crn"
-    type          = "crn"
-  }
-
-  trusted_profile_policies = [
+  enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  app_config_plan                        = "standardv2"
+  config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
+  app_config_collections = [
     {
-      roles              = ["Viewer", "Service Configuration Reader"]
-      account_management = true
-      description        = "All Account Management Services"
-    },
-    {
-      roles = ["Viewer", "Service Configuration Reader", "Reader"]
-      resource_attributes = [{
-        name     = "serviceType"
-        value    = "service"
-        operator = "stringEquals"
-      }]
-      description = "All Identity and Access enabled services"
+      name          = "${var.prefix}-collection",
+      collection_id = "${var.prefix}-collection"
+      description   = "Collection for ${var.prefix}"
     }
   ]
-
-  trusted_profile_links = [{
-    cr_type = "VSI"
-    links = [{
-      crn = module.app_config.app_config_crn
-      # crn = ibm_resource_instance.app_config.crn
-    }]
-  }]
 }
+
+# Create trusted profile for App Config instance
+# module "trusted_profile_app_config_general" {
+#   source                      = "terraform-ibm-modules/trusted-profile/ibm"
+#   version                     = "2.1.0"
+#   trusted_profile_name        = "${var.prefix}-app-config-general-profile"
+#   trusted_profile_description = "Trusted Profile for App Config general permissions"
+
+#   trusted_profile_identity = {
+#     identifier    = module.app_config.app_config_crn
+#     identity_type = "crn"
+#     type          = "crn"
+#   }
+
+#   trusted_profile_policies = [
+#     {
+#       roles              = ["Viewer", "Service Configuration Reader"]
+#       account_management = true
+#       description        = "All Account Management Services"
+#     },
+#     {
+#       roles = ["Viewer", "Service Configuration Reader", "Reader"]
+#       resource_attributes = [{
+#         name     = "serviceType"
+#         value    = "service"
+#         operator = "stringEquals"
+#       }]
+#       description = "All Identity and Access enabled services"
+#     }
+#   ]
+
+#   trusted_profile_links = [{
+#     cr_type = "VSI"
+#     links = [{
+#       crn = module.app_config.app_config_crn
+#     }]
+#   }]
+# }
 
 # Enable the config aggregator
-resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
-  instance_id                 = module.app_config.app_config_guid
-  # instance_id                 = ibm_resource_instance.app_config.guid
-  region                      = var.region
-  resource_collection_enabled = true
-  resource_collection_regions = ["all"]
-  trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
+# resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
+#   instance_id                 = module.app_config.app_config_guid
+#   region                      = var.region
+#   resource_collection_enabled = true
+#   resource_collection_regions = ["all"]
+#   trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
 
-  # Enables resource collection for Enterprise acccounts
-  # additional_scope {
-  #   type          = "Enterprise"
-  #   enterprise_id = var.enterprise_id
+#   # Enables resource collection for Enterprise acccounts
+#   # additional_scope {
+#   #   type          = "Enterprise"
+#   #   enterprise_id = var.enterprise_id
 
-  #   profile_template {
-  #     id                 = module.trusted_profile_template.trusted_profile_template_id
-  #     trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
-  #   }
-  # }
-}
+#   #   profile_template {
+#   #     id                 = module.trusted_profile_template.trusted_profile_template_id
+#   #     trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
+#   #   }
+#   # }
+# }
 
 # VPE (Virtual Private Endpoint) for Monitoring
 ##############################################################################
