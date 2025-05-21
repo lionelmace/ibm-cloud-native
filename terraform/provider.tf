@@ -14,7 +14,7 @@ terraform {
       version = "1.3.1"
     }
     sysdig = {
-      source = "sysdiglabs/sysdig"
+      source  = "sysdiglabs/sysdig"
       version = "1.56.1"
     }
   }
@@ -42,7 +42,7 @@ provider "helm" {
 }
 
 provider "sysdig" {
-  sysdig_secure_url="https://eu-de.monitoring.cloud.ibm.com"
+  sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
   sysdig_secure_api_token = var.ibmcloud_api_key
 }
 

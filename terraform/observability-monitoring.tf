@@ -64,7 +64,7 @@ output "cloud_monitoring_crn" {
 
 # Create SCC Workload Protection instance
 module "scc_wp" {
-  source                        = "terraform-ibm-modules/scc-workload-protection/ibm"
+  source = "terraform-ibm-modules/scc-workload-protection/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
   name                          = format("%s-%s", local.basename, "workload-protection")
   region                        = var.region
@@ -119,13 +119,13 @@ module "trusted_profile_scc_wp" {
 
 # Deploy SCC Workload Protection agent to the cluster
 module "scc_wp_agent" {
-  source             = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
+  source = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
-  access_key         = module.scc_wp.access_key
-  cluster_name       = ibm_container_vpc_cluster.roks_cluster.name
-  region             = var.region
-  endpoint_type      = "private"
-  name               = format("%s-%s", local.basename, "wp-agent")
+  access_key    = module.scc_wp.access_key
+  cluster_name  = ibm_container_vpc_cluster.roks_cluster.name
+  region        = var.region
+  endpoint_type = "private"
+  name          = format("%s-%s", local.basename, "wp-agent")
 }
 
 ########################################################################################################################
@@ -134,12 +134,12 @@ module "scc_wp_agent" {
 
 # Create App Config instance
 module "app_config" {
-  source            = "terraform-ibm-modules/app-configuration/ibm"
+  source = "terraform-ibm-modules/app-configuration/ibm"
   # version           = "1.3.0"
-  region            = var.region
-  resource_group_id = ibm_resource_group.group.id
-  app_config_name   = format("%s-%s", local.basename, "app-configuration")
-  app_config_tags   = var.tags
+  region                                 = var.region
+  resource_group_id                      = ibm_resource_group.group.id
+  app_config_name                        = format("%s-%s", local.basename, "app-configuration")
+  app_config_tags                        = var.tags
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_plan                        = "standardv2"
   config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
