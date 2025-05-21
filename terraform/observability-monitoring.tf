@@ -143,13 +143,6 @@ module "app_config" {
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_plan                        = "standardv2"
   config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
-  app_config_collections = [
-    {
-      name          = "${var.prefix}-collection",
-      collection_id = "${var.prefix}-collection"
-      description   = "Collection for ${var.prefix}"
-    }
-  ]
 }
 
 # Create trusted profile for App Config instance
