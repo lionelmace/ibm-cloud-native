@@ -145,64 +145,6 @@ module "app_config" {
   config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
 }
 
-# Create trusted profile for App Config instance
-# module "trusted_profile_app_config_general" {
-#   source                      = "terraform-ibm-modules/trusted-profile/ibm"
-#   version                     = "2.1.0"
-#   trusted_profile_name        = "${var.prefix}-app-config-general-profile"
-#   trusted_profile_description = "Trusted Profile for App Config general permissions"
-
-#   trusted_profile_identity = {
-#     identifier    = module.app_config.app_config_crn
-#     identity_type = "crn"
-#     type          = "crn"
-#   }
-
-#   trusted_profile_policies = [
-#     {
-#       roles              = ["Viewer", "Service Configuration Reader"]
-#       account_management = true
-#       description        = "All Account Management Services"
-#     },
-#     {
-#       roles = ["Viewer", "Service Configuration Reader", "Reader"]
-#       resource_attributes = [{
-#         name     = "serviceType"
-#         value    = "service"
-#         operator = "stringEquals"
-#       }]
-#       description = "All Identity and Access enabled services"
-#     }
-#   ]
-
-#   trusted_profile_links = [{
-#     cr_type = "VSI"
-#     links = [{
-#       crn = module.app_config.app_config_crn
-#     }]
-#   }]
-# }
-
-# Enable the config aggregator
-# resource "ibm_config_aggregator_settings" "scc_wp_aggregator" {
-#   instance_id                 = module.app_config.app_config_guid
-#   region                      = var.region
-#   resource_collection_enabled = true
-#   resource_collection_regions = ["all"]
-#   trusted_profile_id          = module.trusted_profile_app_config_general.profile_id
-
-#   # Enables resource collection for Enterprise acccounts
-#   # additional_scope {
-#   #   type          = "Enterprise"
-#   #   enterprise_id = var.enterprise_id
-
-#   #   profile_template {
-#   #     id                 = module.trusted_profile_template.trusted_profile_template_id
-#   #     trusted_profile_id = module.trusted_profile_app_config_enterprise.profile_id
-#   #   }
-#   # }
-# }
-
 # VPE (Virtual Private Endpoint) for Monitoring
 ##############################################################################
 # resource "ibm_is_virtual_endpoint_gateway" "vpe_monitoring" {
