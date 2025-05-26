@@ -46,6 +46,16 @@ provider "sysdig" {
   sysdig_secure_api_token = var.ibmcloud_api_key
 }
 
+# Required by SCC Workload Protection used in file observability-monitoring.tf
+provider "restapi" {
+  # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
+  uri = "https://resource-controller.cloud.ibm.com"
+  headers = {
+    Authorization  = data.ibm_iam_auth_token.tokendata.iam_access_token
+  }
+  write_returns_object = true
+}
+
 # Init cluster config for helm and kubernetes providers
 ############################################################################
 data "ibm_container_cluster_config" "roks_cluster_config" {
