@@ -72,7 +72,7 @@ module "scc_wp" {
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
   scc_wp_service_plan           = var.sysdig_plan
-  app_config_crn                = module.app_config.crn
+  app_config_crn                = module.app_config.app_config_crn
 }
 
 # Create Trusted profile for SCC Workload Protection instance
