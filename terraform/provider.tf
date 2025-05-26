@@ -16,7 +16,7 @@ terraform {
     sysdig = {
       source  = "sysdiglabs/sysdig"
       version = "1.56.1"
-    } 
+    }
     restapi = {
       source  = "mastercard/restapi"
       version = ">=1.20.0, <2.0.0"
@@ -55,7 +55,7 @@ provider "restapi" {
   # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
   uri = "https://resource-controller.cloud.ibm.com"
   headers = {
-    Authorization  = data.ibm_iam_auth_token.tokendata.iam_access_token
+    Authorization = data.ibm_iam_auth_token.tokendata.iam_access_token
   }
   write_returns_object = true
 }
