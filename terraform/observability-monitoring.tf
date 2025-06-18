@@ -127,6 +127,10 @@ module "scc_wp_agent" {
   region        = var.region
   endpoint_type = "private"
   name          = format("%s-%s", local.basename, "wp-agent")
+  providers = {
+    helm       = helm.roks
+    kubernetes = kubernetes.roks
+  }
 }
 
 ########################################################################################################################

@@ -33,12 +33,14 @@ provider "ibm" {
 }
 
 provider "kubernetes" {
+  alias = "roks"
   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
   cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
 }
 
 provider "helm" {
+  alias = "roks"
   kubernetes {
     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
