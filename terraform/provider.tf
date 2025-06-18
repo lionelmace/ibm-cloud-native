@@ -17,12 +17,6 @@ terraform {
       source  = "sysdiglabs/sysdig"
       version = "1.56.1"
     }
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-    }
-    helm = {
-      source = "hashicorp/helm"
-    }
     # Required by SCC Workload Protection used in file observability-monitoring.tf
     restapi = {
       source  = "mastercard/restapi"
@@ -39,14 +33,12 @@ provider "ibm" {
 }
 
 provider "kubernetes" {
-  alias = "roks"
   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
   cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
 }
 
 provider "helm" {
-  alias = "roks"
   kubernetes {
     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
