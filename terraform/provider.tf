@@ -17,6 +17,12 @@ terraform {
       source  = "sysdiglabs/sysdig"
       version = "1.56.1"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
+    helm = {
+      source = "hashicorp/helm"
+    }
     # Required by SCC Workload Protection used in file observability-monitoring.tf
     restapi = {
       source  = "mastercard/restapi"
