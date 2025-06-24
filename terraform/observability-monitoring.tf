@@ -142,7 +142,7 @@ module "app_config" {
   app_config_name                        = format("%s-%s", local.basename, "app-configuration")
   app_config_tags                        = var.tags
   enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan                        = "standardv2"
+  app_config_plan                        = "basic"
   config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
 }
 
