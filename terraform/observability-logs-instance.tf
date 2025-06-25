@@ -41,7 +41,7 @@ resource "ibm_logs_router_tenant" "logs_router_tenant_instance" {
       # When connecting to a private endpoint using a VPE, use port 443.
       # When connecting to a private endpoint using a CSE, use port 3443.
       host = ibm_resource_instance.logs_instance.extensions.external_ingress_private
-      port = 3443
+      port = 443
     }
   }
 }
