@@ -34,7 +34,7 @@ variable "icd_mongo_core_allocation" {
 variable "icd_mongo_db_version" {
   type        = string
   description = "The database version to provision if specified"
-  default     = "6.0"
+  default     = "8.0"
 }
 
 variable "icd_mongo_users" {
