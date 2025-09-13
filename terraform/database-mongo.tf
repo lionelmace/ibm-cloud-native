@@ -61,7 +61,7 @@ resource "ibm_database" "icd_mongo" {
   name              = format("%s-%s", local.basename, "mongo")
   service           = "databases-for-mongodb"
   plan              = var.icd_mongo_plan
-  version           = var.icd_mongo_db_version
+  # version           = var.icd_mongo_db_version
   service_endpoints = var.icd_mongo_service_endpoints
   location          = var.region
   resource_group_id = ibm_resource_group.group.id
