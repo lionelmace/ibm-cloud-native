@@ -149,8 +149,8 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   name              = format("%s-%s", local.basename, var.openshift_cluster_name)
   vpc_id            = ibm_is_vpc.vpc.id
   resource_group_id = ibm_resource_group.group.id
-  # Optional: Specify OpenShift version. If not included, 4.18 is used
-  kube_version         = var.openshift_version == "" ? "4.18_openshift" : var.openshift_version
+  # Optional: Specify OpenShift version. If not included, 4.19 is used
+  kube_version         = var.openshift_version == "" ? "4.19_openshift" : var.openshift_version
   operating_system     = var.openshift_os
   cos_instance_crn     = var.is_openshift_cluster ? ibm_resource_instance.cos_openshift_registry[0].id : null
   entitlement          = var.entitlement
