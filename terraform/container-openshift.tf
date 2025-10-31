@@ -213,7 +213,7 @@ resource "ibm_container_addons" "roks-general-addons" {
   # Block Storage for VPC is installed by default at the cluster creation
   addons {
     name    = "vpc-block-csi-driver"
-    version = "5.2"
+    # version = "5.2"
   }
   # Auto-scaler addon not supported on ROKS 4.19 (Date: 6 oct 2025)
   # addons {
