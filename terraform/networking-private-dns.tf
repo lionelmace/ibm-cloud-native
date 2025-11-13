@@ -39,8 +39,8 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
     enabled     = true
     description = "origin pool"
   }
-#   monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
-  notification_channel = "https://mywebsite.com/dns/webhook"
-  healthcheck_region   = "us-south"
-  healthcheck_subnets  = [ibm_is_subnet.subnet[1].resource_crn]
+  # monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
+  # notification_channel = "https://mywebsite.com/dns/webhook"
+  # healthcheck_region   = "us-south"
+  # healthcheck_subnets  = [ibm_is_subnet.subnet[1].resource_crn]
 }
