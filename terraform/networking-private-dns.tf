@@ -26,6 +26,13 @@ resource "ibm_dns_resource_record" "pdns-a-record" {
   ttl         = 3600
 }
 
+resource "ibm_dns_permitted_network" "pdns-permitted-network" {
+    instance_id = ibm_resource_instance.pdns-instance.guid
+    zone_id = ibm_dns_zone.pdns-zone.zone_id
+    vpc_crn = ibm_is_vpc.vpc.id
+    type = "vpc"
+}
+
 # GLB
 ##############################################################################
 
