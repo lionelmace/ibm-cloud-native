@@ -164,7 +164,7 @@ resource "ibm_is_subnet" "subnet-nlb" {
 }
 
 resource "ibm_is_subnet" "subnet-nlb-2" {
-  name            = "${local.basename}-subnet-nlb"
+  name            = "${local.basename}-subnet-nlb-2"
   vpc             = ibm_is_vpc.vpc.id
   zone            = "${var.region}-2"
   ipv4_cidr_block = "10.243.2.0/24"
@@ -174,7 +174,7 @@ resource "ibm_is_subnet" "subnet-nlb-2" {
 }
 
 resource "ibm_is_subnet" "subnet-nlb-3" {
-  name            = "${local.basename}-subnet-nlb"
+  name            = "${local.basename}-subnet-nlb-3"
   vpc             = ibm_is_vpc.vpc.id
   zone            = "${var.region}-3"
   ipv4_cidr_block = "10.243.3.0/24"
