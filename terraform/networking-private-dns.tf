@@ -1,3 +1,5 @@
+# Private DNS Instance
+##############################################################################
 
 resource "ibm_resource_instance" "pdns-instance" {
   name              = "${local.basename}-pdns"
@@ -7,10 +9,25 @@ resource "ibm_resource_instance" "pdns-instance" {
   plan              = "standard-dns"
 }
 
+# DNS Zone
+##############################################################################
+
 resource "ibm_dns_zone" "pdns-1-zone" {
   name = "${local.basename}.local"
   instance_id = ibm_resource_instance.pdns-instance.guid
 }
+
+resource "ibm_dns_resource_record" "pdns-a-record" {
+  instance_id = ibm_resource_instance.pdns-instance.guid
+  zone_id     = ibm_dns_zone.pdns-1-zone.zone_id
+  type        = "A"
+  name        = "nlb-zone-1"
+  rdata       = "10.243.1.8" # Private IP of my private NLB
+  ttl         = 3600
+}
+
+# GLB
+##############################################################################
 
 resource "ibm_dns_glb" "pdns-glb" {
   depends_on    = [ibm_dns_glb_pool.pool-nlb-1]
