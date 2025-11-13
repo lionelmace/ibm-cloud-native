@@ -29,7 +29,7 @@ resource "ibm_dns_resource_record" "pdns-a-record" {
 resource "ibm_dns_permitted_network" "pdns-permitted-network" {
     instance_id = ibm_resource_instance.pdns-instance.guid
     zone_id = ibm_dns_zone.pdns-zone-1.zone_id
-    vpc_crn = ibm_is_vpc.vpc.id
+    vpc_crn = ibm_is_vpc.vpc.crn
     type = "vpc"
 }
 
