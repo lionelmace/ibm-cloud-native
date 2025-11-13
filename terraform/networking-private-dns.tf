@@ -43,7 +43,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
   # Option 1 – single subnet:
-  # healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
+  healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
   # Option 2 – all three workload subnets:
   # healthcheck_subnets = [
   #   for s in ibm_is_subnet.subnet : s.crn
