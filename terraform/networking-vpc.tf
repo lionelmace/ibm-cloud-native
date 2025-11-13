@@ -163,6 +163,26 @@ resource "ibm_is_subnet" "subnet-nlb" {
   resource_group  = ibm_resource_group.group.id
 }
 
+resource "ibm_is_subnet" "subnet-nlb-2" {
+  name            = "${local.basename}-subnet-nlb"
+  vpc             = ibm_is_vpc.vpc.id
+  zone            = "${var.region}-2"
+  ipv4_cidr_block = "10.243.2.0/24"
+  network_acl     = ibm_is_network_acl.multizone_acl.id
+  tags            = var.tags
+  resource_group  = ibm_resource_group.group.id
+}
+
+resource "ibm_is_subnet" "subnet-nlb-3" {
+  name            = "${local.basename}-subnet-nlb"
+  vpc             = ibm_is_vpc.vpc.id
+  zone            = "${var.region}-3"
+  ipv4_cidr_block = "10.243.3.0/24"
+  network_acl     = ibm_is_network_acl.multizone_acl.id
+  tags            = var.tags
+  resource_group  = ibm_resource_group.group.id
+}
+
 locals {
   subnet_zone_list = [
     for subnet in ibm_is_subnet.subnet : {
