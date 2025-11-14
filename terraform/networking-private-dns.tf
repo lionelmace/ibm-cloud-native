@@ -62,7 +62,7 @@ resource "ibm_dns_glb" "pdns-glb" {
 # GLB Monitor
 ##############################################################################
 
-resource "ibm_dns_glb_monitor" "pdns-zone-monitor" {
+resource "ibm_dns_glb_monitor" "pdns-glb-monitor" {
   depends_on     = [ibm_dns_zone.pdns-zone]
   name           = "${local.basename}-pdns-glb-monitor-1"
   instance_id    = ibm_resource_instance.pdns-instance.guid
@@ -96,7 +96,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
     enabled     = true
     description = "origin pool"
   }
-  monitor              = ibm_dns_glb_monitor.pdns-zone-monitor.monitor_id
+  monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
   # Option 1 – single subnet:
@@ -122,7 +122,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-2" {
     enabled     = true
     description = "origin pool"
   }
-  monitor              = ibm_dns_glb_monitor.pdns-zone-monitor.monitor_id
+  monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
   healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
@@ -143,7 +143,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-3" {
     enabled     = true
     description = "origin pool"
   }
-  monitor              = ibm_dns_glb_monitor.pdns-zone-monitor.monitor_id
+  monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
   healthcheck_subnets = [ibm_is_subnet.subnet[2].id]
