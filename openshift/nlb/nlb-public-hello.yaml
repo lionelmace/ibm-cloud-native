@@ -1,0 +1,71 @@
+---
+# Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nlb-hello
+  labels:
+    environment: production
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-public
+  namespace: nlb-hello
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: mtls-test
+        image: openshift/hello-openshift
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 384Mi
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: public-nlb-hello
+  namespace: nlb-hello
+  annotations:
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-lb-name: "my-hello-nlb"
+    # Required annotations for IBM Cloud NLB
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-enable-features: "nlb"
+    # Required for private NLBs (Default is public)
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type: "public"
+    # Required for private NLBs, optional for public NLBs
+    # service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-subnets
+    # Optional customer-managed security group to add to the VPC load balancer.
+    # service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-security-group: "r010-326cfb84-24e9-4fdc-a252-d1d5b738c1e7"
+  labels:
+    app: test-public
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster # Specify Cluster or Local (to preserve the source IP address of client requests).
+  selector:
+    app: test
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
