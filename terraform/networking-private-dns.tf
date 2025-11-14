@@ -92,7 +92,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
   healthy_origins_threshold = 1
   origins {
     name        = "nlb-hostname-1"
-    address     = "58594818-eu-de.lb.appdomain.cloud"
+    address     = "3c74ab11-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
@@ -118,7 +118,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-2" {
   healthy_origins_threshold = 1
   origins {
     name        = "nlb-hostname-2"
-    address     = "69a70423-eu-de.lb.appdomain.cloud"
+    address     = "6f13e48a-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
@@ -139,7 +139,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-3" {
   healthy_origins_threshold = 1
   origins {
     name        = "nlb-hostname-3"
-    address     = "8084464b-eu-de.lb.appdomain.cloud"
+    address     = "48fde2b0-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
