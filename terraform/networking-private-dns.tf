@@ -91,8 +91,8 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
   enabled                   = true
   healthy_origins_threshold = 1
   origins {
-    name        = "example-1"
-    address     = "www.google.com"
+    name        = "nlb-hostname-1"
+    address     = "58594818-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
@@ -117,8 +117,8 @@ resource "ibm_dns_glb_pool" "pool-nlb-2" {
   enabled                   = true
   healthy_origins_threshold = 1
   origins {
-    name        = "example-1"
-    address     = "www.google.com"
+    name        = "nlb-hostname-2"
+    address     = "69a70423-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
@@ -138,8 +138,8 @@ resource "ibm_dns_glb_pool" "pool-nlb-3" {
   enabled                   = true
   healthy_origins_threshold = 1
   origins {
-    name        = "example-1"
-    address     = "www.google.com"
+    name        = "nlb-hostname-3"
+    address     = "8084464b-eu-de.lb.appdomain.cloud"
     enabled     = true
     description = "origin pool"
   }
