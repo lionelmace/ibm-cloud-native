@@ -100,7 +100,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-1" {
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
   # Option 1 – single subnet:
-  healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
+  healthcheck_subnets = [ibm_is_subnet.subnet[0].id]
   # Option 2 – all three workload subnets:
   # healthcheck_subnets = [
   #   for s in ibm_is_subnet.subnet : s.crn
@@ -125,7 +125,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-2" {
   monitor              = ibm_dns_glb_monitor.pdns-zone-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
-  healthcheck_subnets = [ibm_is_subnet.subnet[2].id]
+  healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
 }
 
 # GLB - Pool 3
@@ -146,5 +146,5 @@ resource "ibm_dns_glb_pool" "pool-nlb-3" {
   monitor              = ibm_dns_glb_monitor.pdns-zone-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
-  healthcheck_subnets = [ibm_is_subnet.subnet[3].id]
+  healthcheck_subnets = [ibm_is_subnet.subnet[2].id]
 }
