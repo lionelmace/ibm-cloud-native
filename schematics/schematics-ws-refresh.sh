@@ -1,2 +1,7 @@
-export WORKSPACE_ID=eu-de.workspace.itz-cp-emea-automation.2ff50127
+#!/bin/sh
+# Uncommment to verbose
+# set -x 
+
+source ./local.env
+
 ibmcloud sch refresh -i $WORKSPACE_ID

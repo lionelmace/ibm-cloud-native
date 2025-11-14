@@ -1,2 +1,7 @@
-export WORKSPACE_ID=eu-de.workspace.ibm-cloud-native.e0c5ee8a
+#!/bin/sh
+# Uncommment to verbose
+# set -x 
+
+source ./local.env
+
 ibmcloud sch apply -i $WORKSPACE_ID

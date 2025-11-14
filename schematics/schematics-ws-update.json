@@ -1,10 +1,10 @@
 {
     "type":[
-        "terraform_v1.10.5"
+        "terraform_v1.12.2"
     ],
     "template_data": [
     {
-        "type": "terraform_v1.10.5",
+        "type": "terraform_v1.12.2",
         "env_values": [
         {
             "TF_LOG": ""
