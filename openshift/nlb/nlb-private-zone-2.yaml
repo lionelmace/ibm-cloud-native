@@ -19,7 +19,7 @@ metadata:
 spec:
   type: LoadBalancer
   # Specify Cluster (Default) or Local (to preserve the source IP address of client requests).
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   selector:
     app: test
     # Target only pods located in zone eu-de-2

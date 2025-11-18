@@ -104,6 +104,17 @@ resource "ibm_is_security_group_rule" "vpn_outbound_subnet-nlb" {
   direction = "outbound"
   remote    = "10.243.1.0/24"
 }
+resource "ibm_is_security_group_rule" "vpn_outbound_subnet-nlb-2" {
+  group     = ibm_is_security_group.vpn.id
+  direction = "outbound"
+  remote    = "10.243.65.0/24"
+}
+resource "ibm_is_security_group_rule" "vpn_outbound_subnet-nlb-3" {
+  group     = ibm_is_security_group.vpn.id
+  direction = "outbound"
+  remote    = "10.243.129.0/24"
+}
+
 
 ## VPN Server Routes
 ##############################################################################
