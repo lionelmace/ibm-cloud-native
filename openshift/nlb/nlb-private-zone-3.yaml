@@ -23,8 +23,6 @@ spec:
   externalTrafficPolicy: Local
   selector:
     app: test
-    # Target only pods located in zone eu-de-3
-    ibm-cloud.kubernetes.io/zone: eu-de-3
   ports:
   - name: 8080-tcp
     port: 8080
