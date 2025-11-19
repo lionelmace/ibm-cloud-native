@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hsm-aware-poc
+  labels:
+    app: hsm-poc
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: hsm-poc
+  template:
+    metadata:
+      labels:
+        app: hsm-poc
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: hsm-poc
+
+      volumes:
+        - name: shared-config-vol
+          emptyDir: {}
+
+      initContainers:
+        - name: init-hsm-config
+          image: registry.access.redhat.com/ubi8/ubi-minimal:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              if [ -z "$NODE_ZONE" ]; then
+                NODE_ZONE="UNKNOWN_AZ1" # Fallback pour le test
+              fi
+              echo "Détection de la zone: $NODE_ZONE"
+              
+              # Logique de mapping AZ -> HSM
+              case "$NODE_ZONE" in
+                *"2") # Correspond à AZ2
+                  HSM_VAL="hsm1.net.intra,hsm2.net.intra"
+                  ;;
+                *"3") # Correspond à AZ3
+                  HSM_VAL="hsm3.net.intra,hsm4.net.intra"
+                  ;;
+                *)    # Correspond à AZ1 (par défaut)
+                  HSM_VAL="hsm1.net.intra,hsm2.net.intra,hsm3.net.intra,hsm4.net.intra"
+                  ;;
+              esac
+              
+              echo "export HSM_URLS=\"$HSM_VAL\"" > /config/hsm.env
+              echo "Config terminée : HSM_URLS=\"$HSM_VAL\""
+          env:
+            # Injection du Label de Zone du noeud
+            - name: NODE_ZONE
+              valueFrom:
+                fieldRef:
+                  # fieldPath: metadata.labels['topology.kubernetes.io/zone']
+                  fieldPath: spec.nodeName
+          
+          volumeMounts:
+            - name: shared-config-vol
+              mountPath: /config
+
+      containers:
+        - name: my-app-simulator
+          image: registry.access.redhat.com/ubi8/ubi-minimal:latest
+          
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              if [ -f /config/hsm.env ]; then
+                source /config/hsm.env
+              else
+                echo "Erreur: Fichier de config HSM introuvable !"
+                exit 1
+              fi
+              
+              echo "--- Simulateur d'application démarré ---"
+              echo "Zone détectée via Downward API: $NODE_ZONE"
+
+              while true
+              do
+                echo "$(date +%T) | MON_ENV_HSM: $HSM_URLS"
+                sleep 10
+              done
+          
+          env:
+            - name: NODE_ZONE
+              valueFrom:
+                fieldRef:
+                  # fieldPath: metadata.labels['topology.kubernetes.io/zone']
+                  fieldPath: spec.nodeName
+                  
+          volumeMounts:
+            - name: shared-config-vol
+              mountPath: /config

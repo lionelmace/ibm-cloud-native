@@ -11,7 +11,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-public
+  name: nlb-pod-public
   namespace: nlb-hello
   labels:
     app: test
@@ -48,9 +48,9 @@ metadata:
   name: public-nlb-hello
   namespace: nlb-hello
   annotations:
-    service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-lb-name: "my-hello-nlb"
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-lb-name: "my-public-nlb"
     # Required annotations for IBM Cloud NLB
-    service.kubernetes.io/ibm-load-balancer-cloud-provider-enable-features: "nlb"
+    service.kubernetes.io/ibm-load-balancer-cloud-provider-enable-features: "alb"
     # Required for private NLBs (Default is public)
     service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type: "public"
     # Required for private NLBs, optional for public NLBs
@@ -58,7 +58,7 @@ metadata:
     # Optional customer-managed security group to add to the VPC load balancer.
     # service.kubernetes.io/ibm-load-balancer-cloud-provider-vpc-security-group: "r010-326cfb84-24e9-4fdc-a252-d1d5b738c1e7"
   labels:
-    app: test-public
+    app: nlb-pod-public
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster # Specify Cluster or Local (to preserve the source IP address of client requests).
