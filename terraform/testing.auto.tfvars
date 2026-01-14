@@ -103,7 +103,8 @@ cos_region = "global"
 # log_enable_platform_logs = false
 
 sysdig_plan                    = "graduated-tier"
-sysdig_enable_platform_metrics = true
+# Only one Cloud Monitoring service instance per region to collect platform metrics can be enabled.
+sysdig_enable_platform_metrics = false
 
 
 ##############################################################################
