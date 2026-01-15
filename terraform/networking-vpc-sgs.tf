@@ -7,10 +7,8 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
   group     = ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
   remote    = "0.0.0.0/0"
-
-  icmp {
-    type = 8
-  }
+  protocol  = "icmp"
+  type = 8
 }
 
 # Rules required to allow necessary inbound traffic to your cluster (IKS/OCP)
