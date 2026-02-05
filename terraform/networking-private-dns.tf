@@ -37,7 +37,6 @@ resource "ibm_dns_permitted_network" "pdns-permitted-network" {
 ##############################################################################
 
 resource "ibm_dns_glb" "pdns-glb" {
-  depends_on    = [ibm_dns_glb_pool.pool-nlb-1]
   name          = "${local.basename}-nlb-glb"
   instance_id   = ibm_resource_instance.pdns-instance.guid
   zone_id       = ibm_dns_zone.pdns-zone.zone_id
