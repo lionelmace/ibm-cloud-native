@@ -51,7 +51,7 @@ install_odf_addons = false
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
 # Uncomment to create worker pool
-create_secondary_roks_pool = false
+create_secondary_roks_pool = true
 roks_worker_pools = [
   # {
   #   pool_name        = "wpool-rhoai"
