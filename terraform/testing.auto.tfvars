@@ -46,7 +46,7 @@ openshift_version = "4.20_openshift"
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx3d.4x20"
-install_odf_addons = false
+install_odf_addons = true
 
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
