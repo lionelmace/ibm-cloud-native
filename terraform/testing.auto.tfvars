@@ -41,12 +41,11 @@ iks_update_all_workers = true
 ##############################################################################
 ## Cluster ROKS
 ##############################################################################
-# Optional: Specify OpenShift version. If not included, 4.19 is used
-openshift_version = "4.19_openshift"
+# Optional: Specify OpenShift version. If not included, 4.20 is used
+openshift_version = "4.20_openshift"
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx3d.4x20"
-# openshift_machine_flavor = "bx2.16x64" # ODF Flavors
 install_odf_addons = false
 
 # Scale up   by adding a worker pool
@@ -54,16 +53,16 @@ install_odf_addons = false
 # Uncomment to create worker pool
 create_secondary_roks_pool = false
 roks_worker_pools = [
-  {
-    pool_name        = "wpool-rhoai"
-    machine_type     = "bx2.8x32"
-    workers_per_zone = 1
-  },
   # {
-  #   pool_name        = "wpool-odf"
-  #   machine_type     = "bx2.16x64"
+  #   pool_name        = "wpool-rhoai"
+  #   machine_type     = "bx2.8x32"
   #   workers_per_zone = 1
   # },
+  {
+    pool_name        = "pool-odf"
+    machine_type     = "bx3d.16x80"
+    workers_per_zone = 1
+  },
   # {
   #   pool_name        = "default"
   #   machine_type     = "mx2.4x32"

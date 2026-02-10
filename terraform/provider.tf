@@ -7,7 +7,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = "1.87.3"
+      version = "1.88.1"
     }
     http-full = {
       source  = "salrashid123/http-full"
@@ -45,6 +45,7 @@ provider "helm" {
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
   }
+  # No registry authentication required - using public registries
 }
 
 provider "sysdig" {
@@ -69,21 +70,3 @@ data "ibm_container_cluster_config" "roks_cluster_config" {
   resource_group_id = ibm_resource_group.group.id
   endpoint_type     = "private"
 }
-
-# Helm to install IBM Cloud Logs
-# Temporary Removed
-##############################################################################
-# provider "helm" {
-#   # alias = "logs"
-#   kubernetes {
-#     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
-#     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
-#     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-#   }
-#   # IBM Cloud credentials are required to authenticate to the helm repo
-#   registry {
-#     url      = "oci://icr.io/ibm/observe/logs-agent-helm"
-#     username = "iamapikey"
-#     password = var.ibmcloud_api_key
-#   }
-# }
