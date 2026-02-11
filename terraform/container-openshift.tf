@@ -234,7 +234,7 @@ resource "ibm_container_addons" "roks-odf-addons" {
   # Specify workerpool to deploy ODF, if not specified ODF will deploy on all nodes
   addons {
     name            = "openshift-data-foundation"
-    version         = "4.18.0"
+    version         = "4.19.0"
     parameters_json = <<PARAMETERS_JSON
     {
         "billingType":"advanced"
@@ -242,7 +242,7 @@ resource "ibm_container_addons" "roks-odf-addons" {
         "numOfOsd":"2",
         "osdStorageClassName":"ibmc-vpc-block-metro-10iops-tier",
         "odfDeploy":"true"
-        "workerPools":"wpool-odf"
+        "workerPools":"pool-odf"
     }
     PARAMETERS_JSON
   }
