@@ -30,11 +30,9 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
   group     = ibm_is_vpc.vpc.default_security_group
   direction = "inbound"
   remote    = "0.0.0.0/0"
-
-  tcp {
-    port_min = 22
-    port_max = 22
-  }
+  protocol  = "tcp"
+  port_min = 22
+  port_max = 22
 }
 
 # CIS Cloudflare IPs
