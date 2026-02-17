@@ -48,7 +48,7 @@ variable "tags" {
 
 # Account ID is required for CBR (Context Based Restrictions) and SCC scope
 ##############################################################################
-data "ibm_iam_auth_token" "tokendata" {}
+# data "ibm_iam_auth_token" "tokendata" {}
 data "ibm_iam_account_settings" "account_settings" {}
 
 locals {
