@@ -20,7 +20,11 @@ terraform {
     # Required by SCC Workload Protection used in file observability-monitoring.tf
     restapi = {
       source  = "mastercard/restapi"
-      version = ">= 2.0.1"
+      version = ">=2.0.1, <3.0.0"
+    }
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      version = ">= 3.3.1, <4.0.0"
     }
   }
 }
@@ -49,15 +53,12 @@ provider "helm" {
 }
 
 provider "sysdig" {
-  sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
-  sysdig_secure_api_token = var.ibmcloud_api_key
+  sysdig_secure_team_name = "Secure Operations"
+  sysdig_secure_url       = "https://${var.region}.monitoring.cloud.ibm.com"
+  ibm_secure_iam_url      = "https://iam.cloud.ibm.com"
+  ibm_secure_instance_id  = module.scc_wp.guid
+  ibm_secure_api_key      = var.ibmcloud_api_key
 }
-# Error: unexpected response code '404': 404 page not found
-#  2026/02/17 10:06:10 Terraform apply | 
-#  2026/02/17 10:06:10 Terraform apply | 
-#  2026/02/17 10:06:10 Terraform apply |   with module.scc_wp.restapi_object.cspm,
-#  2026/02/17 10:06:10 Terraform apply |   on .terraform/modules/scc_wp/main.tf line 156, in resource "restapi_object" "cspm":
-#  2026/02/17 10:06:10 Terraform apply |  156: resource "restapi_object" "cspm" {
 
 data "ibm_iam_auth_token" "auth_token" {}
 
