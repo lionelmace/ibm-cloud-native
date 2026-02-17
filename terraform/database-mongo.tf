@@ -58,9 +58,9 @@ variable "icd_mongo_use_vpe" { default = false }
 ## ICD Mongo
 ##############################################################################
 resource "ibm_database" "icd_mongo" {
-  name              = format("%s-%s", local.basename, "mongo")
-  service           = "databases-for-mongodb"
-  plan              = var.icd_mongo_plan
+  name    = format("%s-%s", local.basename, "mongo")
+  service = "databases-for-mongodb"
+  plan    = var.icd_mongo_plan
   # version           = var.icd_mongo_db_version
   service_endpoints = var.icd_mongo_service_endpoints
   location          = var.region

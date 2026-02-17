@@ -46,7 +46,7 @@ openshift_version = "4.20_openshift"
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx3d.4x20"
-install_odf_addons = true
+install_odf_addons       = true
 
 # Scale up   by adding a worker pool
 # Scale down by setting the number of worker to Zero
@@ -101,7 +101,7 @@ cos_region = "global"
 # log_plan                 = "7-day"
 # log_enable_platform_logs = false
 
-sysdig_plan                    = "graduated-tier"
+sysdig_plan = "graduated-tier"
 # Only one Cloud Monitoring service instance per region to collect platform metrics can be enabled.
 sysdig_enable_platform_metrics = false
 

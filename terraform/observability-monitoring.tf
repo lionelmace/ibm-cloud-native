@@ -65,14 +65,15 @@ output "cloud_monitoring_crn" {
 module "scc_wp" {
   source = "terraform-ibm-modules/scc-workload-protection/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
-  name                          = format("%s-%s", local.basename, "workload-protection")
-  region                        = var.region
-  resource_group_id             = ibm_resource_group.group.id
-  resource_tags                 = var.tags
-  cloud_monitoring_instance_crn = module.cloud_monitoring.crn
-  scc_wp_service_plan           = var.sysdig_plan
-  app_config_crn                = module.app_config.app_config_crn # Required if cspm_enabled is true.
-  cspm_enabled                   = true
+  name                                         = format("%s-%s", local.basename, "workload-protection")
+  region                                       = var.region
+  resource_group_id                            = ibm_resource_group.group.id
+  resource_tags                                = var.tags
+  cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
+  scc_wp_service_plan                          = var.sysdig_plan
+  cspm_enabled                                 = true  
+  app_config_crn                               = module.app_config.app_config_crn # Required if cspm_enabled is true.
+  scc_workload_protection_trusted_profile_name = format("%s-%s", local.basename, "scc-wp-tp")
 }
 
 ########################################################################################################################
@@ -83,14 +84,14 @@ module "scc_wp" {
 module "app_config" {
   source = "terraform-ibm-modules/app-configuration/ibm"
   # version           = "1.3.0"
-  region                                 = var.region
-  resource_group_id                      = ibm_resource_group.group.id
-  app_config_name                        = format("%s-%s", local.basename, "app-configuration")
-  app_config_tags                        = var.tags
-  enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan                        = "basic"
+  region                   = var.region
+  resource_group_id        = ibm_resource_group.group.id
+  app_config_name          = format("%s-%s", local.basename, "app-configuration")
+  app_config_tags          = var.tags
+  enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  app_config_plan          = "basic"
   # The name to give the trusted profile that will be created if enable_config_aggregator is set to true.
-  config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
+  config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "app-config-tp")
 }
 
 ########################################################################################################################
@@ -98,10 +99,10 @@ module "app_config" {
 ########################################################################################################################
 
 module "monitoring_agents" {
-  source  = "terraform-ibm-modules/monitoring-agent/ibm"  
+  source = "terraform-ibm-modules/monitoring-agent/ibm"
   # version = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
   # cluster_id                = module.ocp_base.cluster_id
-  cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+  cluster_id = ibm_container_vpc_cluster.roks_cluster.id
   # cluster_resource_group_id = module.resource_group.resource_group_id
   cluster_resource_group_id = ibm_resource_group.group.id
   is_vpc_cluster            = true

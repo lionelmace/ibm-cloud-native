@@ -36,7 +36,7 @@ provider "kubernetes" {
   host                   = data.ibm_container_cluster_config.roks_cluster_config.host
   token                  = data.ibm_container_cluster_config.roks_cluster_config.token
   cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
-  load_config_file = false
+  load_config_file       = false
 }
 
 provider "helm" {

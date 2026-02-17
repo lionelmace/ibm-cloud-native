@@ -13,7 +13,7 @@ resource "ibm_resource_instance" "pdns-instance" {
 ##############################################################################
 
 resource "ibm_dns_zone" "pdns-zone" {
-  name = "${local.basename}.local"
+  name        = "${local.basename}.local"
   instance_id = ibm_resource_instance.pdns-instance.guid
 }
 
@@ -27,10 +27,10 @@ resource "ibm_dns_zone" "pdns-zone" {
 # }
 
 resource "ibm_dns_permitted_network" "pdns-permitted-network" {
-    instance_id = ibm_resource_instance.pdns-instance.guid
-    zone_id = ibm_dns_zone.pdns-zone.zone_id
-    vpc_crn = ibm_is_vpc.vpc.crn
-    type = "vpc"
+  instance_id = ibm_resource_instance.pdns-instance.guid
+  zone_id     = ibm_dns_zone.pdns-zone.zone_id
+  vpc_crn     = ibm_is_vpc.vpc.crn
+  type        = "vpc"
 }
 
 # GLB
@@ -124,7 +124,7 @@ resource "ibm_dns_glb_pool" "pool-nlb-2" {
   monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
-  healthcheck_subnets = [ibm_is_subnet.subnet[1].id]
+  healthcheck_subnets  = [ibm_is_subnet.subnet[1].id]
 }
 
 # GLB - Pool 3
@@ -145,5 +145,5 @@ resource "ibm_dns_glb_pool" "pool-nlb-3" {
   monitor              = ibm_dns_glb_monitor.pdns-glb-monitor.monitor_id
   notification_channel = "https://mywebsite.com/dns/webhook"
   healthcheck_region   = var.region
-  healthcheck_subnets = [ibm_is_subnet.subnet[2].id]
+  healthcheck_subnets  = [ibm_is_subnet.subnet[2].id]
 }

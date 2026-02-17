@@ -8,7 +8,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-icmp" {
   direction = "inbound"
   remote    = "0.0.0.0/0"
   protocol  = "icmp"
-  type = 8
+  type      = 8
 }
 
 # Rules required to allow necessary inbound traffic to your cluster (IKS/OCP)
@@ -20,8 +20,8 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-https" {
   direction = "inbound"
   remote    = "0.0.0.0/0"
   protocol  = "tcp"
-  port_min = 443
-  port_max = 443
+  port_min  = 443
+  port_max  = 443
 }
 
 # SSH Inbound Rule
@@ -31,8 +31,8 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-ssh" {
   direction = "inbound"
   remote    = "0.0.0.0/0"
   protocol  = "tcp"
-  port_min = 22
-  port_max = 22
+  port_min  = 22
+  port_max  = 22
 }
 
 # CIS Cloudflare IPs
@@ -64,7 +64,7 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-cloudflare-ipv4" {
   direction = "inbound"
   remote    = element(data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs, count.index)
   # remote    = data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs[count.index]
-  protocol  = "tcp"
+  protocol = "tcp"
   port_min = 443
   port_max = 443
 }
@@ -83,16 +83,16 @@ resource "ibm_is_security_group_rule" "sg-rule-kube-master-tcp-outbound" {
   direction = "outbound"
   remote    = "0.0.0.0/0"
   protocol  = "tcp"
-  port_min = 30000
-  port_max = 32767
+  port_min  = 30000
+  port_max  = 32767
 }
 resource "ibm_is_security_group_rule" "sg-rule-kube-master-udp-outbound" {
   group     = ibm_is_security_group.kube-master-outbound.id
   direction = "outbound"
   remote    = "0.0.0.0/0"
   protocol  = "udp"
-  port_min = 30000
-  port_max = 32767
+  port_min  = 30000
+  port_max  = 32767
 }
 
 ##############################################################################
@@ -111,8 +111,8 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-443" {
   direction = "outbound"
   remote    = element(var.vpc_cidr_blocks, count.index)
   protocol  = "tcp"
-  port_min = 443
-  port_max = 443
+  port_min  = 443
+  port_max  = 443
 }
 
 resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-4443" {
@@ -121,8 +121,8 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-4443" {
   direction = "outbound"
   remote    = element(var.vpc_cidr_blocks, count.index)
   protocol  = "tcp"
-  port_min = 4443
-  port_max = 4443
+  port_min  = 4443
+  port_max  = 4443
 }
 
 # New custom Security Group for VPC LB
