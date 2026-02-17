@@ -15,16 +15,12 @@ terraform {
     }
     sysdig = {
       source  = "sysdiglabs/sysdig"
-      version = "1.56.1"
+      version = ">= 3.3.1, <4.0.0"
     }
     # Required by SCC Workload Protection used in file observability-monitoring.tf
     restapi = {
       source  = "mastercard/restapi"
       version = ">=2.0.1, <3.0.0"
-    }
-    sysdig = {
-      source  = "sysdiglabs/sysdig"
-      version = ">= 3.3.1, <4.0.0"
     }
   }
 }
