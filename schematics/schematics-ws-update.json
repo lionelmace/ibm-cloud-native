@@ -7,7 +7,7 @@
         "type": "terraform_v1.13",
         "env_values": [
         {
-            "TF_LOG": "DEBUG"
+            "TF_LOG": ""
         }
         ]
     }

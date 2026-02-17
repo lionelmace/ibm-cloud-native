@@ -48,10 +48,16 @@ provider "helm" {
   # No registry authentication required - using public registries
 }
 
-# provider "sysdig" {
-#   sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
-#   sysdig_secure_api_token = var.ibmcloud_api_key
-# }
+provider "sysdig" {
+  sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
+  sysdig_secure_api_token = var.ibmcloud_api_key
+}
+# Error: unexpected response code '404': 404 page not found
+#  2026/02/17 10:06:10 Terraform apply | 
+#  2026/02/17 10:06:10 Terraform apply | 
+#  2026/02/17 10:06:10 Terraform apply |   with module.scc_wp.restapi_object.cspm,
+#  2026/02/17 10:06:10 Terraform apply |   on .terraform/modules/scc_wp/main.tf line 156, in resource "restapi_object" "cspm":
+#  2026/02/17 10:06:10 Terraform apply |  156: resource "restapi_object" "cspm" {
 
 data "ibm_iam_auth_token" "auth_token" {}
 
