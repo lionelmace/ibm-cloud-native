@@ -64,6 +64,7 @@ output "cloud_monitoring_crn" {
 
 module "scc_wp" {
   source = "terraform-ibm-modules/scc-workload-protection/ibm"
+  version = "1.16.25"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
   name                                         = format("%s-%s", local.basename, "workload-protection")
   region                                       = var.region
