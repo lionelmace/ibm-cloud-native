@@ -20,7 +20,7 @@ terraform {
     # Required by SCC Workload Protection used in file observability-monitoring.tf
     restapi = {
       source  = "mastercard/restapi"
-      version = ">= 2.0.1, < 3.0.0"
+      version = ">= 2.0.1"
     }
   }
 }
@@ -40,7 +40,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = data.ibm_container_cluster_config.roks_cluster_config.host
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
@@ -48,17 +48,19 @@ provider "helm" {
   # No registry authentication required - using public registries
 }
 
-provider "sysdig" {
-  sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
-  sysdig_secure_api_token = var.ibmcloud_api_key
-}
+# provider "sysdig" {
+#   sysdig_secure_url       = "https://eu-de.monitoring.cloud.ibm.com"
+#   sysdig_secure_api_token = var.ibmcloud_api_key
+# }
+
+data "ibm_iam_auth_token" "auth_token" {}
 
 # Required by SCC Workload Protection used in file observability-monitoring.tf
 provider "restapi" {
   # see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#endpoint-url for full list of available resource controller endpoints
   uri = "https://resource-controller.cloud.ibm.com"
   headers = {
-    Authorization = data.ibm_iam_auth_token.tokendata.iam_access_token
+    Authorization = data.ibm_iam_auth_token.auth_token.iam_access_token
   }
   write_returns_object = true
 }

@@ -62,7 +62,6 @@ output "cloud_monitoring_crn" {
 # SCC WP (Workload Protection)
 ########################################################################################################################
 
-# Create SCC Workload Protection instance
 module "scc_wp" {
   source = "terraform-ibm-modules/scc-workload-protection/ibm"
   # version = "latest" # Replace "latest" with a release version to lock into a specific release
@@ -71,144 +70,35 @@ module "scc_wp" {
   resource_group_id             = ibm_resource_group.group.id
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
-  scc_wp_service_plan           = var.sysdig_plan
-  app_config_crn                = module.app_config.app_config_crn
-}
-
-# Create Trusted profile for SCC Workload Protection instance
-module "trusted_profile_scc_wp" {
-  source                      = "terraform-ibm-modules/trusted-profile/ibm"
-  version                     = "2.1.0"
-  trusted_profile_name        = "${var.prefix}-scc-wp-profile"
-  trusted_profile_description = "Trusted Profile for SCC-WP to access App Config and enterprise"
-
-  trusted_profile_identity = {
-    identifier    = module.scc_wp.crn
-    identity_type = "crn"
-    type          = "crn"
-  }
-
-  trusted_profile_policies = [
-    {
-      roles = ["Viewer", "Service Configuration Reader", "Manager"]
-      resources = [{
-        service = "apprapp"
-      }]
-      description = "App Config access"
-    }
-    # ,
-    # {
-    #   roles = ["Viewer", "Usage Report Viewer"]
-    #   resources = [{
-    #     service = "enterprise"
-    #   }]
-    #   description = "Enterprise access"
-    # }
-  ]
-
-  trusted_profile_links = [{
-    cr_type = "VSI"
-    links = [{
-      crn = module.scc_wp.crn
-    }]
-  }]
+  # scc_wp_service_plan           = var.sysdig_plan
+  # app_config_crn                = module.app_config.app_config_crn
+  cspm_enabled                   = false
 }
 
 ########################################################################################################################
-# SCC WP (Workload Protection) agents
+# Monitoring Agents
 ########################################################################################################################
 
-# Deploy SCC Workload Protection agent to the cluster
-module "scc_wp_agent" {
-  source = "terraform-ibm-modules/scc-workload-protection-agent/ibm"
-  # version = "latest" # Replace "latest" with a release version to lock into a specific release
-  access_key    = module.scc_wp.access_key
-  cluster_name  = ibm_container_vpc_cluster.roks_cluster.name
-  region        = var.region
-  endpoint_type = "private"
-  name          = format("%s-%s", local.basename, "wp-agent")
-}
-
-########################################################################################################################
-# App Configuration
-########################################################################################################################
-
-# Create App Config instance
-module "app_config" {
-  source = "terraform-ibm-modules/app-configuration/ibm"
-  # version           = "1.3.0"
-  region                                 = var.region
-  resource_group_id                      = ibm_resource_group.group.id
-  app_config_name                        = format("%s-%s", local.basename, "app-configuration")
-  app_config_tags                        = var.tags
-  enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
-  app_config_plan                        = "basic"
-  config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
-}
-
-# VPE (Virtual Private Endpoint) for Monitoring
-##############################################################################
-# resource "ibm_is_virtual_endpoint_gateway" "vpe_monitoring" {
-#   for_each = { for target in local.endpoints : target.name => target if tobool(var.sysdig_use_vpe) }
-
-#   name           = "${local.basename}-monitoring-vpe"
-#   resource_group = ibm_resource_group.group.id
-#   vpc            = ibm_is_vpc.vpc.id
-
-#   target {
-#     crn           = module.cloud_monitoring.crn
-#     resource_type = "provider_cloud_service"
-#   }
-
-#   # one Reserved IP for per zone in the VPC
-#   dynamic "ips" {
-#     for_each = { for subnet in ibm_is_subnet.subnet : subnet.id => subnet }
-#     content {
-#       subnet = ips.key
-#       name   = "${ips.value.name}-ip-monitoring"
-#     }
-#   }
-#   tags = var.tags
-# }
-
-# Metrics Target
-# A route defines the rules that indicate what metrics are routed in a region 
-# and where to store them
-##############################################################################
-resource "ibm_metrics_router_target" "metrics_router_target" {
-  destination_crn = module.cloud_monitoring.crn
-  name            = format("%s-%s", local.basename, "metric-target")
-  region          = var.region
-}
-
-# Set the default target for the metrics router
-resource "ibm_metrics_router_settings" "metrics_router_settings_instance" {
-  default_targets {
-    id = ibm_metrics_router_target.metrics_router_target.id
-  }
-  permitted_target_regions  = [var.region]
-  primary_metadata_region   = var.region
-  backup_metadata_region    = "eu-es"
-  private_api_endpoint_only = false
-}
-
-# Metrics Route
-# A route defines the rules that indicate what metrics are routed in a region 
-# and where to store them
-##############################################################################
-resource "ibm_metrics_router_route" "metrics_route_eu_de" {
-  name = format("%s-%s", local.basename, "route-to-de")
-  rules {
-    action = "send"
-    targets {
-      id = ibm_metrics_router_target.metrics_router_target.id
-    }
-    inclusion_filters {
-      operand  = "location"
-      operator = "is"
-      values   = [var.region]
-    }
-  }
+module "monitoring_agents" {
+  source  = "terraform-ibm-modules/monitoring-agent/ibm"  
+  # version = "X.Y.Z" # Replace "X.Y.Z" with a release version to lock into a specific release
+  # cluster_id                = module.ocp_base.cluster_id
+  cluster_id                = ibm_container_vpc_cluster.roks_cluster.id
+  # cluster_resource_group_id = module.resource_group.resource_group_id
+  cluster_resource_group_id = ibm_resource_group.group.id
+  is_vpc_cluster            = true
+  access_key                = module.cloud_monitoring.access_key
+  instance_region           = var.region
+  # example of how to include / exclude metrics - more info https://cloud.ibm.com/docs/monitoring?topic=monitoring-change_kube_agent#change_kube_agent_log_metrics
+  metrics_filter = [{ exclude = "metricA.*" }, { include = "metricB.*" }]
+  # example of how to include / exclude container filter - more info https://cloud.ibm.com/docs/monitoring?topic=monitoring-change_kube_agent#change_kube_agent_filter_data
+  container_filter = [{ type = "exclude", parameter = "kubernetes.namespace.name", name = "kube-system" }]
+  # example of how to include / exclude container filter - more info https://cloud.ibm.com/docs/monitoring?topic=monitoring-change_kube_agent#change_kube_agent_block_ports
+  blacklisted_ports = [22, 2379, 3306]
+  # example of adding agent tag
+  agent_tags = { "environment" : "test", "custom" : "value" }
+  # example of setting agent mode to troubleshooting for additional metrics
+  agent_mode = "troubleshooting"
 }
 
 ## IAM

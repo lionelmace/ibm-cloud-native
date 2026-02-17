@@ -49,10 +49,9 @@ resource "ibm_is_security_group" "vpn" {
 resource "ibm_is_security_group_rule" "vpn_inbound" {
   group     = ibm_is_security_group.vpn.id
   direction = "inbound"
-  udp {
-    port_min = 443
-    port_max = 443
-  }
+  protocol  = "udp"
+  port_min = 443
+  port_max = 443
 }
 
 # allow clients to use SSH to connect to hosts in the cloud
@@ -68,10 +67,9 @@ resource "ibm_is_security_group_rule" "vpn_ssh_outbound" {
 resource "ibm_is_security_group_rule" "vpn_icmp_outbound" {
   group     = ibm_is_security_group.vpn.id
   direction = "outbound"
-  icmp {
-    type = 8
-    code = 0
-  }
+  protocol  = "icmp"
+  type = 8
+  code = 0
 }
 
 # allow clients to reach cloud service endpoints

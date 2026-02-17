@@ -1,13 +1,13 @@
 {
     "type":[
-        "terraform_v1.12.2"
+        "terraform_v1.13"
     ],
     "template_data": [
     {
-        "type": "terraform_v1.12.2",
+        "type": "terraform_v1.13",
         "env_values": [
         {
-            "TF_LOG": ""
+            "TF_LOG": "DEBUG"
         }
         ]
     }
