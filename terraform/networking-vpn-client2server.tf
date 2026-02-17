@@ -59,10 +59,9 @@ resource "ibm_is_security_group_rule" "vpn_inbound" {
 resource "ibm_is_security_group_rule" "vpn_ssh_outbound" {
   group     = ibm_is_security_group.vpn.id
   direction = "outbound"
-  tcp {
-    port_min = 22
-    port_max = 22
-  }
+  protocol  = "tcp"
+  port_min = 22
+  port_max = 22
 }
 
 # allow clients to use SSH to ping

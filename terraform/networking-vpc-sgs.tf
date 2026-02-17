@@ -64,10 +64,9 @@ resource "ibm_is_security_group_rule" "sg-rule-inbound-cloudflare-ipv4" {
   direction = "inbound"
   remote    = element(data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs, count.index)
   # remote    = data.ibm_cis_ip_addresses.ip_addresses.ipv4_cidrs[count.index]
-  tcp {
-    port_min = 443
-    port_max = 443
-  }
+  protocol  = "tcp"
+  port_min = 443
+  port_max = 443
 }
 
 ##############################################################################
@@ -83,19 +82,17 @@ resource "ibm_is_security_group_rule" "sg-rule-kube-master-tcp-outbound" {
   group     = ibm_is_security_group.kube-master-outbound.id
   direction = "outbound"
   remote    = "0.0.0.0/0"
-  tcp {
-    port_min = 30000
-    port_max = 32767
-  }
+  protocol  = "tcp"
+  port_min = 30000
+  port_max = 32767
 }
 resource "ibm_is_security_group_rule" "sg-rule-kube-master-udp-outbound" {
   group     = ibm_is_security_group.kube-master-outbound.id
   direction = "outbound"
   remote    = "0.0.0.0/0"
-  udp {
-    port_min = 30000
-    port_max = 32767
-  }
+  protocol  = "udp"
+  port_min = 30000
+  port_max = 32767
 }
 
 ##############################################################################
@@ -113,10 +110,9 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-443" {
   count     = length(var.vpc_cidr_blocks)
   direction = "outbound"
   remote    = element(var.vpc_cidr_blocks, count.index)
-  tcp {
-    port_min = 443
-    port_max = 443
-  }
+  protocol  = "tcp"
+  port_min = 443
+  port_max = 443
 }
 
 resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-4443" {
@@ -124,10 +120,9 @@ resource "ibm_is_security_group_rule" "sg-rule-outbound-addprefix-4443" {
   count     = length(var.vpc_cidr_blocks)
   direction = "outbound"
   remote    = element(var.vpc_cidr_blocks, count.index)
-  tcp {
-    port_min = 4443
-    port_max = 4443
-  }
+  protocol  = "tcp"
+  port_min = 4443
+  port_max = 4443
 }
 
 # New custom Security Group for VPC LB
