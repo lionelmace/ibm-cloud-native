@@ -2,29 +2,6 @@
 # IBM Cloud Provider
 ##############################################################################
 
-terraform {
-  required_version = ">=1.13"
-  required_providers {
-    ibm = {
-      source  = "IBM-Cloud/ibm"
-      version = "1.88.2"
-    }
-    http-full = {
-      source  = "salrashid123/http-full"
-      version = "1.3.1"
-    }
-    sysdig = {
-      source  = "sysdiglabs/sysdig"
-      version = ">= 3.3.1, <4.0.0"
-    }
-    # Required by SCC Workload Protection used in file observability-monitoring.tf
-    restapi = {
-      source  = "mastercard/restapi"
-      version = ">=2.0.1, <3.0.0"
-    }
-  }
-}
-
 provider "http-full" {}
 
 provider "ibm" {
@@ -48,14 +25,6 @@ provider "helm" {
   # No registry authentication required - using public registries
 }
 
-provider "sysdig" {
-  sysdig_secure_team_name = "Secure Operations"
-  sysdig_secure_url       = "https://${var.region}.monitoring.cloud.ibm.com"
-  ibm_secure_iam_url      = "https://iam.cloud.ibm.com"
-  ibm_secure_instance_id  = module.scc_wp.guid
-  ibm_secure_api_key      = var.ibmcloud_api_key
-}
-
 data "ibm_iam_auth_token" "auth_token" {}
 
 # Required by SCC Workload Protection used in file observability-monitoring.tf
@@ -66,6 +35,14 @@ provider "restapi" {
     Authorization = data.ibm_iam_auth_token.auth_token.iam_access_token
   }
   write_returns_object = true
+}
+
+provider "sysdig" {
+  sysdig_secure_team_name = "Secure Operations"
+  sysdig_secure_url       = "https://${var.region}.monitoring.cloud.ibm.com"
+  ibm_secure_iam_url      = "https://iam.cloud.ibm.com"
+  ibm_secure_instance_id  = module.scc_wp.guid
+  ibm_secure_api_key      = var.ibmcloud_api_key
 }
 
 # Init cluster config for helm and kubernetes providers

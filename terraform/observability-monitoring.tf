@@ -71,7 +71,7 @@ module "scc_wp" {
   resource_tags                                = var.tags
   cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
   scc_wp_service_plan                          = var.sysdig_plan
-  cspm_enabled                                 = true  
+  cspm_enabled                                 = false
   app_config_crn                               = module.app_config.app_config_crn # Required if cspm_enabled is true.
   scc_workload_protection_trusted_profile_name = format("%s-%s", local.basename, "scc-wp-tp")
 }
