@@ -71,8 +71,26 @@ module "scc_wp" {
   resource_tags                 = var.tags
   cloud_monitoring_instance_crn = module.cloud_monitoring.crn
   scc_wp_service_plan           = var.sysdig_plan
-  # app_config_crn                = module.app_config.app_config_crn
-  cspm_enabled                   = false
+  app_config_crn                = module.app_config.app_config_crn # Required if cspm_enabled is true.
+  cspm_enabled                   = true
+}
+
+########################################################################################################################
+# App Configuration
+########################################################################################################################
+
+# Create App Config instance
+module "app_config" {
+  source = "terraform-ibm-modules/app-configuration/ibm"
+  # version           = "1.3.0"
+  region                                 = var.region
+  resource_group_id                      = ibm_resource_group.group.id
+  app_config_name                        = format("%s-%s", local.basename, "app-configuration")
+  app_config_tags                        = var.tags
+  enable_config_aggregator               = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
+  app_config_plan                        = "basic"
+  # The name to give the trusted profile that will be created if enable_config_aggregator is set to true.
+  config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "config-aggregator-trusted-profile")
 }
 
 ########################################################################################################################
