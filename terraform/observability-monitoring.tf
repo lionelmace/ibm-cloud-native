@@ -10,7 +10,6 @@ variable "sysdig_plan" {
   description = "plan type"
   type        = string
   default     = "graduated-tier"
-  # default     = "graduated-tier-sysdig-secure-plus-monitor"
 }
 
 variable "sysdig_service_endpoints" {
@@ -59,26 +58,7 @@ output "cloud_monitoring_crn" {
 }
 
 ########################################################################################################################
-# SCC WP (Workload Protection)
-########################################################################################################################
-
-module "scc_wp" {
-  source = "terraform-ibm-modules/scc-workload-protection/ibm"
-  version = "1.17.6"
-  # version = "latest" # Replace "latest" with a release version to lock into a specific release
-  name                                         = format("%s-%s", local.basename, "workload-protection")
-  region                                       = var.region
-  resource_group_id                            = ibm_resource_group.group.id
-  resource_tags                                = var.tags
-  cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
-  scc_wp_service_plan                          = var.sysdig_plan
-  cspm_enabled                                 = false
-  app_config_crn                               = module.app_config.app_config_crn # Required if cspm_enabled is true.
-  scc_workload_protection_trusted_profile_name = format("%s-%s", local.basename, "scc-wp-tp")
-}
-
-########################################################################################################################
-# App Configuration
+# App Config with config aggregator enabled
 ########################################################################################################################
 
 # Create App Config instance
@@ -93,6 +73,70 @@ module "app_config" {
   app_config_plan          = "basic"
   # The name to give the trusted profile that will be created if enable_config_aggregator is set to true.
   config_aggregator_trusted_profile_name = format("%s-%s", local.basename, "app-config-tp")
+}
+
+########################################################################################################################
+# SCC Workload Protection with CSPM enabled
+########################################################################################################################
+
+module "scc_wp" {
+  source = "terraform-ibm-modules/scc-workload-protection/ibm"
+  # version = "1.17.6"
+  # version = "latest" # Replace "latest" with a release version to lock into a specific release
+  name                                         = format("%s-%s", local.basename, "workload-protection")
+  region                                       = var.region
+  resource_group_id                            = ibm_resource_group.group.id
+  resource_tags                                = var.tags
+  cloud_monitoring_instance_crn                = module.cloud_monitoring.crn
+  scc_wp_service_plan                          = var.sysdig_plan
+  cspm_enabled                                 = true
+  app_config_crn                               = module.app_config.app_config_crn # Required if cspm_enabled is true.
+  scc_workload_protection_trusted_profile_name = format("%s-%s", local.basename, "scc-wp-tp")
+}
+
+########################################################################################################################
+# SCC WP Zone (https://cloud.ibm.com/docs/workload-protection?topic=workload-protection-posture-zones)
+# - create a new zone which only contains FedRAMP policies
+########################################################################################################################
+
+# lookup all posture policies
+data "sysdig_secure_posture_policies" "all" {
+  # explicit depends_on required as data lookup can only occur after SCC-WP instance has been created
+  depends_on = [module.scc_wp]
+}
+
+# extract out all FSCloud/DORA/PCI policies
+# locals {
+#   fedramp_policies = [
+#     for p in data.sysdig_secure_posture_policies.all.policies :
+#     p if length(regexall(".*FedRAMP.*", p.name)) > 0
+#   ]
+# }
+locals {
+  # Match any of these in the policy name (case-insensitive)
+  posture_framework_regex = "(?i)(FSCloud|DORA|PCI[- ]?DSS)"
+
+  selected_policies = [
+    for p in data.sysdig_secure_posture_policies.all.policies :
+    p if length(regexall(local.posture_framework_regex, p.name)) > 0
+  ]
+}
+
+# Create a new zone and add the selected policies to it
+resource "sysdig_secure_posture_zone" "example" {
+  name        = "${var.prefix}-zone"
+  description = "Zone description"
+  # policy_ids  = [for p in local.fedramp_policies : p.id]
+  policy_ids  = [for p in local.selected_policies : p.id]
+
+  # you can use a scope to only target a set of sub-accounts by uncommenting the below code and updating the account IDs
+
+  # scopes {
+  #   scope {
+  #     target_type = "ibm"
+  #     rules       = "account in (\"nbac0df06b644a9cabc6e44f55b3880h\", \"5f9af00a96104f49b6509aa715f9d6a4\")"
+  #   }
+  # }
 }
 
 ########################################################################################################################
