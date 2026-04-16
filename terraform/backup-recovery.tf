@@ -1,21 +1,57 @@
+########################################################################################################################
+# Backup & Recovery for IKS/ROKS with Data Source Connector
+########################################################################################################################
 
-resource "ibm_resource_instance" "backup_recovery" {
-  name              = format("%s-%s", local.basename, "brs")
-  service           = "backup-recovery"
-  plan              = "premium"
-  location          = var.region
-  resource_group_id = ibm_resource_group.group.id
-  tags = var.tags
+variable "dsc_storage_class" {
+  type        = string
+  description = "Storage class to use for the Data Source Connector persistent volume. By default, it uses 'ibmc-vpc-block-metro-5iops-tier' for VPC clusters and 'ibmc-block-silver' for Classic clusters."
+  default     = null
 }
 
-output "backup_recovery_id" {
-  value = ibm_resource_instance.backup_recovery.id
+variable "existing_brs_instance_crn" {
+  type        = string
+  description = "CRN of an existing BRS instance to use. If not provided, a new instance will be created."
+  default     = null
 }
 
-output "backup_recovery_guid" {
-  value = ibm_resource_instance.backup_recovery.guid
+variable "classic_cluster" {
+  type        = bool
+  description = "Set to true to provision a Classic cluster, false to provision a VPC cluster."
+  default     = false
 }
 
-output "backup_recovery_crn" {
-  value = ibm_resource_instance.backup_recovery.crn
+module "backup_recover_protect_ocp" {
+  source                       = "terraform-ibm-modules/iks-ocp-backup-recovery/ibm"
+  cluster_id                   = ibm_container_vpc_cluster.roks_cluster.id
+  cluster_resource_group_id    = ibm_resource_group.group.id
+  cluster_config_endpoint_type = "private"
+  add_dsc_rules_to_cluster_sg  = false
+  kube_type                    = "openshift"
+  ibmcloud_api_key             = var.ibmcloud_api_key
+  # enable_auto_protect is set to false to avoid issues when running terraform pipelines. in production, this should be set to true.
+  enable_auto_protect = false
+  # --- B&R Instance ---
+  existing_brs_instance_crn = var.existing_brs_instance_crn
+  brs_endpoint_type         = "public"
+  brs_instance_name         = format("%s-%s", local.basename, "brs")
+  brs_connection_name       = format("%s-%s", local.basename, "brs-connection-${var.classic_cluster ? "RoksClassic" : "RoksVpc"}"
+  brs_create_new_connection = true
+  region                    = var.region
+  connection_env_type       = var.classic_cluster ? "kRoksClassic" : "kRoksVpc"
+  dsc_storage_class         = var.dsc_storage_class == null ? (var.classic_cluster ? "ibmc-block-silver" : "ibmc-vpc-block-metro-5iops-tier") : var.dsc_storage_class
+  # --- Backup Policy ---
+  policy = {
+    name = "${var.prefix}-retention"
+    schedule = {
+      unit      = "Minutes"
+      frequency = 30
+    }
+    retention = {
+      duration = 1
+      unit     = "Days"
+    }
+    use_default_backup_target = true
+  }
+  access_tags   = var.access_tags
+  resource_tags = var.resource_tags
 }
