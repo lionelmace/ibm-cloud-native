@@ -14,12 +14,6 @@ variable "existing_brs_instance_crn" {
   default     = null
 }
 
-variable "classic_cluster" {
-  type        = bool
-  description = "Set to true to provision a Classic cluster, false to provision a VPC cluster."
-  default     = false
-}
-
 module "backup_recover_protect_ocp" {
   source                       = "terraform-ibm-modules/iks-ocp-backup-recovery/ibm"
   cluster_id                   = ibm_container_vpc_cluster.roks_cluster.id
@@ -34,11 +28,11 @@ module "backup_recover_protect_ocp" {
   existing_brs_instance_crn = var.existing_brs_instance_crn
   brs_endpoint_type         = "public"
   brs_instance_name         = format("%s-%s", local.basename, "brs")
-  brs_connection_name       = format("%s-%s", local.basename, "brs-connection-${var.classic_cluster ? "RoksClassic" : "RoksVpc"}"
+  brs_connection_name       = format("%s-%s", local.basename, "brs-connection-roks")
   brs_create_new_connection = true
   region                    = var.region
-  connection_env_type       = var.classic_cluster ? "kRoksClassic" : "kRoksVpc"
-  dsc_storage_class         = var.dsc_storage_class == null ? (var.classic_cluster ? "ibmc-block-silver" : "ibmc-vpc-block-metro-5iops-tier") : var.dsc_storage_class
+  connection_env_type       = "kRoksVpc"
+  dsc_storage_class         = var.dsc_storage_class == null ? "ibmc-vpc-block-metro-5iops-tier" : var.dsc_storage_class
   # --- Backup Policy ---
   policy = {
     name = "${var.prefix}-retention"
