@@ -123,7 +123,7 @@ locals {
 }
 
 # Create a new zone and add the selected policies to it
-resource "sysdig_secure_posture_zone" "example" {
+resource "sysdig_secure_zone" "example" {
   name        = "${var.prefix}-zone"
   description = "Zone description"
   # policy_ids  = [for p in local.fedramp_policies : p.id]
