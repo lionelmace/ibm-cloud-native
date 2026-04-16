@@ -109,43 +109,44 @@ resource "ibm_cbr_rule" "cbr_rule_cos" {
   }
 }
 
-resource "ibm_cbr_rule" "cbr_rule" {
-  description      = format("%s-%s", local.basename, "rule")
-  enforcement_mode = "enabled"
-  operations {
-    api_types {
-      api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:data-plane"
-    }
-  }
-  contexts {
-    attributes {
-      name  = "networkZoneId"
-      value = ibm_cbr_zone.cbr_zone_pgw.id
-    }
-    # attributes {
-    #   name  = "endpointType"
-    #   value = "private"
-    # }
-  }
-  contexts {
-    attributes {
-      name  = "networkZoneId"
-      value = ibm_cbr_zone.zone_home.id
-    }
-  }
-  resources {
-    attributes {
-      name  = "accountId"
-      value = data.ibm_iam_account_settings.account_settings.account_id
-    }
-    attributes {
-      name  = "serviceName"
-      value = "databases-for-mongodb"
-    }
-    attributes {
-      name     = "serviceInstance"
-      operator = "stringEquals"
-      value    = ibm_database.icd_mongo.guid
-    }
-  }
-}
+# LMA
+# resource "ibm_cbr_rule" "cbr_rule" {
+#   description      = format("%s-%s", local.basename, "rule")
+#   enforcement_mode = "enabled"
+#   operations {
+#     api_types {
+#       api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:data-plane"
+#     }
+#   }
+#   contexts {
+#     attributes {
+#       name  = "networkZoneId"
+#       value = ibm_cbr_zone.cbr_zone_pgw.id
+#     }
+#     # attributes {
+#     #   name  = "endpointType"
+#     #   value = "private"
+#     # }
+#   }
+#   contexts {
+#     attributes {
+#       name  = "networkZoneId"
+#       value = ibm_cbr_zone.zone_home.id
+#     }
+#   }
+#   resources {
+#     attributes {
+#       name  = "accountId"
+#       value = data.ibm_iam_account_settings.account_settings.account_id
+#     }
+#     attributes {
+#       name  = "serviceName"
+#       value = "databases-for-mongodb"
+#     }
+#     attributes {
+#       name     = "serviceInstance"
+#       operator = "stringEquals"
+#       value    = ibm_database.icd_mongo.guid
+#     }
+#   }
+# }
