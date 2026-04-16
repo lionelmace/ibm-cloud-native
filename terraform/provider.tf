@@ -22,7 +22,11 @@ provider "helm" {
     token                  = data.ibm_container_cluster_config.roks_cluster_config.token
     cluster_ca_certificate = data.ibm_container_cluster_config.roks_cluster_config.ca_certificate
   }
-  # No registry authentication required - using public registries
+  # No registry authentication required - using public registries - for Cloud Logs
+  # Still required for backup & recovery module to authenticate with the cluster and deploy DSC LMA
+  registries = [
+    { url = "oci://icr.io", username = "iamapikey", password = var.ibmcloud_api_key }
+  ]
 }
 
 data "ibm_iam_auth_token" "auth_token" {}

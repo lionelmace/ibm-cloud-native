@@ -46,6 +46,5 @@ module "backup_recover_protect_ocp" {
     }
     use_default_backup_target = true
   }
-  access_tags   = var.tags
   resource_tags = var.tags
 }
