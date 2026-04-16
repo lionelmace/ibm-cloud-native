@@ -73,7 +73,7 @@ resource "ibm_iam_access_group_policy" "policy_vpc" {
   resource_attributes {
     name     = "region"
     operator = "stringEquals"
-    value    = "eu-de"
+    value    = var.region
   }
 }
 
@@ -102,7 +102,7 @@ resource "ibm_iam_access_group_policy" "policy_vsi" {
   resource_attributes {
     name     = "region"
     operator = "stringEquals"
-    value    = "eu-de"
+    value    = var.region
   }
 
 }

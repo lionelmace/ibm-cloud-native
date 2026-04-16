@@ -53,7 +53,6 @@ resource "ibm_cos_bucket" "logs-bucket-data" {
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
   cross_region_location = "eu"
-  # region_location      = "eu-de"
   endpoint_type = "public"
 }
 
@@ -72,6 +71,5 @@ resource "ibm_cos_bucket" "logs-bucket-metrics" {
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
   cross_region_location = "eu"
-  # region_location      = "eu-de"
   endpoint_type = "public"
 }

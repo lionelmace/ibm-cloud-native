@@ -6,7 +6,8 @@ resource "ibm_resource_instance" "continuous-delivery" {
   name              = "${local.basename}-continuous-delivery"
   service           = "continuous-delivery"
   plan              = "professional"
-  location          = var.region
+  # Valid locations: ca-tor, eu-de, eu-gb, jp-tok, us-east, us-south, au-syd, br-sao
+  location          = "eu-de"
   tags              = var.tags
 }
 

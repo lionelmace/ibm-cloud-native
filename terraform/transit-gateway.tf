@@ -7,7 +7,7 @@
 
 # resource "ibm_tg_gateway" "tgw" {
 #   name           = format("%s-%s", local.basename, "tgw")
-#   location       = "eu-de"
+#   location       = var.region
 #   global         = false
 #   resource_group = ibm_resource_group.group.id
 # }
