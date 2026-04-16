@@ -43,8 +43,14 @@ data "ibm_is_endpoint_gateway_targets" "example" {
 }
 
 locals {
+  icr_target_name = "registry-${var.region}-v2"
+
   icr_target = data.ibm_is_endpoint_gateway_targets.example.resources[
-  index(data.ibm_is_endpoint_gateway_targets.example.resources.*.name, "registry-eu-de-v2")]
+    index(
+      data.ibm_is_endpoint_gateway_targets.example.resources[*].name,
+      local.icr_target_name
+    )
+  ]
 }
 
 output "icr_target_crn" {
