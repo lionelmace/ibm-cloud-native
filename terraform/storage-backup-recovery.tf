@@ -32,6 +32,7 @@ module "backup_recover_protect_ocp" {
   brs_create_new_connection = true
   region                    = var.region
   connection_env_type       = "kRoksVpc"
+  create_dsc_worker_pool    = false
   dsc_storage_class         = var.dsc_storage_class == null ? "ibmc-vpc-block-metro-5iops-tier" : var.dsc_storage_class
   # --- Backup Policies ---
   policies = [
