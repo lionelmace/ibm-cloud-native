@@ -33,18 +33,26 @@ module "backup_recover_protect_ocp" {
   region                    = var.region
   connection_env_type       = "kRoksVpc"
   dsc_storage_class         = var.dsc_storage_class == null ? "ibmc-vpc-block-metro-5iops-tier" : var.dsc_storage_class
-  # --- Backup Policy ---
-  policy = {
-    name = "${var.prefix}-retention"
-    schedule = {
-      unit      = "Minutes"
-      frequency = 30
+  # --- Backup Policies ---
+  policies = [
+    {
+      name = "${var.prefix}-retention"
+      create_new_policy = true
+      use_default_backup_target = true
+    
+      schedule = {
+        unit      = "Minutes"
+        minute_schedule = {
+          frequency = 30
+        }
+      }
+      
+      retention = {
+        duration = 1
+        unit     = "Days"
+      }
     }
-    retention = {
-      duration = 1
-      unit     = "Days"
-    }
-    use_default_backup_target = true
-  }
+  ]
+  
   resource_tags = var.tags
 }
