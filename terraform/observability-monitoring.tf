@@ -30,11 +30,6 @@ variable "sysdig_enable_platform_metrics" {
   default     = false
 }
 
-variable "sysdig_use_vpe" {
-  default = true
-}
-
-
 # Monitoring Resource
 ##############################################################################
 
