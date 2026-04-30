@@ -27,7 +27,9 @@ resource "ibm_resource_instance" "cos-for-logs" {
   name              = format("%s-%s", local.basename, "cos-for-logs")
   service           = "cloud-object-storage"
   plan              = var.cos_plan_for_logs
-  location          = var.cos_region_for_logs
+  #LMA location          = var.cos_region_for_logs
+  # Region must be equivalent to the KMS Key as the KMS key CRN does not provide cross region support.
+  location          = var.region
   resource_group_id = ibm_resource_group.group.id
   tags              = var.tags
 
