@@ -2,6 +2,10 @@
 # Activity Tracker Event Routing and Targets
 ##############################################################################
 
+locals {
+  atracker_metadata_region_backup = var.region == "eu-de" ? "eu-es" : "eu-de"
+}
+
 resource "ibm_atracker_route" "atracker_route_de" {
   name = format("%s-%s", local.basename, "at-route")
   rules {
@@ -28,7 +32,7 @@ resource "ibm_atracker_target" "at_logs_target" {
 resource "ibm_atracker_settings" "atracker_settings" {
   default_targets           = [ibm_atracker_target.at_logs_target.id]
   metadata_region_primary   = var.region
-  metadata_region_backup    = "eu-es"
+  metadata_region_backup    = local.atracker_metadata_region_backup
   permitted_target_regions  = ["eu-de", "eu-es", "eu-gb"]
   private_api_endpoint_only = false
   # Optional but recommended lifecycle flag to ensure target delete order is correct
