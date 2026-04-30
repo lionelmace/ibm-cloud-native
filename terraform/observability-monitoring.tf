@@ -68,7 +68,7 @@ module "app_config" {
   region                   = var.region
   resource_group_id        = ibm_resource_group.group.id
   app_config_name          = format("%s-%s", local.basename, "app-configuration")
-  app_config_tags          = var.tags
+  resource_tags            = var.tags
   enable_config_aggregator = true # See https://cloud.ibm.com/docs/app-configuration?topic=app-configuration-ac-configuration-aggregator
   app_config_plan          = "basic"
   # The name to give the trusted profile that will be created if enable_config_aggregator is set to true.
