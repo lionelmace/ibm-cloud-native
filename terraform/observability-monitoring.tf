@@ -48,8 +48,7 @@ module "cloud_monitoring" {
   service_endpoints       = var.sysdig_service_endpoints
   enable_platform_metrics = var.sysdig_enable_platform_metrics
   region                  = var.region
-  tags                    = var.tags
-  manager_key_tags        = var.tags
+  resource_tags           = var.tags
 }
 
 output "cloud_monitoring_crn" {
