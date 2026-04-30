@@ -27,9 +27,7 @@ resource "ibm_resource_instance" "cos-for-logs" {
   name              = format("%s-%s", local.basename, "cos-for-logs")
   service           = "cloud-object-storage"
   plan              = var.cos_plan_for_logs
-  #LMA location          = var.cos_region_for_logs
-  # Region must be equivalent to the KMS Key as the KMS key CRN does not provide cross region support.
-  location          = var.region
+  location          = var.cos_region_for_logs
   resource_group_id = ibm_resource_group.group.id
   tags              = var.tags
 
@@ -54,7 +52,9 @@ resource "ibm_cos_bucket" "logs-bucket-data" {
   kms_key_crn = ibm_kms_key.key.id
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
-  cross_region_location = "eu"
+  # cross_region_location = "eu"
+  # Location must be regional as KMS key CRN does not provide cross region support.
+  region_location      = var.region
   endpoint_type = "public"
 }
 
