@@ -39,8 +39,8 @@ variable "sysdig_use_vpe" {
 ##############################################################################
 
 module "cloud_monitoring" {
-  source = "terraform-ibm-modules/observability-instances/ibm//modules/cloud_monitoring"
-  # version = "latest" # Replace "latest" with a release version to lock into a specific release
+  source = "terraform-ibm-modules/cloud-monitoring/ibm"
+  # version = "latest"
 
   resource_group_id       = ibm_resource_group.group.id
   instance_name           = format("%s-%s", local.basename, "monitoring")
