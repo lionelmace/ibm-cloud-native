@@ -1,8 +1,8 @@
 
 resource "ibm_sm_secret_group" "secret_group" {
-  instance_id = local.secrets_manager_guid
   name        = "${local.basename}-vpn-group"
-  region      = var.region
+  instance_id = local.secrets_manager_guid
+  region      = local.secrets_manager_region
   description = "Created by terraform as part of the client VPN example."
 }
 

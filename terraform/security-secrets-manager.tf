@@ -23,7 +23,8 @@ resource "ibm_resource_instance" "secrets_manager" {
   location          = var.region
   resource_group_id = ibm_resource_group.group.id
   tags              = var.tags
-  service_endpoints = "private"
+  #LMA service_endpoints = "private"
+  service_endpoints = "public-and-private"
 }
 
 # resource "ibm_sm_secret_group" "sm_secret_group"{
@@ -45,6 +46,7 @@ locals {
   #LMA secrets_manager_guid = var.existing_secrets_manager_name != "" ? data.ibm_resource_instance.secrets_manager.0.guid : ibm_resource_instance.secrets_manager.0.guid
   secrets_manager_id   = var.existing_secrets_manager_crn != "" ? data.ibm_resource_instance.secrets_manager.0.id : ibm_resource_instance.secrets_manager.0.id
   secrets_manager_guid = var.existing_secrets_manager_crn != "" ? data.ibm_resource_instance.secrets_manager.0.guid : ibm_resource_instance.secrets_manager.0.guid
+  secrets_manager_region = var.existing_secrets_manager_crn != "" ? data.ibm_resource_instance.secrets_manager[0].location : var.region
 }
 
 output "secrets_manager_id" {
