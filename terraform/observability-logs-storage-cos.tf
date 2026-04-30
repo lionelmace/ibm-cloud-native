@@ -72,6 +72,8 @@ resource "ibm_cos_bucket" "logs-bucket-metrics" {
   kms_key_crn = ibm_kms_key.key.id
 
   # Does Cloud Logs require Cross-Region bucket for resiliency?
-  cross_region_location = "eu"
+  # cross_region_location = "eu"
+  # Location must be regional as KMS key CRN does not provide cross region support.
+  region_location      = var.region
   endpoint_type = "public"
 }
