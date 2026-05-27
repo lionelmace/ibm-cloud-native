@@ -116,12 +116,10 @@ locals {
   ]
 }
 
-# Create a new zone and add the selected policies to it
-resource "sysdig_secure_zone" "example" {
+# Create a new zone
+resource "sysdig_secure_zone" "ibm_cloud_zone" {
   name        = "${var.prefix}-zone"
-  description = "Zone description"
-  # policy_ids  = [for p in local.fedramp_policies : p.id]
-  # policy_ids  = [for p in local.selected_policies : p.id]
+  description = "All IBM Cloud Resources"
 
   # you can use a scope to only target a set of sub-accounts by uncommenting the below code and updating the account IDs
 
@@ -130,6 +128,12 @@ resource "sysdig_secure_zone" "example" {
     # rules       = "account in (\"nbac0df06b644a9cabc6e44f55b3880h\", \"5f9af00a96104f49b6509aa715f9d6a4\")"
     rules       = "account in (\"${local.account_id}\")"
   }
+}
+
+# Assign the selected policies to the new zone
+resource "sysdig_secure_zone_posture_policy_assignment" "production" {
+  zone_id    = sysdig_secure_zone.ibm_cloud_zone.id
+  policy_ids  = [for p in local.selected_policies : p.id]
 }
 
 ########################################################################################################################
