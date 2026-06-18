@@ -16,7 +16,6 @@ ibmcloud sch apply --id $WORKSPACE_ID --target ibm_iam_user_invite.invite_vmware
 
 
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.module.backup_recovery_instance.ibm_backup_recovery_connection_registration_token.registration_token[0]'
-
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.kubernetes_namespace_v1.dsc_namespace'
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.kubernetes_namespace_v1.dsc_namespace'
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.kubernetes_service_account_v1.brsagent'
