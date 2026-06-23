@@ -85,7 +85,7 @@ openshift_update_all_workers = true
 ##############################################################################
 ## Secrets Manager
 ##############################################################################
-existing_secrets_manager_name = "secrets-manager"
+existing_secrets_manager_crn = "crn:v1:bluemix:public:secrets-manager:eu-de:a/ad09f476263c44cda2cdc697bd808a6f:f442ce7c-d87c-4555-8a56-4783c0fa8050::"
 
 ##############################################################################
 ## COS
