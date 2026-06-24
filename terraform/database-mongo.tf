@@ -85,6 +85,12 @@ resource "ibm_database" "icd_mongo" {
     cpu { allocation_count = var.icd_mongo_core_allocation }
   }
 
+  lifecycle {
+    ignore_changes = [
+      adminpassword
+    ]
+  }
+
   # auto_scaling {
   #   cpu {
   #     rate_increase_percent       = 20
