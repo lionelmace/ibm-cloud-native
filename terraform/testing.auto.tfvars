@@ -4,6 +4,7 @@
 
 #region     = "eu-de"     # eu-de for Frankfurt MZR
 #icr_region = "de.icr.io"
+prefix     = "icn"
 
 ##############################################################################
 ## VPC
@@ -110,28 +111,8 @@ sysdig_enable_platform_metrics = false
 ##############################################################################
 ## ICD Mongo
 ##############################################################################
-# Available Plans: standard, enterprise
-icd_mongo_plan = "standard"
-# expected length in the range (10 - 32) - must not contain special characters
-icd_mongo_adminpassword     = "AdministratorPassw0rd01"
-icd_mongo_db_version        = "6.0"
-icd_mongo_service_endpoints = "private"
-icd_mongo_use_vpe           = true
-
-# Minimum parameter for Enterprise Edition
-# icd_mongo_ram_allocation = 14336
-# icd_mongo_disk_allocation = 20480
-# icd_mongo_core_allocation = 6
-
-# Minimum parameter for Standard Edition
-icd_mongo_ram_allocation  = 4096 # old value: 1024
-icd_mongo_disk_allocation = 20480
-icd_mongo_core_allocation = 0
-
-icd_mongo_users = [{
-  name     = "user123"
-  password = "Password12"
-}]
+mongodb_version     = "8.0"
+provider_visibility = "private" # Gen 2 only supports Private Only
 
 ##############################################################################
 ## ICD Postgres
