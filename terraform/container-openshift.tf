@@ -163,7 +163,7 @@ resource "ibm_container_vpc_cluster" "roks_cluster" {
   worker_count                    = var.openshift_worker_nodes_per_zone
   wait_till                       = var.openshift_wait_till
   disable_public_service_endpoint = var.openshift_disable_public_service_endpoint
-  # By default, public outbound access is blocked in OpenShift versions 4.15
+  # By default, public outbound access is blocked
   disable_outbound_traffic_protection = var.openshift_disable_outbound_traffic_protection
   network_plugin = "OVNKubernetes"
 
