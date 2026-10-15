@@ -42,8 +42,8 @@ iks_update_all_workers = true
 ##############################################################################
 ## Cluster ROKS
 ##############################################################################
-# Optional: Specify OpenShift version. If not included, 4.21 is used
-openshift_version = "4.21_openshift"
+# Optional: Specify OpenShift version. If not included, 4.22 is used
+openshift_version = "4.22_openshift"
 # openshift_os             = "REDHAT_8_64"
 openshift_os             = "RHCOS"
 openshift_machine_flavor = "bx3d.4x20"
