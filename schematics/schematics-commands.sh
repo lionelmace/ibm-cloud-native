@@ -6,6 +6,10 @@ ibmcloud sch workspace state rm --i $WORKSPACE_ID  --address "ibm_scc_instance_s
 # Get logs for a job
 ibmcloud sch job logs --id 762620939f475ee3cb3bd1587d9a685c --target 
 
+# Pull Terraform Stage
+ibmcloud sch state pull \
+  --id "$WORKSPACE_ID" \
+  --template "$TEMPLATE_ID" > terraform.tfstate
 
 ##############################################################################
 
@@ -14,6 +18,9 @@ ibmcloud sch workspace state rm --id $WORKSPACE_ID --address "ibm_iam_user_invit
 # re-apply only this resource (avoids touching others)
 ibmcloud sch apply --id $WORKSPACE_ID --target ibm_iam_user_invite.invite_vmware_users
 
+ibmcloud sch workspace state rm \
+  --id "$WORKSPACE_ID" \
+  --address 'module.mongodb[0].ibm_database.mongodb'
 
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.module.backup_recovery_instance.ibm_backup_recovery_connection_registration_token.registration_token[0]'
 ibmcloud sch workspace state rm --id $WORKSPACE_ID --address 'module.backup_recover_protect_ocp.kubernetes_namespace_v1.dsc_namespace'
