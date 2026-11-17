@@ -4,7 +4,7 @@ terraform {
   required_providers {
     ibm = {
       source  = "IBM-Cloud/ibm"
-      version = ">= 2.8.0"
+      version = ">= 2.10.0-beta0"
       # version = ">= 2.0.1, < 3.0.0"
     }
     http-full = {
